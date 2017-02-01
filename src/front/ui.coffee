@@ -15,17 +15,15 @@ play = (path) ->
     }
     @button.currentPath = path
     @button.paused = false
-
     @button.onMouseDown = (event) ->
         if @startTime is not null 
-            @paused = ! @paused
+            @paused = !(@paused)
             return
         d = new Date()
         @startTime = d.getTime()
         @t = 0
         @positionIndicator.position = @currentPath.getPointAt 0
         return
-
     @update = () ->
         if @button.startTime is null or @button.paused then return
         @button.t = ((new Date()).getTime() - @button.startTime) / @button.totalTime

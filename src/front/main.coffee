@@ -36,22 +36,30 @@ window.onload = () ->
 
     # setup
     currentPath = new pathData()
-    
 
-    testGrid = new ui.grid()
+    grid = new ui.grid()
     playButton = new ui.play currentPath.path
     smoothButton = new ui.smooth currentPath.path
     head = new ui.head 10
 
-    t = 0
-    littleCircle = 
-
-    totalTime = 5 # seconds
-    currentTime = null
-    t = 0
+    test = new Path.Circle {
+        center: [0, 0]
+        radius: 5
+        strokeColor: 'blue'
+        strokeWidth: 1
+        fillColor: 'orange'
+    }
 
     # interaction
     tool = new Tool()
+    tool.onMouseMove = (event) ->
+        loc = currentPath.path.getNearestLocation event.point
+        if loc is null then return
+        console.log loc
+        test.position = currentPath.path.getPointAt loc.offset
+        return
+
+
     tool.onMouseDown = (event) ->
         if event.point.y < 50 then return
         currentPath.add event
