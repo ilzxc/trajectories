@@ -1,11 +1,32 @@
-testPathCurves = () ->
-    @myPath = new Path();
-    @myPath.strokeColor = 'black'
-    @myPath.add(new Point 100, 100)
-    @myPath.add(new Point 200, 200)
-    @myPath.add(new Point 300, 100)
-    myPath.smooth()
-    myPath.fullySelected = true
+ui = require('./build/front/ui')
+
+pathData = () ->
+    @path = new Path()
+    @path.strokeColor = 'black'
+    @path.strokeWidth = 2
+    @path.fullySelected = true
+
+    @pathStart = new Path.Circle {
+        center: [0, 0]
+        radius: 5
+        strokeColor: 'black'
+        strokeWidth: 1
+        fillColor: 'black'
+    }
+
+    @pathEnd = new Path.Circle {
+        center: [0, 0]
+        radius: 5
+        strokeColor: 'black'
+        strokeWidth: 1
+        fillColor: 'white'
+    }
+
+    @add = (event) ->
+        @path.add event.point
+        @pathEnd.position = event.point
+        @pathStart.position = @path.firstSegment.point
+        return
     return this
 
 paper.install window
@@ -13,25 +34,31 @@ window.onload = () ->
     window.onresize()
     paper.setup 'traj'
 
-    ui = require('./build/front/ui')
+    # setup
+    currentPath = new pathData()
+    
+
     testGrid = new ui.grid()
+    playButton = new ui.play currentPath.path
+    smoothButton = new ui.smooth currentPath.path
     head = new ui.head 10
-    test = testPathCurves()
 
     t = 0
-    littleCircle = new Path.Circle {
-        center: [0, 0]
-        radius: 10
-        strokeColor: 'blue'
-        strokeWidth: 2
-    }
+    littleCircle = 
+
+    totalTime = 5 # seconds
+    currentTime = null
+    t = 0
+
+    # interaction
+    tool = new Tool()
+    tool.onMouseDown = (event) ->
+        if event.point.y < 50 then return
+        currentPath.add event
+        return
 
     view.onFrame = () ->
-        if t <= 1
-            littleCircle.position = test.myPath.getPointAt t * test.myPath.length
-            t += 0.01
-            return
-        else console.log "done"
+        playButton.update()
 
 window.onresize = () ->
     trajRef = document.getElementById('traj').style
