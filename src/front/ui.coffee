@@ -49,6 +49,25 @@ smooth = (pathRef) ->
         return
     return this
 
+exporter = (pathRef) ->
+    @button = new Path.Circle {
+        center: [100, 20]
+        radius: 20
+        fillColor: 'red'
+    }
+    @button.pathRef = pathRef
+    @button.time = 5
+    @button.minDistance = 3
+    @button.headPosition = view.center
+    @button.onMouseDown = (event) ->
+        compute = require './compute'
+        compute.generate @pathRef, @time, @minDistance, @headPosition 
+        return
+    @setTime = (time) -> @button.time = time
+    @setMinDistance = (minDistance) -> @button.minDistance = minDistance
+    @setHeadPosition = (headPosition) -> @button.headPosition = headPosition
+    return this
+
 head = (radius) ->
     @head = ((new Path.Circle {
             center: [0, 0]
@@ -84,4 +103,4 @@ grid = () ->
         }
     return this
 
-module.exports = { play, smooth, head, grid }
+module.exports = { play, smooth, exporter, head, grid }

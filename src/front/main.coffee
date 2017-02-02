@@ -1,4 +1,5 @@
-ui = require('./build/front/ui')
+ui = require './build/front/ui'
+
 
 pathData = () ->
     @path = new Path()
@@ -40,6 +41,7 @@ window.onload = () ->
     grid = new ui.grid()
     playButton = new ui.play currentPath.path
     smoothButton = new ui.smooth currentPath.path
+    exportButton = new ui.exporter currentPath.path
     head = new ui.head 10
 
     test = new Path.Circle {
@@ -55,7 +57,6 @@ window.onload = () ->
     tool.onMouseMove = (event) ->
         loc = currentPath.path.getNearestLocation event.point
         if loc is null then return
-        console.log loc
         test.position = currentPath.path.getPointAt loc.offset
         return
 
