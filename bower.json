@@ -1,0 +1,21 @@
+{
+  "name": "trajectories",
+  "description": "curve editor for spinning sounds",
+  "main": "index.js",
+  "authors": [
+    "Ilya Rostovtsev"
+  ],
+  "license": "BSD-2-Clause",
+  "homepage": "https://github.com/ilzxc/trajectories",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "paper": "^0.10.2"
+  }
+}

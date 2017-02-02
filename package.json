@@ -7,5 +7,18 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Ilya Rostovtsev",
-  "license": "BSD-2-Clause"
+  "license": "BSD-2-Clause",
+  "dependencies": {
+    "osc-min": "^1.1.1",
+    "node-wav": "^0.0.2"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ilzxc/trajectories.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ilzxc/trajectories/issues"
+  },
+  "homepage": "https://github.com/ilzxc/trajectories#readme"
 }
