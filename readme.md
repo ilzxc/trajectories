@@ -7,11 +7,12 @@ This repository contains:
 * max patch for applying the movement to a set of audio files
 
 Electron app: visual indication of paths (trajectories) and dynamics of motion (rests, accelerations).
-Trajectories exports:
 
-* `doppler.wav` -- results of doppler data computation
-* `distance.wav` -- results of distance levels computation
-* `to be determined` -- results of x/y spatialization for HRTF rendering
+Trajectories exports a single multichannel `wav` file containing:
+
+* `doppler` -- pitch-shift curve data according to doppler effect
+* `distance` -- square law for distance-based attenuation
+* results of x/y spatialization for HRTF rendering
 
 *TODO: finish this as things solidify*
 
@@ -25,15 +26,12 @@ Trajectories exports:
     * bower
     * coffee-script
     * electron
-* app level:
-    * paper.js -- via bower
-    * osc
 
 for global dependencies on OSX:
 
 ```
 brew install node
-npm install -g node-gyp coffee-script electron bower
+npm install -g coffee-script electron bower
 ```
 
 for everything else:
@@ -43,16 +41,22 @@ npm install
 bower install
 ```
 
-building:
+build:
 
 ```
 ./make.sh
+```
+
+run:
+
+```
+electron .
 ```
 
 #### max
 
 * [odot](https://github.com/CNMAT/CNMAT-odot/releases)
 * [vbap](http://legacy.spa.aalto.fi/software/vbap/MAX_MSP/VBAP_v_1.03_OSXunivers_windows/)
-* [HISSTools]() -- [paper and externals link](http://eprints.hud.ac.uk/14897/)
+* [HISSTools](http://www.thehiss.org) -- [paper and externals link](http://eprints.hud.ac.uk/14897/)
 * [HRTF impulse responses](http://sound.media.mit.edu/resources/KEMAR.html)
 
