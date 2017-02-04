@@ -30,6 +30,27 @@ pathData = () ->
         return
     return this
 
+distanceCircle = () ->
+    @path = new Path.Circle {
+        center: view.center
+        radius: 1
+        strokeColor: '#ff0000'
+        strokeCap: 'round'
+        dashArray: [10, 12]
+        strokeWidth: 1
+    }
+    @radius = 1
+
+    @setScale = (amount) ->
+        inv = 1 / @radius
+        @radius = amount
+        @path.scale [inv, inv]
+        @path.scale [@radius]
+        return
+
+    return this
+
+
 paper.install window
 window.onload = () ->
     window.onresize()
@@ -42,6 +63,9 @@ window.onload = () ->
     playButton = new ui.play currentPath.path
     smoothButton = new ui.smooth currentPath.path
     exportButton = new ui.exporter currentPath.path
+
+    distance = new distanceCircle()
+
     head = new ui.head 10
 
     test = new Path.Circle {
@@ -63,8 +87,18 @@ window.onload = () ->
 
     tool.onMouseDown = (event) ->
         if event.point.y < 50 then return
-        currentPath.add event
-        return
+        if event.event.button is 0 # left mouse button
+            currentPath.add event
+            return
+        else
+            distance.setScale (view.center).getDistance event.point
+            return
+
+    tool.onMouseDrag = (event) ->
+        if event.event.button is 2 # right moust button
+            distance.setScale (view.center).getDistance event.point
+            return
+
 
     view.onFrame = () ->
         playButton.update()
