@@ -1,6 +1,5 @@
 ui = require './build/front/ui'
 
-
 pathData = () ->
     @path = new Path()
     @path.strokeColor = 'black'

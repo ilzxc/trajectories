@@ -1,3 +1,5 @@
+uo = require './udposc'
+
 play = (path) ->
     @button = new Path.Circle {
         center: [20, 20]
@@ -15,6 +17,7 @@ play = (path) ->
     }
     @button.currentPath = path
     @button.paused = false
+    @button.osc = new uo.udposc()
     @button.onMouseDown = (event) ->
         if @startTime is not null 
             @paused = !(@paused)
