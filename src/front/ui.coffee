@@ -1,4 +1,4 @@
-uo = require './udposc'
+osc = require './compute'
 
 play = (path) ->
     @button = new Path.Circle {
@@ -6,34 +6,40 @@ play = (path) ->
         radius: 20
         fillColor: 'blue'
     }
-    @button.t = 0
-    @button.totalTime = 5000 # will be controlled
-    @button.startTime = null
     @button.positionIndicator = new Path.Circle {
         center: [0, 0]
         radius: 10
         strokeColor: 'blue'
         strokeWidth: 2
     }
-    @button.currentPath = path
+    @button.totalTime = 5000 # will be controlled
+    @button.startTime = null
+    @button.path = path
     @button.paused = false
-    @button.osc = new uo.udposc()
+    @button.osc = new osc.oscudp()
+    # button properties for playing:
+    @button.minDistance = 3
+    @button.distanceCircle = 1
+    @button.headPosition = view.center
+    @button.headDistance = null
+    @button.prevDistance = null
+    @button.prevTime = null
     @button.onMouseDown = (event) ->
         if @startTime is not null 
             @paused = !(@paused)
             return
-        d = new Date()
-        @startTime = d.getTime()
-        @t = 0
-        @positionIndicator.position = @currentPath.getPointAt 0
+        @startTime = (new Date()).getTime()
+        @positionIndicator.position = @path.getPointAt 0
+        @headDistance = @headPosition.getDistance @path.getPointAt (@path.getNearestLocation @headPosition).offset
         return
     @update = () ->
         if @button.startTime is null or @button.paused then return
-        @button.t = ((new Date()).getTime() - @button.startTime) / @button.totalTime
-        if @button.t > 1 then @button.t = 1
-        @button.positionIndicator.position = @button.currentPath.getPointAt @button.t * @button.currentPath.length
-        if @button.t == 1
-            @button.startTime = null
+        @button.osc.generate @button
+        # @button.t = ((new Date()).getTime() - @button.startTime) / @button.totalTime
+        # if @button.t > 1 then @button.t = 1
+        # @button.positionIndicator.position = @button.path.getPointAt @button.t * @button.path.length
+        # if @button.t == 1
+        #     @button.startTime = null
         return
     return this
 

@@ -46,5 +46,52 @@ generate = (path, time, minDistance, headPosition) ->
     buf = wav.encode [dopplers, distances], {sampleRate: 44100, float: true, bitDepth: 32}
 
     fs.writeFileSync 'output.wav', buf
+    return
 
-module.exports = { generate }
+udp = require 'dgram'
+osc = require 'osc-min'
+
+oscudp = () ->
+    @sock = udp.createSocket 'udp4'
+    @proto = {
+        oscType: 'bundle'
+        timetag: 0
+        elements: [
+            {
+                oscType: 'message'
+                address: '/pitch'
+                args: 0
+            }
+            {
+                oscType: 'message'
+                address: '/distance'
+                args: 0
+            }
+        ]
+    }
+    @send = (pitch, distance) ->
+        @proto['elements'][0]['args'] = pitch
+        @proto['elements'][1]['args'] = distance
+        @sock.send osc.toBuffer(@proto), 56765, 'localhost'
+        return
+
+    @generate = (pb) ->
+        # pb.path, pb.startTime, pb.totalTime, pb.minDistance, pb.distanceCircle, pb.headPosition,
+        # pb.prevDistance, pb.prevTime
+        time = ((new Date()).getTime() - pb.startTime) / pb.totalTime
+        if time > 1 then time = 1
+        pb.positionIndicator.position = pb.path.getPointAt time * pb.path.length
+        vectorDistance = pb.headPosition.getDistance pb.path.getPointAt time * pb.path.length
+        distance = scale vectorDistance, pb.distanceCircle, pb.minDistance
+        vel = (distance - pb.prevDistance) / ((time - pb.prevTime) * pb.totalTime / 1000)
+        doppler = doppCompute vel
+        distNorm = distCompute pb.minDistance, distance
+        @send doppler, distNorm
+        pb.prevDistance = distance
+        pb.prevTime = time
+        if time == 1
+            pb.startTime = null
+        return
+    return this
+
+module.exports = { generate, oscudp }
