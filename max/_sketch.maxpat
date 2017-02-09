@@ -9,7 +9,7 @@
 			"modernui" : 1
 		}
 ,
-		"rect" : [ 494.0, 103.0, 841.0, 546.0 ],
+		"rect" : [ 640.0, 185.0, 841.0, 546.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -58,7 +58,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 716.0, 200.0, 50.0, 22.0 ],
 					"style" : "",
-					"text" : "15454"
+					"text" : "1658"
 				}
 
 			}
@@ -158,11 +158,13 @@
 					"fontface" : 0,
 					"fontsize" : 12.0,
 					"id" : "obj-20",
+					"linecount" : 2,
 					"maxclass" : "o.display",
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 508.0, 125.0, 186.0, 34.0 ],
+					"patching_rect" : [ 508.0, 125.0, 186.0, 48.0 ],
+					"text" : "/pitch : 0.0801749,\n/distance : 0.0136057",
 					"textcolor" : [ 1.0, 1.0, 1.0, 1.0 ]
 				}
 
@@ -274,7 +276,7 @@
 						"loopstart" : [ 0.0, "ms" ],
 						"mode" : "basic",
 						"originallength" : [ 2023.684326, "ticks" ],
-						"originaltempo" : 120.000008,
+						"originaltempo" : 194.585037,
 						"phase" : [ 0.0, "ticks" ],
 						"pitchcorrection" : 0,
 						"quality" : "basic",
@@ -357,7 +359,7 @@
 					"numinlets" : 5,
 					"numoutlets" : 6,
 					"outlettype" : [ "float", "float", "float", "float", "list", "" ],
-					"patching_rect" : [ 99.0, 83.0, 256.0, 64.0 ],
+					"patching_rect" : [ 100.0, 83.0, 256.0, 64.0 ],
 					"setmode" : 1,
 					"style" : ""
 				}
@@ -402,8 +404,8 @@
 						"basictuning" : 440,
 						"followglobaltempo" : 0,
 						"formantcorrection" : 0,
-						"loopend" : [ 2645.177002, "ms" ],
-						"loopstart" : [ 395.541656, "ms" ],
+						"loopend" : [ 1928.260376, "ms" ],
+						"loopstart" : [ 420.260406, "ms" ],
 						"mode" : "basic",
 						"originallength" : [ 6075.52002, "ticks" ],
 						"originaltempo" : 120.0,
