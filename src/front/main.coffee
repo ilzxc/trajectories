@@ -7,7 +7,7 @@ pathData = () ->
     @path.fullySelected = true
 
     @pathStart = new Path.Circle {
-        center: [0, 0]
+        center: [-100, 0]
         radius: 5
         strokeColor: 'black'
         strokeWidth: 1
@@ -15,7 +15,7 @@ pathData = () ->
     }
 
     @pathEnd = new Path.Circle {
-        center: [0, 0]
+        center: [-100, 0]
         radius: 5
         strokeColor: 'black'
         strokeWidth: 1
@@ -72,7 +72,7 @@ window.onload = () ->
     head = new ui.head 10
 
     test = new Path.Circle {
-        center: [0, 0]
+        center: [-100, -100]
         radius: 5
         strokeColor: 'blue'
         strokeWidth: 1

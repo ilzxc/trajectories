@@ -1,17 +1,45 @@
 osc = require './compute'
 
+###
+    the current sketches seem to be dedicated to the following data model for
+    paths -> doppler / envelope effects:
+    model = {
+        totalTime: 5000
+        startTime: null
+        path: null
+        minDistance: 3
+        distanceCircle: 1
+        headPosition: view.center
+        prevDistance: null
+        prevTime: null
+    }
+
+    however, the refactor requires variance of speeds on paths, and requires
+    annotations for "idle" behaviors at particular destinations.
+
+    two things on the todo:
+    1. make the model a part of the path, since we're already passing the path
+       everywhere, so that the buttons need to store just one reference
+    2. organize the types of path-nodes into subclasses through prototypes,
+       which should make it easy to extend additional behaviors
+
+    the harder part is trying to figure out how the tools ought to behave,
+    given the requirement to constantly cut up a path into a number of varied
+    segments.
+###
+
 play = (path) ->
     # button graphics, position indicator & osc
     # due to the Paper.js scoping issues, we need the interactive
     # button to store references to other objects so we can access
     # them from onMouseDown callback scope:
     @button = new Path.Circle {
-        center: [20, 20]
+        center: [25, 25]
         radius: 20
         fillColor: 'blue'
     }
     @button.positionIndicator = new Path.Circle {
-        center: [0, 0]
+        center: [-100, -100]
         radius: 10
         strokeColor: 'blue'
         strokeWidth: 2
@@ -51,7 +79,7 @@ play = (path) ->
 
 smooth = (pathRef) ->
     @button = new Path.Circle {
-        center: [60, 20]
+        center: [65, 25]
         radius: 20
         fillColor: 'green'
     }
@@ -66,7 +94,7 @@ smooth = (pathRef) ->
 
 exporter = (pathRef, playButton) ->
     @button = new Path.Circle {
-        center: [100, 20]
+        center: [105, 25]
         radius: 20
         fillColor: 'red'
     }
