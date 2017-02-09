@@ -18,7 +18,7 @@ scale = (x, x1, y1) -> return y1 * (x / x1)
 #   * the time it takes to traverse the path
 #   * the distance @ which the closest point to the head is from the head (this defines the overall distance for the path
 #   * headPosition (which is currently hardwired to be at the center of the view)
-generate = (path, time, minDistance, headPosition) ->
+generate = (path, time, minDistance, distanceRadius, headPosition) ->
     # each of the computation results is an audio channel to be stored in a 44100:32 wav file:
     steps = Math.round time * 44100 # number of samples we will take
     dt = path.length / steps        # increment of distance to ensure uniform motion
@@ -27,8 +27,8 @@ generate = (path, time, minDistance, headPosition) ->
     distances = new Float32Array steps
     dopplers[0] = 1 # first value is 0
 
-    distanceFromHead = headPosition.getDistance path.getPointAt (path.getNearestLocation headPosition).offset
-    scaler = (x) -> return scale x, distanceFromHead, minDistance
+    # distanceFromHead = headPosition.getDistance path.getPointAt (path.getNearestLocation headPosition).offset
+    scaler = (x) -> return scale x, distanceRadius, minDistance
 
     prevDistance = scaler (path.getPointAt 0).getDistance headPosition
     distances[0] = prevDistance

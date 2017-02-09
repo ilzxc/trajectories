@@ -1,6 +1,10 @@
 osc = require './compute'
 
 play = (path) ->
+    # button graphics, position indicator & osc
+    # due to the Paper.js scoping issues, we need the interactive
+    # button to store references to other objects so we can access
+    # them from onMouseDown callback scope:
     @button = new Path.Circle {
         center: [20, 20]
         radius: 20
@@ -12,34 +16,36 @@ play = (path) ->
         strokeColor: 'blue'
         strokeWidth: 2
     }
-    @button.totalTime = 5000 # will be controlled
+    @button.osc = new osc.oscudp()
+   
+    # button properties for playing & exporting, just as above
+    @button.totalTime = 5000
     @button.startTime = null
     @button.path = path
-    @button.paused = false
-    @button.osc = new osc.oscudp()
-    # button properties for playing:
+    @button.paused = false 
     @button.minDistance = 3
     @button.distanceCircle = 1
     @button.headPosition = view.center
-    @button.headDistance = null
+    # @button.headDistance = null
     @button.prevDistance = null
     @button.prevTime = null
+
     @button.onMouseDown = (event) ->
-        if @startTime is not null 
+        console.log "play initiated"
+        console.log @totalTime, @minDistance, @distanceCircle
+        if @startTime is not null
+            console.log "@paused, before", @paused
             @paused = !(@paused)
+            console.log "@paused, after", @paused
             return
         @startTime = (new Date()).getTime()
         @positionIndicator.position = @path.getPointAt 0
-        @headDistance = @headPosition.getDistance @path.getPointAt (@path.getNearestLocation @headPosition).offset
+        # @headDistance = @headPosition.getDistance @path.getPointAt (@path.getNearestLocation @headPosition).offset
         return
+
     @update = () ->
         if @button.startTime is null or @button.paused then return
         @button.osc.generate @button
-        # @button.t = ((new Date()).getTime() - @button.startTime) / @button.totalTime
-        # if @button.t > 1 then @button.t = 1
-        # @button.positionIndicator.position = @button.path.getPointAt @button.t * @button.path.length
-        # if @button.t == 1
-        #     @button.startTime = null
         return
     return this
 
@@ -58,23 +64,53 @@ smooth = (pathRef) ->
         return
     return this
 
-exporter = (pathRef) ->
+exporter = (pathRef, playButton) ->
     @button = new Path.Circle {
         center: [100, 20]
         radius: 20
         fillColor: 'red'
     }
     @button.pathRef = pathRef
-    @button.time = 5
-    @button.minDistance = 3
-    @button.headPosition = view.center
+    @button.pb = playButton
     @button.onMouseDown = (event) ->
         compute = require './compute'
-        compute.generate @pathRef, @time, @minDistance, @headPosition 
+        compute.generate @pathRef, @pb.totalTime / 1000, @pb.minDistance, @pb.distanceCircle, view.center 
         return
     @setTime = (time) -> @button.time = time
     @setMinDistance = (minDistance) -> @button.minDistance = minDistance
     @setHeadPosition = (headPosition) -> @button.headPosition = headPosition
+    return this
+
+distNum = (playButton) ->
+    @numbox = new PointText {
+        point: [690, 30]
+        justification: 'right'
+        fontSize: 15
+        fillColor: 'black'
+    }
+    @numbox.playButton = playButton
+    @numbox.content = '' + @numbox.playButton.minDistance.toFixed(2) + ' m'
+    @numbox.onMouseDrag = (event) ->
+        @playButton.minDistance += event.delta.x * 0.01
+        if @playButton.minDistance < 0.01 then @playButton.minDistance = 0.01
+        @content = '' + @playButton.minDistance.toFixed(2) + ' m'
+        return
+    return this
+
+timeNum = (playButton) ->
+    @numbox = new PointText {
+        point: [600, 30]
+        justification: 'right'
+        fontSize: 15
+        fillColor: 'black'
+    }
+    @numbox.playButton = playButton
+    @numbox.content = '' + (@numbox.playButton.totalTime / 1000).toFixed(2) + ' s'
+    @numbox.onMouseDrag = (event) ->
+        @playButton.totalTime += event.delta.x * 4
+        if @playButton.totalTime < 100 then @playButton.totalTime = 100
+        @content = '' + (@playButton.totalTime / 1000).toFixed(2) + ' s'
+        return
     return this
 
 head = (radius) ->
@@ -112,4 +148,4 @@ grid = () ->
         }
     return this
 
-module.exports = { play, smooth, exporter, head, grid }
+module.exports = { play, smooth, exporter, distNum, timeNum, head, grid }

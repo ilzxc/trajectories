@@ -29,20 +29,22 @@ pathData = () ->
         return
     return this
 
-distanceCircle = () ->
+distanceCircle = (playButton) ->
     @path = new Path.Circle {
         center: view.center
         radius: 1
         strokeColor: '#ff0000'
         strokeCap: 'round'
-        dashArray: [10, 12]
+        dashArray: [1, 4]
         strokeWidth: 1
     }
     @radius = 1
+    @path.pb = playButton
 
     @setScale = (amount) ->
         inv = 1 / @radius
         @radius = amount
+        @path.pb.distanceCircle = @radius
         @path.scale [inv, inv]
         @path.scale [@radius]
         return
@@ -61,9 +63,11 @@ window.onload = () ->
     grid = new ui.grid()
     playButton = new ui.play currentPath.path
     smoothButton = new ui.smooth currentPath.path
-    exportButton = new ui.exporter currentPath.path
+    exportButton = new ui.exporter currentPath.path, playButton.button
+    distanceNum = new ui.distNum playButton.button
+    timeNum = new ui.timeNum playButton.button
 
-    distance = new distanceCircle()
+    distance = new distanceCircle playButton.button
 
     head = new ui.head 10
 
