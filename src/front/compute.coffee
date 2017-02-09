@@ -4,7 +4,7 @@ fs = require 'fs'
 # note that vs > 0 iff source is moving away from the receiver
 # and vs < 0 iff souce is moving towards the receiver
 doppCompute = (vs) ->
-    return 340.29 / (340.29 + vs)
+    return 1 - (340.29 / (340.29 + vs))
 
 # sound levels attenuation function for distance from the listener
 distCompute = (minDistance, currentDistance) -> 
@@ -34,7 +34,7 @@ generate = (path, time, minDistance, distanceRadius, headPosition) ->
     distances[0] = prevDistance
 
     # doppler & distance
-    for i in [1...steps]
+    for i in [1...steps] # sampled @ the sampling rate
         t = dt * i
         pt = path.getPointAt t
         distance = scaler pt.getDistance headPosition 
