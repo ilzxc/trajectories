@@ -9,7 +9,7 @@
 			"modernui" : 1
 		}
 ,
-		"rect" : [ 640.0, 185.0, 841.0, 546.0 ],
+		"rect" : [ 609.0, 182.0, 841.0, 546.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -58,7 +58,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 716.0, 200.0, 50.0, 22.0 ],
 					"style" : "",
-					"text" : "1658"
+					"text" : "2388"
 				}
 
 			}
@@ -164,7 +164,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 508.0, 125.0, 186.0, 48.0 ],
-					"text" : "/pitch : 0.0801749,\n/distance : 0.0136057",
+					"text" : "/pitch : 0.0398514,\n/distance : 0.000836795",
 					"textcolor" : [ 1.0, 1.0, 1.0, 1.0 ]
 				}
 
@@ -276,7 +276,7 @@
 						"loopstart" : [ 0.0, "ms" ],
 						"mode" : "basic",
 						"originallength" : [ 2023.684326, "ticks" ],
-						"originaltempo" : 194.585037,
+						"originaltempo" : 125.976082,
 						"phase" : [ 0.0, "ticks" ],
 						"pitchcorrection" : 0,
 						"quality" : "basic",
@@ -404,11 +404,11 @@
 						"basictuning" : 440,
 						"followglobaltempo" : 0,
 						"formantcorrection" : 0,
-						"loopend" : [ 1928.260376, "ms" ],
-						"loopstart" : [ 420.260406, "ms" ],
+						"loopend" : [ 7585.885254, "ms" ],
+						"loopstart" : [ 1499.0, "ms" ],
 						"mode" : "basic",
 						"originallength" : [ 6075.52002, "ticks" ],
-						"originaltempo" : 120.0,
+						"originaltempo" : 65.307571,
 						"phase" : [ 0.0, "ticks" ],
 						"pitchcorrection" : 0,
 						"quality" : "basic",
@@ -688,6 +688,24 @@
 					"disabled" : 0,
 					"hidden" : 0,
 					"source" : [ "obj-35", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-30", 1 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-38", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-31", 1 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-38", 0 ]
 				}
 
 			}

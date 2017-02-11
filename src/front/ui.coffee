@@ -54,7 +54,7 @@ play = (path) ->
     @button.minDistance = 3
     @button.distanceCircle = 1
     @button.headPosition = view.center
-    # @button.headDistance = null
+    @button.headDistance = null
     @button.prevDistance = null
     @button.prevTime = null
 
@@ -68,7 +68,7 @@ play = (path) ->
             return
         @startTime = (new Date()).getTime()
         @positionIndicator.position = @path.getPointAt 0
-        # @headDistance = @headPosition.getDistance @path.getPointAt (@path.getNearestLocation @headPosition).offset
+        @headDistance = @headPosition.getDistance @path.getPointAt (@path.getNearestLocation @headPosition).offset
         return
 
     @update = () ->
