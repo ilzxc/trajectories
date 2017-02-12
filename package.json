@@ -1,5 +1,5 @@
 {
-  "name": "trajectories",
+  "name": "Trajectories",
   "version": "1.0.0",
   "description": "curve editor for spinning sounds",
   "main": "index.js",
