@@ -18,7 +18,9 @@ scale = (x, x1, y1) -> return y1 * (x / x1)
 #   * the time it takes to traverse the path
 #   * the distance @ which the closest point to the head is from the head (this defines the overall distance for the path
 #   * headPosition (which is currently hardwired to be at the center of the view)
-generate = (path, time, minDistance, distanceRadius, headPosition) ->
+generate = (path, time, minDistance, distanceRadius, headPosition, filename) ->
+    console.log "generate called"
+    console.log time, minDistance, distanceRadius, headPosition, filename
     # each of the computation results is an audio channel to be stored in a 44100:32 wav file:
     steps = Math.round time * 44100 # number of samples we will take
     dt = path.length / steps        # increment of distance to ensure uniform motion
@@ -45,7 +47,7 @@ generate = (path, time, minDistance, distanceRadius, headPosition) ->
 
     buf = wav.encode [dopplers, distances], {sampleRate: 44100, float: true, bitDepth: 32}
 
-    fs.writeFileSync 'output.wav', buf
+    fs.writeFileSync filename, buf
     return
 
 udp = require 'dgram'

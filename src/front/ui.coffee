@@ -1,4 +1,5 @@
 osc = require './compute'
+# ipc = require('electron').ipcRenderer
 
 ###
     the current sketches seem to be dedicated to the following data model for
@@ -92,21 +93,16 @@ smooth = (pathRef) ->
         return
     return this
 
-exporter = (pathRef, playButton) ->
+exporter = (ipc) ->
     @button = new Path.Circle {
         center: [105, 25]
         radius: 20
         fillColor: 'red'
     }
-    @button.pathRef = pathRef
-    @button.pb = playButton
+    @button.ipc = ipc
     @button.onMouseDown = (event) ->
-        compute = require './compute'
-        compute.generate @pathRef, @pb.totalTime / 1000, @pb.minDistance, @pb.distanceCircle, view.center 
+        @ipc.send 'export-dialog'
         return
-    @setTime = (time) -> @button.time = time
-    @setMinDistance = (minDistance) -> @button.minDistance = minDistance
-    @setHeadPosition = (headPosition) -> @button.headPosition = headPosition
     return this
 
 distNum = (playButton) ->

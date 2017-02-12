@@ -1,4 +1,6 @@
+ipc = require('electron').ipcRenderer
 ui = require './build/front/ui'
+compute = require './build/front/compute'
 
 pathData = () ->
     @path = new Path()
@@ -63,7 +65,8 @@ window.onload = () ->
     grid = new ui.grid()
     playButton = new ui.play currentPath.path
     smoothButton = new ui.smooth currentPath.path
-    exportButton = new ui.exporter currentPath.path, playButton.button
+    exportButton = new ui.exporter ipc
+
     distanceNum = new ui.distNum playButton.button
     timeNum = new ui.timeNum playButton.button
 
@@ -102,9 +105,15 @@ window.onload = () ->
             distance.setScale (view.center).getDistance event.point
             return
 
-
+    # animation
     view.onFrame = () ->
         playButton.update()
+
+    # system:
+    ipc.on 'exported-file', (event, filename) ->
+        if filename is null then return
+        pb = playButton.button
+        compute.generate currentPath.path, pb.totalTime / 1000, pb.minDistance, pb.distanceCircle, view.center, filename
 
 window.onresize = () ->
     trajRef = document.getElementById('traj').style
