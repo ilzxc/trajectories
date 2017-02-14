@@ -82,9 +82,25 @@ window.onload = () ->
         fillColor: 'orange'
     }
 
+    debug = new PointText {
+        point: [690, 590]
+        justification: 'right'
+        fontSize: 15
+        fillColor: 'black'
+        content: '0.00'
+    }
+
     # interaction
     tool = new Tool()
     tool.onMouseMove = (event) ->
+        # debug coordinate system info:
+        angle = (pt) ->
+            return (pt.subtract view.center).angle + 90
+        angCompute = (pt) -> 
+            result = (pt.subtract view.center).angle + 90
+            return (if result < 0 then 360 + result else result) / 360
+        debug.content = "" + (angCompute event.point).toFixed(2) + ', ' + (angle event.point).toFixed(2)
+        # end debug
         loc = currentPath.path.getNearestLocation event.point
         if loc is null then return
         test.position = currentPath.path.getPointAt loc.offset
