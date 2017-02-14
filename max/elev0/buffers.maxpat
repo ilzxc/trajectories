@@ -43,7 +43,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 3,
 					"outlettype" : [ "", "", "FullPacket" ],
-					"patching_rect" : [ 207.0, 191.0, 135.0, 22.0 ],
+					"patching_rect" : [ 357.0, 214.0, 135.0, 22.0 ],
 					"style" : "",
 					"text" : "o.route /resultR /resultL"
 				}
@@ -54,13 +54,13 @@
 					"fontface" : 0,
 					"fontsize" : 12.0,
 					"id" : "obj-10",
-					"linecount" : 5,
+					"linecount" : 6,
 					"maxclass" : "o.expr.codebox",
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "FullPacket", "FullPacket" ],
-					"patching_rect" : [ 207.0, 96.0, 488.0, 86.0 ],
-					"text" : "/pfx = \"L0e\", /tfx = \"a.wav\",\n/pad = if(/value < 10, \"00\", if(/value < 100, \"0\")),\n/filename = /pfx + /pad + string(/value) + /tfx,\n/resultL = [\"createBuffer\", \"buffer~\", \"L-\" + /value, /filename],\n/resultR = [\"createBuffer\", \"buffer~\", \"R-\" + /value, /filename]",
+					"patching_rect" : [ 357.0, 99.0, 503.0, 100.0 ],
+					"text" : "/pfxL = \"L0e\", /pfxR = \"R0e\", /tfx = \"a.wav\",\n/pad = if(/value < 10, \"00\", if(/value < 100, \"0\")),\n/filenameL = /pfxL + /pad + string(/value) + /tfx,\n/filenameR = /pfxR + /pad + string(/value) + /tfx,\n/resultL = [\"createBuffer\", \"buffer~\", \"L-\" + /value, /filenameL],\n/resultR = [\"createBuffer\", \"buffer~\", \"R-\" + /value, /filenameR]",
 					"textcolor" : [ 0.0, 0.0, 0.0, 1.0 ]
 				}
 
@@ -72,7 +72,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "", "" ],
-					"patching_rect" : [ 207.0, 65.0, 106.0, 22.0 ],
+					"patching_rect" : [ 357.0, 70.0, 106.0, 22.0 ],
 					"style" : "",
 					"text" : "o.listenumerate /a"
 				}
@@ -87,7 +87,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "FullPacket", "FullPacket" ],
-					"patching_rect" : [ 207.0, 23.0, 157.0, 32.0 ],
+					"patching_rect" : [ 357.0, 28.0, 157.0, 32.0 ],
 					"text" : "/a = aseq(0, 355, 5)",
 					"textcolor" : [ 0.0, 0.0, 0.0, 1.0 ]
 				}
@@ -100,7 +100,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 207.0, 231.0, 88.0, 22.0 ],
+					"patching_rect" : [ 357.0, 254.0, 88.0, 22.0 ],
 					"saved_object_attributes" : 					{
 						"filename" : "createBuffer",
 						"parameter_enable" : 0
@@ -118,7 +118,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 23.0, 143.0, 22.0 ],
+					"patching_rect" : [ 16.0, 22.0, 142.0, 22.0 ],
 					"style" : "",
 					"text" : "buffer~ L-0 L0e000a.wav"
 				}
@@ -131,9 +131,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 45.0, 144.0, 22.0 ],
+					"patching_rect" : [ 16.0, 44.0, 146.0, 22.0 ],
 					"style" : "",
-					"text" : "buffer~ R-0 L0e000a.wav"
+					"text" : "buffer~ R-0 R0e000a.wav"
 				}
 
 			}
@@ -144,7 +144,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 67.0, 142.0, 22.0 ],
+					"patching_rect" : [ 16.0, 66.0, 142.0, 22.0 ],
 					"style" : "",
 					"text" : "buffer~ L-5 L0e005a.wav"
 				}
@@ -157,9 +157,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 89.0, 144.0, 22.0 ],
+					"patching_rect" : [ 16.0, 88.0, 146.0, 22.0 ],
 					"style" : "",
-					"text" : "buffer~ R-5 L0e005a.wav"
+					"text" : "buffer~ R-5 R0e005a.wav"
 				}
 
 			}
@@ -170,7 +170,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 111.0, 148.0, 22.0 ],
+					"patching_rect" : [ 16.0, 110.0, 148.0, 22.0 ],
 					"style" : "",
 					"text" : "buffer~ L-10 L0e010a.wav"
 				}
@@ -183,9 +183,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 133.0, 150.0, 22.0 ],
+					"patching_rect" : [ 16.0, 132.0, 152.0, 22.0 ],
 					"style" : "",
-					"text" : "buffer~ R-10 L0e010a.wav"
+					"text" : "buffer~ R-10 R0e010a.wav"
 				}
 
 			}
@@ -196,7 +196,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 155.0, 148.0, 22.0 ],
+					"patching_rect" : [ 16.0, 154.0, 148.0, 22.0 ],
 					"style" : "",
 					"text" : "buffer~ L-15 L0e015a.wav"
 				}
@@ -209,9 +209,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 177.0, 150.0, 22.0 ],
+					"patching_rect" : [ 16.0, 176.0, 152.0, 22.0 ],
 					"style" : "",
-					"text" : "buffer~ R-15 L0e015a.wav"
+					"text" : "buffer~ R-15 R0e015a.wav"
 				}
 
 			}
@@ -222,7 +222,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 199.0, 148.0, 22.0 ],
+					"patching_rect" : [ 16.0, 198.0, 148.0, 22.0 ],
 					"style" : "",
 					"text" : "buffer~ L-20 L0e020a.wav"
 				}
@@ -235,9 +235,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 221.0, 150.0, 22.0 ],
+					"patching_rect" : [ 16.0, 220.0, 152.0, 22.0 ],
 					"style" : "",
-					"text" : "buffer~ R-20 L0e020a.wav"
+					"text" : "buffer~ R-20 R0e020a.wav"
 				}
 
 			}
@@ -248,7 +248,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 243.0, 148.0, 22.0 ],
+					"patching_rect" : [ 16.0, 242.0, 148.0, 22.0 ],
 					"style" : "",
 					"text" : "buffer~ L-25 L0e025a.wav"
 				}
@@ -261,9 +261,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 265.0, 150.0, 22.0 ],
+					"patching_rect" : [ 16.0, 264.0, 152.0, 22.0 ],
 					"style" : "",
-					"text" : "buffer~ R-25 L0e025a.wav"
+					"text" : "buffer~ R-25 R0e025a.wav"
 				}
 
 			}
@@ -274,7 +274,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 287.0, 148.0, 22.0 ],
+					"patching_rect" : [ 16.0, 286.0, 148.0, 22.0 ],
 					"style" : "",
 					"text" : "buffer~ L-30 L0e030a.wav"
 				}
@@ -287,9 +287,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 309.0, 150.0, 22.0 ],
+					"patching_rect" : [ 16.0, 308.0, 152.0, 22.0 ],
 					"style" : "",
-					"text" : "buffer~ R-30 L0e030a.wav"
+					"text" : "buffer~ R-30 R0e030a.wav"
 				}
 
 			}
@@ -300,7 +300,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 331.0, 148.0, 22.0 ],
+					"patching_rect" : [ 16.0, 330.0, 148.0, 22.0 ],
 					"style" : "",
 					"text" : "buffer~ L-35 L0e035a.wav"
 				}
@@ -313,9 +313,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 353.0, 150.0, 22.0 ],
+					"patching_rect" : [ 16.0, 352.0, 152.0, 22.0 ],
 					"style" : "",
-					"text" : "buffer~ R-35 L0e035a.wav"
+					"text" : "buffer~ R-35 R0e035a.wav"
 				}
 
 			}
@@ -326,7 +326,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 375.0, 148.0, 22.0 ],
+					"patching_rect" : [ 16.0, 374.0, 148.0, 22.0 ],
 					"style" : "",
 					"text" : "buffer~ L-40 L0e040a.wav"
 				}
@@ -339,9 +339,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 397.0, 150.0, 22.0 ],
+					"patching_rect" : [ 16.0, 396.0, 152.0, 22.0 ],
 					"style" : "",
-					"text" : "buffer~ R-40 L0e040a.wav"
+					"text" : "buffer~ R-40 R0e040a.wav"
 				}
 
 			}
@@ -352,7 +352,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 419.0, 148.0, 22.0 ],
+					"patching_rect" : [ 16.0, 418.0, 148.0, 22.0 ],
 					"style" : "",
 					"text" : "buffer~ L-45 L0e045a.wav"
 				}
@@ -365,9 +365,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 441.0, 150.0, 22.0 ],
+					"patching_rect" : [ 16.0, 440.0, 152.0, 22.0 ],
 					"style" : "",
-					"text" : "buffer~ R-45 L0e045a.wav"
+					"text" : "buffer~ R-45 R0e045a.wav"
 				}
 
 			}
@@ -378,7 +378,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 463.0, 148.0, 22.0 ],
+					"patching_rect" : [ 16.0, 462.0, 148.0, 22.0 ],
 					"style" : "",
 					"text" : "buffer~ L-50 L0e050a.wav"
 				}
@@ -391,9 +391,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 485.0, 150.0, 22.0 ],
+					"patching_rect" : [ 16.0, 484.0, 152.0, 22.0 ],
 					"style" : "",
-					"text" : "buffer~ R-50 L0e050a.wav"
+					"text" : "buffer~ R-50 R0e050a.wav"
 				}
 
 			}
@@ -404,7 +404,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 507.0, 148.0, 22.0 ],
+					"patching_rect" : [ 16.0, 506.0, 148.0, 22.0 ],
 					"style" : "",
 					"text" : "buffer~ L-55 L0e055a.wav"
 				}
@@ -417,9 +417,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 529.0, 150.0, 22.0 ],
+					"patching_rect" : [ 16.0, 528.0, 152.0, 22.0 ],
 					"style" : "",
-					"text" : "buffer~ R-55 L0e055a.wav"
+					"text" : "buffer~ R-55 R0e055a.wav"
 				}
 
 			}
@@ -430,7 +430,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 551.0, 148.0, 22.0 ],
+					"patching_rect" : [ 16.0, 550.0, 148.0, 22.0 ],
 					"style" : "",
 					"text" : "buffer~ L-60 L0e060a.wav"
 				}
@@ -443,9 +443,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 573.0, 150.0, 22.0 ],
+					"patching_rect" : [ 16.0, 572.0, 152.0, 22.0 ],
 					"style" : "",
-					"text" : "buffer~ R-60 L0e060a.wav"
+					"text" : "buffer~ R-60 R0e060a.wav"
 				}
 
 			}
@@ -456,7 +456,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 595.0, 148.0, 22.0 ],
+					"patching_rect" : [ 16.0, 594.0, 148.0, 22.0 ],
 					"style" : "",
 					"text" : "buffer~ L-65 L0e065a.wav"
 				}
@@ -469,9 +469,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 617.0, 150.0, 22.0 ],
+					"patching_rect" : [ 16.0, 616.0, 152.0, 22.0 ],
 					"style" : "",
-					"text" : "buffer~ R-65 L0e065a.wav"
+					"text" : "buffer~ R-65 R0e065a.wav"
 				}
 
 			}
@@ -482,7 +482,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 639.0, 148.0, 22.0 ],
+					"patching_rect" : [ 16.0, 638.0, 148.0, 22.0 ],
 					"style" : "",
 					"text" : "buffer~ L-70 L0e070a.wav"
 				}
@@ -495,9 +495,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 661.0, 150.0, 22.0 ],
+					"patching_rect" : [ 16.0, 660.0, 152.0, 22.0 ],
 					"style" : "",
-					"text" : "buffer~ R-70 L0e070a.wav"
+					"text" : "buffer~ R-70 R0e070a.wav"
 				}
 
 			}
@@ -508,7 +508,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 683.0, 148.0, 22.0 ],
+					"patching_rect" : [ 16.0, 682.0, 148.0, 22.0 ],
 					"style" : "",
 					"text" : "buffer~ L-75 L0e075a.wav"
 				}
@@ -521,9 +521,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 705.0, 150.0, 22.0 ],
+					"patching_rect" : [ 16.0, 704.0, 152.0, 22.0 ],
 					"style" : "",
-					"text" : "buffer~ R-75 L0e075a.wav"
+					"text" : "buffer~ R-75 R0e075a.wav"
 				}
 
 			}
@@ -534,7 +534,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 727.0, 148.0, 22.0 ],
+					"patching_rect" : [ 16.0, 726.0, 148.0, 22.0 ],
 					"style" : "",
 					"text" : "buffer~ L-80 L0e080a.wav"
 				}
@@ -547,9 +547,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 749.0, 150.0, 22.0 ],
+					"patching_rect" : [ 16.0, 748.0, 152.0, 22.0 ],
 					"style" : "",
-					"text" : "buffer~ R-80 L0e080a.wav"
+					"text" : "buffer~ R-80 R0e080a.wav"
 				}
 
 			}
@@ -560,7 +560,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 771.0, 148.0, 22.0 ],
+					"patching_rect" : [ 16.0, 770.0, 148.0, 22.0 ],
 					"style" : "",
 					"text" : "buffer~ L-85 L0e085a.wav"
 				}
@@ -573,9 +573,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 793.0, 150.0, 22.0 ],
+					"patching_rect" : [ 16.0, 792.0, 152.0, 22.0 ],
 					"style" : "",
-					"text" : "buffer~ R-85 L0e085a.wav"
+					"text" : "buffer~ R-85 R0e085a.wav"
 				}
 
 			}
@@ -586,7 +586,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 815.0, 148.0, 22.0 ],
+					"patching_rect" : [ 16.0, 814.0, 148.0, 22.0 ],
 					"style" : "",
 					"text" : "buffer~ L-90 L0e090a.wav"
 				}
@@ -599,9 +599,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 837.0, 150.0, 22.0 ],
+					"patching_rect" : [ 16.0, 836.0, 152.0, 22.0 ],
 					"style" : "",
-					"text" : "buffer~ R-90 L0e090a.wav"
+					"text" : "buffer~ R-90 R0e090a.wav"
 				}
 
 			}
@@ -612,7 +612,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 859.0, 148.0, 22.0 ],
+					"patching_rect" : [ 16.0, 858.0, 148.0, 22.0 ],
 					"style" : "",
 					"text" : "buffer~ L-95 L0e095a.wav"
 				}
@@ -625,9 +625,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 881.0, 150.0, 22.0 ],
+					"patching_rect" : [ 16.0, 880.0, 152.0, 22.0 ],
 					"style" : "",
-					"text" : "buffer~ R-95 L0e095a.wav"
+					"text" : "buffer~ R-95 R0e095a.wav"
 				}
 
 			}
@@ -638,7 +638,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 903.0, 156.0, 22.0 ],
+					"patching_rect" : [ 16.0, 902.0, 156.0, 22.0 ],
 					"style" : "",
 					"text" : "buffer~ L-100 L0e100a.wav"
 				}
@@ -651,9 +651,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 925.0, 158.0, 22.0 ],
+					"patching_rect" : [ 16.0, 924.0, 160.0, 22.0 ],
 					"style" : "",
-					"text" : "buffer~ R-100 L0e100a.wav"
+					"text" : "buffer~ R-100 R0e100a.wav"
 				}
 
 			}
@@ -664,7 +664,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 947.0, 156.0, 22.0 ],
+					"patching_rect" : [ 16.0, 946.0, 156.0, 22.0 ],
 					"style" : "",
 					"text" : "buffer~ L-105 L0e105a.wav"
 				}
@@ -677,9 +677,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 969.0, 158.0, 22.0 ],
+					"patching_rect" : [ 16.0, 968.0, 160.0, 22.0 ],
 					"style" : "",
-					"text" : "buffer~ R-105 L0e105a.wav"
+					"text" : "buffer~ R-105 R0e105a.wav"
 				}
 
 			}
@@ -690,7 +690,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 991.0, 154.0, 22.0 ],
+					"patching_rect" : [ 16.0, 990.0, 154.0, 22.0 ],
 					"style" : "",
 					"text" : "buffer~ L-110 L0e110a.wav"
 				}
@@ -703,9 +703,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 1013.0, 156.0, 22.0 ],
+					"patching_rect" : [ 16.0, 1012.0, 158.0, 22.0 ],
 					"style" : "",
-					"text" : "buffer~ R-110 L0e110a.wav"
+					"text" : "buffer~ R-110 R0e110a.wav"
 				}
 
 			}
@@ -716,7 +716,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 1035.0, 154.0, 22.0 ],
+					"patching_rect" : [ 16.0, 1034.0, 154.0, 22.0 ],
 					"style" : "",
 					"text" : "buffer~ L-115 L0e115a.wav"
 				}
@@ -729,9 +729,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 1057.0, 156.0, 22.0 ],
+					"patching_rect" : [ 16.0, 1056.0, 158.0, 22.0 ],
 					"style" : "",
-					"text" : "buffer~ R-115 L0e115a.wav"
+					"text" : "buffer~ R-115 R0e115a.wav"
 				}
 
 			}
@@ -742,7 +742,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 1079.0, 156.0, 22.0 ],
+					"patching_rect" : [ 16.0, 1078.0, 156.0, 22.0 ],
 					"style" : "",
 					"text" : "buffer~ L-120 L0e120a.wav"
 				}
@@ -755,9 +755,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 1101.0, 158.0, 22.0 ],
+					"patching_rect" : [ 16.0, 1100.0, 160.0, 22.0 ],
 					"style" : "",
-					"text" : "buffer~ R-120 L0e120a.wav"
+					"text" : "buffer~ R-120 R0e120a.wav"
 				}
 
 			}
@@ -768,7 +768,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 1123.0, 156.0, 22.0 ],
+					"patching_rect" : [ 16.0, 1122.0, 156.0, 22.0 ],
 					"style" : "",
 					"text" : "buffer~ L-125 L0e125a.wav"
 				}
@@ -781,9 +781,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 1145.0, 158.0, 22.0 ],
+					"patching_rect" : [ 16.0, 1144.0, 160.0, 22.0 ],
 					"style" : "",
-					"text" : "buffer~ R-125 L0e125a.wav"
+					"text" : "buffer~ R-125 R0e125a.wav"
 				}
 
 			}
@@ -794,7 +794,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 1167.0, 156.0, 22.0 ],
+					"patching_rect" : [ 16.0, 1166.0, 156.0, 22.0 ],
 					"style" : "",
 					"text" : "buffer~ L-130 L0e130a.wav"
 				}
@@ -807,9 +807,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 1189.0, 158.0, 22.0 ],
+					"patching_rect" : [ 16.0, 1188.0, 160.0, 22.0 ],
 					"style" : "",
-					"text" : "buffer~ R-130 L0e130a.wav"
+					"text" : "buffer~ R-130 R0e130a.wav"
 				}
 
 			}
@@ -820,7 +820,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 1211.0, 156.0, 22.0 ],
+					"patching_rect" : [ 16.0, 1210.0, 156.0, 22.0 ],
 					"style" : "",
 					"text" : "buffer~ L-135 L0e135a.wav"
 				}
@@ -833,9 +833,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 1233.0, 158.0, 22.0 ],
+					"patching_rect" : [ 16.0, 1232.0, 160.0, 22.0 ],
 					"style" : "",
-					"text" : "buffer~ R-135 L0e135a.wav"
+					"text" : "buffer~ R-135 R0e135a.wav"
 				}
 
 			}
@@ -846,7 +846,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 1255.0, 156.0, 22.0 ],
+					"patching_rect" : [ 16.0, 1254.0, 156.0, 22.0 ],
 					"style" : "",
 					"text" : "buffer~ L-140 L0e140a.wav"
 				}
@@ -859,9 +859,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 1277.0, 158.0, 22.0 ],
+					"patching_rect" : [ 16.0, 1276.0, 160.0, 22.0 ],
 					"style" : "",
-					"text" : "buffer~ R-140 L0e140a.wav"
+					"text" : "buffer~ R-140 R0e140a.wav"
 				}
 
 			}
@@ -872,7 +872,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 1299.0, 156.0, 22.0 ],
+					"patching_rect" : [ 16.0, 1298.0, 156.0, 22.0 ],
 					"style" : "",
 					"text" : "buffer~ L-145 L0e145a.wav"
 				}
@@ -885,9 +885,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 1321.0, 158.0, 22.0 ],
+					"patching_rect" : [ 16.0, 1320.0, 160.0, 22.0 ],
 					"style" : "",
-					"text" : "buffer~ R-145 L0e145a.wav"
+					"text" : "buffer~ R-145 R0e145a.wav"
 				}
 
 			}
@@ -898,7 +898,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 1343.0, 156.0, 22.0 ],
+					"patching_rect" : [ 16.0, 1342.0, 156.0, 22.0 ],
 					"style" : "",
 					"text" : "buffer~ L-150 L0e150a.wav"
 				}
@@ -911,9 +911,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 1365.0, 158.0, 22.0 ],
+					"patching_rect" : [ 16.0, 1364.0, 160.0, 22.0 ],
 					"style" : "",
-					"text" : "buffer~ R-150 L0e150a.wav"
+					"text" : "buffer~ R-150 R0e150a.wav"
 				}
 
 			}
@@ -924,7 +924,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 1387.0, 156.0, 22.0 ],
+					"patching_rect" : [ 16.0, 1386.0, 156.0, 22.0 ],
 					"style" : "",
 					"text" : "buffer~ L-155 L0e155a.wav"
 				}
@@ -937,9 +937,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 1409.0, 158.0, 22.0 ],
+					"patching_rect" : [ 16.0, 1408.0, 160.0, 22.0 ],
 					"style" : "",
-					"text" : "buffer~ R-155 L0e155a.wav"
+					"text" : "buffer~ R-155 R0e155a.wav"
 				}
 
 			}
@@ -950,7 +950,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 1431.0, 156.0, 22.0 ],
+					"patching_rect" : [ 16.0, 1430.0, 156.0, 22.0 ],
 					"style" : "",
 					"text" : "buffer~ L-160 L0e160a.wav"
 				}
@@ -963,9 +963,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 1453.0, 158.0, 22.0 ],
+					"patching_rect" : [ 16.0, 1452.0, 160.0, 22.0 ],
 					"style" : "",
-					"text" : "buffer~ R-160 L0e160a.wav"
+					"text" : "buffer~ R-160 R0e160a.wav"
 				}
 
 			}
@@ -976,7 +976,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 1475.0, 156.0, 22.0 ],
+					"patching_rect" : [ 16.0, 1474.0, 156.0, 22.0 ],
 					"style" : "",
 					"text" : "buffer~ L-165 L0e165a.wav"
 				}
@@ -989,9 +989,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 1497.0, 158.0, 22.0 ],
+					"patching_rect" : [ 16.0, 1496.0, 160.0, 22.0 ],
 					"style" : "",
-					"text" : "buffer~ R-165 L0e165a.wav"
+					"text" : "buffer~ R-165 R0e165a.wav"
 				}
 
 			}
@@ -1002,7 +1002,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 1519.0, 156.0, 22.0 ],
+					"patching_rect" : [ 16.0, 1518.0, 156.0, 22.0 ],
 					"style" : "",
 					"text" : "buffer~ L-170 L0e170a.wav"
 				}
@@ -1015,9 +1015,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 1541.0, 158.0, 22.0 ],
+					"patching_rect" : [ 16.0, 1540.0, 160.0, 22.0 ],
 					"style" : "",
-					"text" : "buffer~ R-170 L0e170a.wav"
+					"text" : "buffer~ R-170 R0e170a.wav"
 				}
 
 			}
@@ -1028,7 +1028,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 1563.0, 156.0, 22.0 ],
+					"patching_rect" : [ 16.0, 1562.0, 156.0, 22.0 ],
 					"style" : "",
 					"text" : "buffer~ L-175 L0e175a.wav"
 				}
@@ -1041,9 +1041,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 1585.0, 158.0, 22.0 ],
+					"patching_rect" : [ 16.0, 1584.0, 160.0, 22.0 ],
 					"style" : "",
-					"text" : "buffer~ R-175 L0e175a.wav"
+					"text" : "buffer~ R-175 R0e175a.wav"
 				}
 
 			}
@@ -1054,7 +1054,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 1607.0, 156.0, 22.0 ],
+					"patching_rect" : [ 16.0, 1606.0, 156.0, 22.0 ],
 					"style" : "",
 					"text" : "buffer~ L-180 L0e180a.wav"
 				}
@@ -1067,9 +1067,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 1629.0, 158.0, 22.0 ],
+					"patching_rect" : [ 16.0, 1628.0, 160.0, 22.0 ],
 					"style" : "",
-					"text" : "buffer~ R-180 L0e180a.wav"
+					"text" : "buffer~ R-180 R0e180a.wav"
 				}
 
 			}
@@ -1080,7 +1080,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 1651.0, 156.0, 22.0 ],
+					"patching_rect" : [ 16.0, 1650.0, 156.0, 22.0 ],
 					"style" : "",
 					"text" : "buffer~ L-185 L0e185a.wav"
 				}
@@ -1093,9 +1093,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 1673.0, 158.0, 22.0 ],
+					"patching_rect" : [ 16.0, 1672.0, 160.0, 22.0 ],
 					"style" : "",
-					"text" : "buffer~ R-185 L0e185a.wav"
+					"text" : "buffer~ R-185 R0e185a.wav"
 				}
 
 			}
@@ -1106,7 +1106,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 1695.0, 156.0, 22.0 ],
+					"patching_rect" : [ 16.0, 1694.0, 156.0, 22.0 ],
 					"style" : "",
 					"text" : "buffer~ L-190 L0e190a.wav"
 				}
@@ -1119,9 +1119,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 1717.0, 158.0, 22.0 ],
+					"patching_rect" : [ 16.0, 1716.0, 160.0, 22.0 ],
 					"style" : "",
-					"text" : "buffer~ R-190 L0e190a.wav"
+					"text" : "buffer~ R-190 R0e190a.wav"
 				}
 
 			}
@@ -1132,7 +1132,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 1739.0, 156.0, 22.0 ],
+					"patching_rect" : [ 16.0, 1738.0, 156.0, 22.0 ],
 					"style" : "",
 					"text" : "buffer~ L-195 L0e195a.wav"
 				}
@@ -1145,9 +1145,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 1761.0, 158.0, 22.0 ],
+					"patching_rect" : [ 16.0, 1760.0, 160.0, 22.0 ],
 					"style" : "",
-					"text" : "buffer~ R-195 L0e195a.wav"
+					"text" : "buffer~ R-195 R0e195a.wav"
 				}
 
 			}
@@ -1158,7 +1158,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 1783.0, 156.0, 22.0 ],
+					"patching_rect" : [ 16.0, 1782.0, 156.0, 22.0 ],
 					"style" : "",
 					"text" : "buffer~ L-200 L0e200a.wav"
 				}
@@ -1171,9 +1171,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 1805.0, 158.0, 22.0 ],
+					"patching_rect" : [ 16.0, 1804.0, 160.0, 22.0 ],
 					"style" : "",
-					"text" : "buffer~ R-200 L0e200a.wav"
+					"text" : "buffer~ R-200 R0e200a.wav"
 				}
 
 			}
@@ -1184,7 +1184,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 1827.0, 156.0, 22.0 ],
+					"patching_rect" : [ 16.0, 1826.0, 156.0, 22.0 ],
 					"style" : "",
 					"text" : "buffer~ L-205 L0e205a.wav"
 				}
@@ -1197,9 +1197,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 1849.0, 158.0, 22.0 ],
+					"patching_rect" : [ 16.0, 1848.0, 160.0, 22.0 ],
 					"style" : "",
-					"text" : "buffer~ R-205 L0e205a.wav"
+					"text" : "buffer~ R-205 R0e205a.wav"
 				}
 
 			}
@@ -1210,7 +1210,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 1871.0, 156.0, 22.0 ],
+					"patching_rect" : [ 16.0, 1870.0, 156.0, 22.0 ],
 					"style" : "",
 					"text" : "buffer~ L-210 L0e210a.wav"
 				}
@@ -1223,9 +1223,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 1893.0, 158.0, 22.0 ],
+					"patching_rect" : [ 16.0, 1892.0, 160.0, 22.0 ],
 					"style" : "",
-					"text" : "buffer~ R-210 L0e210a.wav"
+					"text" : "buffer~ R-210 R0e210a.wav"
 				}
 
 			}
@@ -1236,7 +1236,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 1915.0, 156.0, 22.0 ],
+					"patching_rect" : [ 16.0, 1914.0, 156.0, 22.0 ],
 					"style" : "",
 					"text" : "buffer~ L-215 L0e215a.wav"
 				}
@@ -1249,9 +1249,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 1937.0, 158.0, 22.0 ],
+					"patching_rect" : [ 16.0, 1936.0, 160.0, 22.0 ],
 					"style" : "",
-					"text" : "buffer~ R-215 L0e215a.wav"
+					"text" : "buffer~ R-215 R0e215a.wav"
 				}
 
 			}
@@ -1262,7 +1262,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 1959.0, 156.0, 22.0 ],
+					"patching_rect" : [ 16.0, 1958.0, 156.0, 22.0 ],
 					"style" : "",
 					"text" : "buffer~ L-220 L0e220a.wav"
 				}
@@ -1275,9 +1275,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 1981.0, 158.0, 22.0 ],
+					"patching_rect" : [ 16.0, 1980.0, 160.0, 22.0 ],
 					"style" : "",
-					"text" : "buffer~ R-220 L0e220a.wav"
+					"text" : "buffer~ R-220 R0e220a.wav"
 				}
 
 			}
@@ -1288,7 +1288,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 2003.0, 156.0, 22.0 ],
+					"patching_rect" : [ 16.0, 2002.0, 156.0, 22.0 ],
 					"style" : "",
 					"text" : "buffer~ L-225 L0e225a.wav"
 				}
@@ -1301,9 +1301,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 2025.0, 158.0, 22.0 ],
+					"patching_rect" : [ 16.0, 2024.0, 160.0, 22.0 ],
 					"style" : "",
-					"text" : "buffer~ R-225 L0e225a.wav"
+					"text" : "buffer~ R-225 R0e225a.wav"
 				}
 
 			}
@@ -1314,7 +1314,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 2047.0, 156.0, 22.0 ],
+					"patching_rect" : [ 16.0, 2046.0, 156.0, 22.0 ],
 					"style" : "",
 					"text" : "buffer~ L-230 L0e230a.wav"
 				}
@@ -1327,9 +1327,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 2069.0, 158.0, 22.0 ],
+					"patching_rect" : [ 16.0, 2068.0, 160.0, 22.0 ],
 					"style" : "",
-					"text" : "buffer~ R-230 L0e230a.wav"
+					"text" : "buffer~ R-230 R0e230a.wav"
 				}
 
 			}
@@ -1340,7 +1340,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 2091.0, 156.0, 22.0 ],
+					"patching_rect" : [ 16.0, 2090.0, 156.0, 22.0 ],
 					"style" : "",
 					"text" : "buffer~ L-235 L0e235a.wav"
 				}
@@ -1353,9 +1353,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 2113.0, 158.0, 22.0 ],
+					"patching_rect" : [ 16.0, 2112.0, 160.0, 22.0 ],
 					"style" : "",
-					"text" : "buffer~ R-235 L0e235a.wav"
+					"text" : "buffer~ R-235 R0e235a.wav"
 				}
 
 			}
@@ -1366,7 +1366,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 2135.0, 156.0, 22.0 ],
+					"patching_rect" : [ 16.0, 2134.0, 156.0, 22.0 ],
 					"style" : "",
 					"text" : "buffer~ L-240 L0e240a.wav"
 				}
@@ -1379,9 +1379,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 2157.0, 158.0, 22.0 ],
+					"patching_rect" : [ 16.0, 2156.0, 160.0, 22.0 ],
 					"style" : "",
-					"text" : "buffer~ R-240 L0e240a.wav"
+					"text" : "buffer~ R-240 R0e240a.wav"
 				}
 
 			}
@@ -1392,7 +1392,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 2179.0, 156.0, 22.0 ],
+					"patching_rect" : [ 16.0, 2178.0, 156.0, 22.0 ],
 					"style" : "",
 					"text" : "buffer~ L-245 L0e245a.wav"
 				}
@@ -1405,9 +1405,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 2201.0, 158.0, 22.0 ],
+					"patching_rect" : [ 16.0, 2200.0, 160.0, 22.0 ],
 					"style" : "",
-					"text" : "buffer~ R-245 L0e245a.wav"
+					"text" : "buffer~ R-245 R0e245a.wav"
 				}
 
 			}
@@ -1418,7 +1418,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 2223.0, 156.0, 22.0 ],
+					"patching_rect" : [ 16.0, 2222.0, 156.0, 22.0 ],
 					"style" : "",
 					"text" : "buffer~ L-250 L0e250a.wav"
 				}
@@ -1431,9 +1431,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 2245.0, 158.0, 22.0 ],
+					"patching_rect" : [ 16.0, 2244.0, 160.0, 22.0 ],
 					"style" : "",
-					"text" : "buffer~ R-250 L0e250a.wav"
+					"text" : "buffer~ R-250 R0e250a.wav"
 				}
 
 			}
@@ -1444,7 +1444,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 2267.0, 156.0, 22.0 ],
+					"patching_rect" : [ 16.0, 2266.0, 156.0, 22.0 ],
 					"style" : "",
 					"text" : "buffer~ L-255 L0e255a.wav"
 				}
@@ -1457,9 +1457,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 2289.0, 158.0, 22.0 ],
+					"patching_rect" : [ 16.0, 2288.0, 160.0, 22.0 ],
 					"style" : "",
-					"text" : "buffer~ R-255 L0e255a.wav"
+					"text" : "buffer~ R-255 R0e255a.wav"
 				}
 
 			}
@@ -1470,7 +1470,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 2311.0, 156.0, 22.0 ],
+					"patching_rect" : [ 16.0, 2310.0, 156.0, 22.0 ],
 					"style" : "",
 					"text" : "buffer~ L-260 L0e260a.wav"
 				}
@@ -1483,9 +1483,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 2333.0, 158.0, 22.0 ],
+					"patching_rect" : [ 16.0, 2332.0, 160.0, 22.0 ],
 					"style" : "",
-					"text" : "buffer~ R-260 L0e260a.wav"
+					"text" : "buffer~ R-260 R0e260a.wav"
 				}
 
 			}
@@ -1496,7 +1496,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 2355.0, 156.0, 22.0 ],
+					"patching_rect" : [ 16.0, 2354.0, 156.0, 22.0 ],
 					"style" : "",
 					"text" : "buffer~ L-265 L0e265a.wav"
 				}
@@ -1509,9 +1509,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 2377.0, 158.0, 22.0 ],
+					"patching_rect" : [ 16.0, 2376.0, 160.0, 22.0 ],
 					"style" : "",
-					"text" : "buffer~ R-265 L0e265a.wav"
+					"text" : "buffer~ R-265 R0e265a.wav"
 				}
 
 			}
@@ -1522,7 +1522,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 2399.0, 156.0, 22.0 ],
+					"patching_rect" : [ 16.0, 2398.0, 156.0, 22.0 ],
 					"style" : "",
 					"text" : "buffer~ L-270 L0e270a.wav"
 				}
@@ -1535,9 +1535,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 2421.0, 158.0, 22.0 ],
+					"patching_rect" : [ 16.0, 2420.0, 160.0, 22.0 ],
 					"style" : "",
-					"text" : "buffer~ R-270 L0e270a.wav"
+					"text" : "buffer~ R-270 R0e270a.wav"
 				}
 
 			}
@@ -1548,7 +1548,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 2443.0, 156.0, 22.0 ],
+					"patching_rect" : [ 16.0, 2442.0, 156.0, 22.0 ],
 					"style" : "",
 					"text" : "buffer~ L-275 L0e275a.wav"
 				}
@@ -1561,9 +1561,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 2465.0, 158.0, 22.0 ],
+					"patching_rect" : [ 16.0, 2464.0, 160.0, 22.0 ],
 					"style" : "",
-					"text" : "buffer~ R-275 L0e275a.wav"
+					"text" : "buffer~ R-275 R0e275a.wav"
 				}
 
 			}
@@ -1574,7 +1574,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 2487.0, 156.0, 22.0 ],
+					"patching_rect" : [ 16.0, 2486.0, 156.0, 22.0 ],
 					"style" : "",
 					"text" : "buffer~ L-280 L0e280a.wav"
 				}
@@ -1587,9 +1587,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 2509.0, 158.0, 22.0 ],
+					"patching_rect" : [ 16.0, 2508.0, 160.0, 22.0 ],
 					"style" : "",
-					"text" : "buffer~ R-280 L0e280a.wav"
+					"text" : "buffer~ R-280 R0e280a.wav"
 				}
 
 			}
@@ -1600,7 +1600,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 2531.0, 156.0, 22.0 ],
+					"patching_rect" : [ 16.0, 2530.0, 156.0, 22.0 ],
 					"style" : "",
 					"text" : "buffer~ L-285 L0e285a.wav"
 				}
@@ -1613,9 +1613,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 2553.0, 158.0, 22.0 ],
+					"patching_rect" : [ 16.0, 2552.0, 160.0, 22.0 ],
 					"style" : "",
-					"text" : "buffer~ R-285 L0e285a.wav"
+					"text" : "buffer~ R-285 R0e285a.wav"
 				}
 
 			}
@@ -1626,7 +1626,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 2575.0, 156.0, 22.0 ],
+					"patching_rect" : [ 16.0, 2574.0, 156.0, 22.0 ],
 					"style" : "",
 					"text" : "buffer~ L-290 L0e290a.wav"
 				}
@@ -1639,9 +1639,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 2597.0, 158.0, 22.0 ],
+					"patching_rect" : [ 16.0, 2596.0, 160.0, 22.0 ],
 					"style" : "",
-					"text" : "buffer~ R-290 L0e290a.wav"
+					"text" : "buffer~ R-290 R0e290a.wav"
 				}
 
 			}
@@ -1652,7 +1652,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 2619.0, 156.0, 22.0 ],
+					"patching_rect" : [ 16.0, 2618.0, 156.0, 22.0 ],
 					"style" : "",
 					"text" : "buffer~ L-295 L0e295a.wav"
 				}
@@ -1665,9 +1665,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 2641.0, 158.0, 22.0 ],
+					"patching_rect" : [ 16.0, 2640.0, 160.0, 22.0 ],
 					"style" : "",
-					"text" : "buffer~ R-295 L0e295a.wav"
+					"text" : "buffer~ R-295 R0e295a.wav"
 				}
 
 			}
@@ -1678,7 +1678,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 2663.0, 156.0, 22.0 ],
+					"patching_rect" : [ 16.0, 2662.0, 156.0, 22.0 ],
 					"style" : "",
 					"text" : "buffer~ L-300 L0e300a.wav"
 				}
@@ -1691,9 +1691,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 2685.0, 158.0, 22.0 ],
+					"patching_rect" : [ 16.0, 2684.0, 160.0, 22.0 ],
 					"style" : "",
-					"text" : "buffer~ R-300 L0e300a.wav"
+					"text" : "buffer~ R-300 R0e300a.wav"
 				}
 
 			}
@@ -1704,7 +1704,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 2707.0, 156.0, 22.0 ],
+					"patching_rect" : [ 16.0, 2706.0, 156.0, 22.0 ],
 					"style" : "",
 					"text" : "buffer~ L-305 L0e305a.wav"
 				}
@@ -1717,9 +1717,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 2729.0, 158.0, 22.0 ],
+					"patching_rect" : [ 16.0, 2728.0, 160.0, 22.0 ],
 					"style" : "",
-					"text" : "buffer~ R-305 L0e305a.wav"
+					"text" : "buffer~ R-305 R0e305a.wav"
 				}
 
 			}
@@ -1730,7 +1730,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 2751.0, 156.0, 22.0 ],
+					"patching_rect" : [ 16.0, 2750.0, 156.0, 22.0 ],
 					"style" : "",
 					"text" : "buffer~ L-310 L0e310a.wav"
 				}
@@ -1743,9 +1743,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 2773.0, 158.0, 22.0 ],
+					"patching_rect" : [ 16.0, 2772.0, 160.0, 22.0 ],
 					"style" : "",
-					"text" : "buffer~ R-310 L0e310a.wav"
+					"text" : "buffer~ R-310 R0e310a.wav"
 				}
 
 			}
@@ -1756,7 +1756,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 2795.0, 156.0, 22.0 ],
+					"patching_rect" : [ 16.0, 2794.0, 156.0, 22.0 ],
 					"style" : "",
 					"text" : "buffer~ L-315 L0e315a.wav"
 				}
@@ -1769,9 +1769,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 2817.0, 158.0, 22.0 ],
+					"patching_rect" : [ 16.0, 2816.0, 160.0, 22.0 ],
 					"style" : "",
-					"text" : "buffer~ R-315 L0e315a.wav"
+					"text" : "buffer~ R-315 R0e315a.wav"
 				}
 
 			}
@@ -1782,7 +1782,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 2839.0, 156.0, 22.0 ],
+					"patching_rect" : [ 16.0, 2838.0, 156.0, 22.0 ],
 					"style" : "",
 					"text" : "buffer~ L-320 L0e320a.wav"
 				}
@@ -1795,9 +1795,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 2861.0, 158.0, 22.0 ],
+					"patching_rect" : [ 16.0, 2860.0, 160.0, 22.0 ],
 					"style" : "",
-					"text" : "buffer~ R-320 L0e320a.wav"
+					"text" : "buffer~ R-320 R0e320a.wav"
 				}
 
 			}
@@ -1808,7 +1808,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 2883.0, 156.0, 22.0 ],
+					"patching_rect" : [ 16.0, 2882.0, 156.0, 22.0 ],
 					"style" : "",
 					"text" : "buffer~ L-325 L0e325a.wav"
 				}
@@ -1821,9 +1821,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 2905.0, 158.0, 22.0 ],
+					"patching_rect" : [ 16.0, 2904.0, 160.0, 22.0 ],
 					"style" : "",
-					"text" : "buffer~ R-325 L0e325a.wav"
+					"text" : "buffer~ R-325 R0e325a.wav"
 				}
 
 			}
@@ -1834,7 +1834,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 2927.0, 156.0, 22.0 ],
+					"patching_rect" : [ 16.0, 2926.0, 156.0, 22.0 ],
 					"style" : "",
 					"text" : "buffer~ L-330 L0e330a.wav"
 				}
@@ -1847,9 +1847,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 2949.0, 158.0, 22.0 ],
+					"patching_rect" : [ 16.0, 2948.0, 160.0, 22.0 ],
 					"style" : "",
-					"text" : "buffer~ R-330 L0e330a.wav"
+					"text" : "buffer~ R-330 R0e330a.wav"
 				}
 
 			}
@@ -1860,7 +1860,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 2971.0, 156.0, 22.0 ],
+					"patching_rect" : [ 16.0, 2970.0, 156.0, 22.0 ],
 					"style" : "",
 					"text" : "buffer~ L-335 L0e335a.wav"
 				}
@@ -1873,9 +1873,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 2993.0, 158.0, 22.0 ],
+					"patching_rect" : [ 16.0, 2992.0, 160.0, 22.0 ],
 					"style" : "",
-					"text" : "buffer~ R-335 L0e335a.wav"
+					"text" : "buffer~ R-335 R0e335a.wav"
 				}
 
 			}
@@ -1886,7 +1886,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 3015.0, 156.0, 22.0 ],
+					"patching_rect" : [ 16.0, 3014.0, 156.0, 22.0 ],
 					"style" : "",
 					"text" : "buffer~ L-340 L0e340a.wav"
 				}
@@ -1899,9 +1899,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 3037.0, 158.0, 22.0 ],
+					"patching_rect" : [ 16.0, 3036.0, 160.0, 22.0 ],
 					"style" : "",
-					"text" : "buffer~ R-340 L0e340a.wav"
+					"text" : "buffer~ R-340 R0e340a.wav"
 				}
 
 			}
@@ -1912,7 +1912,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 3059.0, 156.0, 22.0 ],
+					"patching_rect" : [ 16.0, 3058.0, 156.0, 22.0 ],
 					"style" : "",
 					"text" : "buffer~ L-345 L0e345a.wav"
 				}
@@ -1925,9 +1925,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 3081.0, 158.0, 22.0 ],
+					"patching_rect" : [ 16.0, 3080.0, 160.0, 22.0 ],
 					"style" : "",
-					"text" : "buffer~ R-345 L0e345a.wav"
+					"text" : "buffer~ R-345 R0e345a.wav"
 				}
 
 			}
@@ -1938,7 +1938,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 3103.0, 156.0, 22.0 ],
+					"patching_rect" : [ 16.0, 3102.0, 156.0, 22.0 ],
 					"style" : "",
 					"text" : "buffer~ L-350 L0e350a.wav"
 				}
@@ -1951,9 +1951,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 3125.0, 158.0, 22.0 ],
+					"patching_rect" : [ 16.0, 3124.0, 160.0, 22.0 ],
 					"style" : "",
-					"text" : "buffer~ R-350 L0e350a.wav"
+					"text" : "buffer~ R-350 R0e350a.wav"
 				}
 
 			}
@@ -1964,7 +1964,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 3147.0, 156.0, 22.0 ],
+					"patching_rect" : [ 16.0, 3146.0, 156.0, 22.0 ],
 					"style" : "",
 					"text" : "buffer~ L-355 L0e355a.wav"
 				}
@@ -1977,9 +1977,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 16.0, 3169.0, 158.0, 22.0 ],
+					"patching_rect" : [ 16.0, 3168.0, 160.0, 22.0 ],
 					"style" : "",
-					"text" : "buffer~ R-355 L0e355a.wav"
+					"text" : "buffer~ R-355 R0e355a.wav"
 				}
 
 			}
@@ -2029,27 +2029,7 @@
 				}
 
 			}
- ],
-		"dependency_cache" : [ 			{
-				"name" : "createBuffer.js",
-				"bootpath" : "~/Documents/code/trajectories/max/elev0",
-				"type" : "TEXT",
-				"implicit" : 1
-			}
-, 			{
-				"name" : "o.expr.codebox.mxo",
-				"type" : "iLaX"
-			}
-, 			{
-				"name" : "o.listenumerate.mxo",
-				"type" : "iLaX"
-			}
-, 			{
-				"name" : "o.route.mxo",
-				"type" : "iLaX"
-			}
- ],
-		"autosave" : 0
+ ]
 	}
 
 }
