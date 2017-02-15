@@ -12,7 +12,8 @@ Trajectories exports a single multichannel `wav` file containing:
 
 * `doppler` -- pitch-shift curve data according to doppler effect
 * `distance` -- square law for distance-based attenuation
-* results of x/y spatialization for HRTF rendering
+* `azimuth` -- angle from listener, normalized to be 0 to 1 for 360 degrees
+* `panning` -- normalized L-R panning for exaggeration (0..1)
 
 *TODO: finish this as things solidify*
 
@@ -41,7 +42,7 @@ npm install
 bower install
 ```
 
-build:
+build on osx:
 
 ```
 ./make.sh
@@ -56,7 +57,7 @@ electron .
 #### max
 
 * [odot](https://github.com/CNMAT/CNMAT-odot/releases)
-* [vbap](http://legacy.spa.aalto.fi/software/vbap/MAX_MSP/VBAP_v_1.03_OSXunivers_windows/)
+* ~~[vbap](http://legacy.spa.aalto.fi/software/vbap/MAX_MSP/VBAP_v_1.03_OSXunivers_windows/)~~ -- replaced by own audio-rate implementation
 * [HISSTools](http://www.thehiss.org) -- [paper and externals link](http://eprints.hud.ac.uk/14897/)
 * [HRTF impulse responses](http://sound.media.mit.edu/resources/KEMAR.html)
 
