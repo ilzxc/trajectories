@@ -4,14 +4,21 @@ fs = require 'fs'
 # note that vs > 0 iff source is moving away from the receiver
 # and vs < 0 iff souce is moving towards the receiver
 doppCompute = (vs) ->
-    return 1 - (340.29 / (340.29 + vs))
+    1 - (340.29 / (340.29 + vs))
 
 # sound levels attenuation function for distance from the listener
 distCompute = (minDistance, currentDistance) -> 
     r = minDistance / currentDistance
-    return r * r
+    r * r
 
-scale = (x, x1, y1) -> return y1 * (x / x1)
+angCompute = (pt) -> 
+    result = (pt.subtract view.center).angle + 90
+    (if result < 0 then 360 + result else result) / 360
+
+panCompute = (pt) ->
+    Math.abs (pt.subtract view.center).angle / 180
+
+scale = (x, x1, y1) -> y1 * (x / x1)
 
 # generate accepts:
 #   * the motion path we are interested in
@@ -32,12 +39,7 @@ generate = (path, time, minDistance, distanceRadius, headPosition, filename) ->
     dopplers[0] = 1 # first value is 0
 
     # distanceFromHead = headPosition.getDistance path.getPointAt (path.getNearestLocation headPosition).offset
-    scaler = (x) -> return scale x, distanceRadius, minDistance
-    angCompute = (pt) -> 
-        result = (pt.subtract view.center).angle + 90
-        return (if result < 0 then 360 + result else result) / 360
-    panCompute = (pt) ->
-        return Math.abs (pt.subtract view.center).angle / 180
+    scaler = (x) -> scale x, distanceRadius, minDistance
 
     prevDistance = scaler (path.getPointAt 0).getDistance headPosition
     distances[0] = prevDistance
@@ -80,11 +82,23 @@ oscudp = () ->
                 address: '/distance'
                 args: 0
             }
+            {
+                oscType: 'message'
+                address: '/azimuth'
+                args: 0
+            }
+            {
+                oscType: 'message'
+                address: '/pan'
+                args: 0
+            }
         ]
     }
-    @send = (pitch, distance) ->
+    @send = (pitch, distance, azimuth, pan) ->
         @proto['elements'][0]['args'] = pitch
         @proto['elements'][1]['args'] = distance
+        @proto['elements'][2]['args'] = azimuth
+        @proto['elements'][3]['args'] = pan
         @sock.send osc.toBuffer(@proto), 56765, 'localhost'
         return
 
@@ -93,17 +107,23 @@ oscudp = () ->
         # pb.prevDistance, pb.prevTime
         time = ((new Date()).getTime() - pb.startTime) / pb.totalTime
         if time > 1 then time = 1
-        pb.positionIndicator.position = pb.path.getPointAt time * pb.path.length
-        vectorDistance = pb.headPosition.getDistance pb.path.getPointAt time * pb.path.length
+        pt = pb.path.getPointAt time * pb.path.length
+        pb.positionIndicator.position = pt
+
+        vectorDistance = pb.headPosition.getDistance pt
         distance = scale vectorDistance, pb.distanceCircle, pb.minDistance
         vel = (distance - pb.prevDistance) / ((time - pb.prevTime) * pb.totalTime / 1000)
         doppler = doppCompute vel
         distNorm = distCompute pb.minDistance, distance
-        @send doppler, distNorm
+        azimuth = angCompute pt
+        pan = panCompute pt
+        if time >= 1
+            pb.startTime = null
+            @send -1, 0, 0, 0
+        else
+            @send doppler, distNorm, azimuth, pan
         pb.prevDistance = distance
         pb.prevTime = time
-        if time == 1
-            pb.startTime = null
         return
     return this
 

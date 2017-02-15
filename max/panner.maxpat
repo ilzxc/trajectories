@@ -4,12 +4,12 @@
 		"appversion" : 		{
 			"major" : 7,
 			"minor" : 3,
-			"revision" : 1,
+			"revision" : 2,
 			"architecture" : "x86",
 			"modernui" : 1
 		}
 ,
-		"rect" : [ 323.0, 140.0, 640.0, 480.0 ],
+		"rect" : [ 162.0, 360.0, 640.0, 480.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -40,12 +40,12 @@
 				"box" : 				{
 					"comment" : "",
 					"id" : "obj-10",
+					"index" : 2,
 					"maxclass" : "inlet",
 					"numinlets" : 0,
 					"numoutlets" : 1,
-					"outlettype" : [ "" ],
+					"outlettype" : [ "signal" ],
 					"patching_rect" : [ 175.5, 36.0, 30.0, 30.0 ],
-					"presentation_rect" : [ 175.5, 36.0, 0.0, 0.0 ],
 					"style" : ""
 				}
 
@@ -54,10 +54,11 @@
 				"box" : 				{
 					"comment" : "",
 					"id" : "obj-9",
+					"index" : 2,
 					"maxclass" : "outlet",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 130.5, 197.0, 30.0, 30.0 ],
+					"patching_rect" : [ 198.5, 196.0, 30.0, 30.0 ],
 					"style" : ""
 				}
 
@@ -66,10 +67,11 @@
 				"box" : 				{
 					"comment" : "",
 					"id" : "obj-8",
+					"index" : 1,
 					"maxclass" : "outlet",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 198.5, 197.0, 30.0, 30.0 ],
+					"patching_rect" : [ 130.5, 196.0, 30.0, 30.0 ],
 					"style" : ""
 				}
 
@@ -143,10 +145,11 @@
 				"box" : 				{
 					"comment" : "",
 					"id" : "obj-2",
+					"index" : 3,
 					"maxclass" : "inlet",
 					"numinlets" : 0,
 					"numoutlets" : 1,
-					"outlettype" : [ "" ],
+					"outlettype" : [ "signal" ],
 					"patching_rect" : [ 209.0, 36.0, 30.0, 30.0 ],
 					"style" : ""
 				}
@@ -156,10 +159,11 @@
 				"box" : 				{
 					"comment" : "",
 					"id" : "obj-1",
+					"index" : 1,
 					"maxclass" : "inlet",
 					"numinlets" : 0,
 					"numoutlets" : 1,
-					"outlettype" : [ "" ],
+					"outlettype" : [ "signal" ],
 					"patching_rect" : [ 130.5, 36.0, 30.0, 30.0 ],
 					"style" : ""
 				}
@@ -189,6 +193,7 @@
 					"destination" : [ "obj-3", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
+					"order" : 0,
 					"source" : [ "obj-2", 0 ]
 				}
 
@@ -198,6 +203,7 @@
 					"destination" : [ "obj-7", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
+					"order" : 1,
 					"source" : [ "obj-2", 0 ]
 				}
 
@@ -247,9 +253,7 @@
 				}
 
 			}
- ],
-		"dependency_cache" : [  ],
-		"autosave" : 0
+ ]
 	}
 
 }
