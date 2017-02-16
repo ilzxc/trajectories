@@ -29,7 +29,7 @@
     "mac": {
       "category": "public.app-category.music"
     },
-    "files": ["!max${/*}", "!src${/*}"]
+    "files": ["!max${/*}", "!src${/*}", "*.sh"]
   },
   "homepage": "https://github.com/ilzxc/trajectories#readme"
 }
