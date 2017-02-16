@@ -1,3 +1,5 @@
+"use strict"
+
 ipc = require('electron').ipcRenderer
 ui = require './build/front/ui'
 compute = require './build/front/compute'
