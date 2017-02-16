@@ -43,7 +43,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 276.0, 196.0, 29.5, 22.0 ],
+					"patching_rect" : [ 246.200012, 210.5, 29.5, 22.0 ],
 					"style" : "",
 					"text" : "0"
 				}
@@ -3206,11 +3206,11 @@
 						"basictuning" : 440,
 						"followglobaltempo" : 0,
 						"formantcorrection" : 0,
-						"loopend" : [ 1532.322876, "ms" ],
-						"loopstart" : [ 824.59375, "ms" ],
+						"loopend" : [ 4407.416504, "ms" ],
+						"loopstart" : [ 2540.104248, "ms" ],
 						"mode" : "basic",
 						"originallength" : [ 0.0, "ticks" ],
-						"originaltempo" : 119.999969,
+						"originaltempo" : 119.999977,
 						"phase" : [ 0.0, "ticks" ],
 						"pitchcorrection" : 0,
 						"quality" : "basic",
