@@ -1,8 +1,8 @@
 "use strict"
 
 ipc = require('electron').ipcRenderer
-ui = require './build/front/ui'
-compute = require './build/front/compute'
+ui = require './js/front/ui'
+compute = require './js/front/compute'
 
 pathData = () ->
     @path = new Path()
