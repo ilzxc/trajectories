@@ -1,23 +1,8 @@
+"use strict"
+
 osc = require './compute'
-# ipc = require('electron').ipcRenderer
 
 ###
-    the current sketches seem to be dedicated to the following data model for
-    paths -> doppler / envelope effects:
-    model = {
-        totalTime: 5000
-        startTime: null
-        path: null
-        minDistance: 3
-        distanceCircle: 1
-        headPosition: view.center
-        prevDistance: null
-        prevTime: null
-    }
-
-    however, the refactor requires variance of speeds on paths, and requires
-    annotations for "idle" behaviors at particular destinations.
-
     two things on the todo:
     1. make the model a part of the path, since we're already passing the path
        everywhere, so that the buttons need to store just one reference
@@ -29,67 +14,129 @@ osc = require './compute'
     segments.
 ###
 
-play = (path) ->
-    # button graphics, position indicator & osc
-    # due to the Paper.js scoping issues, we need the interactive
-    # button to store references to other objects so we can access
-    # them from onMouseDown callback scope:
+distanceCircle = (model) ->
+    @path = new Path.Circle {
+        center: view.center
+        radius: model.distanceRadius
+        strokeColor: '#ff0000'
+        strokeCap: 'round'
+        dashArray: [1, 4]
+        strokeWidth: 1
+    }
+    @path.m = model
+    @setScale = (amount) ->
+        inv = 1 / @path.m.distanceRadius
+        @path.m.distanceRadius = amount
+        @path.scale [inv, inv]
+        @path.scale [@path.m.distanceRadius]
+        return
+    return this
+
+pathData = (model) ->
+    @path = new Path()
+    @path.strokeColor = 'black'
+    @path.strokeWidth = 2
+    @path.fullySelected = true
+
+    @pathStart = new Path.Circle {
+        center: [0, 0]
+        radius: 5
+        strokeColor: 'black'
+        strokeWidth: 1
+        fillColor: 'black'
+    }
+
+    @pathEnd = new Path.Circle {
+        center: [0, 0]
+        radius: 5
+        strokeColor: 'black'
+        strokeWidth: 1
+        fillColor: 'white'
+    }
+
+    @add = (event) ->
+        @path.add event.point
+        @pathEnd.position = event.point
+        @pathStart.position = @path.firstSegment.point
+        console.log @pathStart.position, @pathEnd.position
+        return
+    return this
+
+canvas = (model) ->
+    @rect = new Path.Rectangle {
+        point: [0, 0]
+        size: view.size
+        fillColor: 'white'
+    }
+    @grid = new grid()
+    @canvasGroup = new Group @rect, @grid.group
+    @canvasGroup.sendToBack()
+
+    @canvasGroup.m = model
+    @canvasGroup.m.pathData = new pathData model
+    @canvasGroup.m.path = @canvasGroup.m.pathData.path
+    @canvasGroup.m.distance = new distanceCircle model
+    @canvasGroup.osc =  new osc.oscudp()
+
+    @canvasGroup.test = new Path.Circle {
+        center: [-100, -100]
+        radius: 5
+        strokeColor: 'blue'
+        strokeWidth: 1
+        fillColor: 'orange'
+    }
+
+    @canvasGroup.onMouseMove = (event) ->
+        loc = @m.path.getNearestLocation event.point
+        if loc is null then return
+        @test.position = @m.path.getPointAt loc.offset
+        return
+
+    @canvasGroup.onMouseDown = (event) ->
+        if event.event.button is 0 # left mouse button
+            @m.pathData.add event
+        else
+            @m.distance.setScale (view.center).getDistance event.point
+        return
+
+    @canvasGroup.onMouseDrag = (event) ->
+        if event.event.button is 2 # right mouse button
+            @m.distance.setScale (view.center).getDistance event.point
+            return
+        return
+
+    @update = () ->
+        if @canvasGroup.m.startTime is null then return
+        @canvasGroup.osc.generate @canvasGroup.m
+        return
+
+    return this
+
+
+play = (model) ->
     @button = new Path.Circle {
         center: [25, 25]
         radius: 20
         fillColor: 'blue'
     }
-    @button.positionIndicator = new Path.Circle {
-        center: [-100, -100]
-        radius: 10
-        strokeColor: 'blue'
-        strokeWidth: 2
-    }
-    @button.osc = new osc.oscudp()
-   
-    # button properties for playing & exporting, just as above
-    @button.totalTime = 5000
-    @button.startTime = null
-    @button.path = path
-    @button.paused = false 
-    @button.minDistance = 3
-    @button.distanceCircle = 1
-    @button.headPosition = view.center
-    @button.headDistance = null
-    @button.prevDistance = null
-    @button.prevTime = null
-
+    @button.m = model
     @button.onMouseDown = (event) ->
-        console.log "play initiated"
-        console.log @totalTime, @minDistance, @distanceCircle
-        if @startTime is not null
-            console.log "@paused, before", @paused
-            @paused = !(@paused)
-            console.log "@paused, after", @paused
-            return
-        @startTime = (new Date()).getTime()
-        @positionIndicator.position = @path.getPointAt 0
-        @headDistance = @headPosition.getDistance @path.getPointAt (@path.getNearestLocation @headPosition).offset
-        return
-
-    @update = () ->
-        if @button.startTime is null or @button.paused then return
-        @button.osc.generate @button
+        @m.startTime = (new Date()).getTime()
+        @m.positionIndicator.position = @m.path.getPointAt 0
+        @m.headDistance = @m.headPosition.getDistance @m.path.getPointAt (@m.path.getNearestLocation @m.headPosition).offset
         return
     return this
 
-smooth = (pathRef) ->
+smooth = (model) ->
     @button = new Path.Circle {
         center: [65, 25]
         radius: 20
         fillColor: 'green'
     }
-    @button.pathRef = pathRef
-    @updatePath = (newPath) -> @button.pathRef = newPath
+    @button.m = model
+    @updatePath = (model) -> @button.m = model
     @button.onMouseDown = (event) ->
-        console.log "smooth activated"
-        console.log @pathRef
-        @pathRef.smooth()
+        @m.path.smooth()
         return
     return this
 
@@ -105,35 +152,36 @@ exporter = (ipc) ->
         return
     return this
 
-distNum = (playButton) ->
+distNum = (model) ->
     @numbox = new PointText {
         point: [690, 30]
         justification: 'right'
         fontSize: 15
         fillColor: 'black'
     }
-    @numbox.playButton = playButton
-    @numbox.content = '' + @numbox.playButton.minDistance.toFixed(2) + ' m'
+    @numbox.m = model
+    @numbox.content = '' + @numbox.m.minDistance.toFixed(2) + ' m'
     @numbox.onMouseDrag = (event) ->
-        @playButton.minDistance += event.delta.x * 0.01
-        if @playButton.minDistance < 0.01 then @playButton.minDistance = 0.01
-        @content = '' + @playButton.minDistance.toFixed(2) + ' m'
+        event.stopPropagation()
+        @m.minDistance += event.delta.x * 0.01
+        if @m.minDistance < 0.01 then @m.minDistance = 0.01
+        @content = '' + @m.minDistance.toFixed(2) + ' m'
         return
     return this
 
-timeNum = (playButton) ->
+timeNum = (model) ->
     @numbox = new PointText {
         point: [600, 30]
         justification: 'right'
         fontSize: 15
         fillColor: 'black'
     }
-    @numbox.playButton = playButton
-    @numbox.content = '' + (@numbox.playButton.totalTime / 1000).toFixed(2) + ' s'
+    @numbox.m = model
+    @numbox.content = '' + (@numbox.m.totalTime / 1000).toFixed(2) + ' s'
     @numbox.onMouseDrag = (event) ->
-        @playButton.totalTime += event.delta.x * 4
-        if @playButton.totalTime < 100 then @playButton.totalTime = 100
-        @content = '' + (@playButton.totalTime / 1000).toFixed(2) + ' s'
+        @m.totalTime += event.delta.x * 4
+        if @m.totalTime < 100 then @m.totalTime = 100
+        @content = '' + (@m.totalTime / 1000).toFixed(2) + ' s'
         return
     return this
 
@@ -154,7 +202,7 @@ head = (radius) ->
     @head.strokeColor = 'black'
     return this
 
-grid = () ->
+grid = (canvas) ->
     @grid = []
     for i in [0...(window.innerWidth / 25)]
         @grid.push new Path.Line {
@@ -163,6 +211,7 @@ grid = () ->
             strokeColor: 'grey'
             strokeWidth: 0.2
         }
+        @grid[@grid.length - 1].canvas = canvas
     for i in [0...(window.innerHeight / 25)]
         @grid.push new Path.Line {
             from: [0, i * 25]
@@ -170,6 +219,8 @@ grid = () ->
             strokeColor: 'grey'
             strokeWidth: 0.2
         }
+        @grid[@grid.length - 1].canvas = canvas
+    @group = new Group @grid
     return this
 
-module.exports = { play, smooth, exporter, distNum, timeNum, head, grid }
+module.exports = { canvas, play, smooth, exporter, distNum, timeNum, head }

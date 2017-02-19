@@ -102,28 +102,28 @@ oscudp = () ->
         @sock.send osc.toBuffer(@proto), 56765, 'localhost'
         return
 
-    @generate = (pb) ->
-        # pb.path, pb.startTime, pb.totalTime, pb.minDistance, pb.distanceCircle, pb.headPosition,
-        # pb.prevDistance, pb.prevTime
-        time = ((new Date()).getTime() - pb.startTime) / pb.totalTime
+    @generate = (m) ->
+        # m.path, m.startTime, m.totalTime, m.minDistance, m.distanceCircle, m.headPosition,
+        # m.prevDistance, m.prevTime
+        time = ((new Date()).getTime() - m.startTime) / m.totalTime
         if time > 1 then time = 1
-        pt = pb.path.getPointAt time * pb.path.length
-        pb.positionIndicator.position = pt
+        pt = m.path.getPointAt time * m.path.length
+        m.positionIndicator.position = pt
 
-        vectorDistance = pb.headPosition.getDistance pt
-        distance = scale vectorDistance, pb.distanceCircle, pb.minDistance
-        vel = (distance - pb.prevDistance) / ((time - pb.prevTime) * pb.totalTime / 1000)
+        vectorDistance = m.headPosition.getDistance pt
+        distance = scale vectorDistance, m.distanceCircle, m.minDistance
+        vel = (distance - m.prevDistance) / ((time - m.prevTime) * m.totalTime / 1000)
         doppler = doppCompute vel
-        distNorm = distCompute pb.minDistance, distance
+        distNorm = distCompute m.minDistance, distance
         azimuth = angCompute pt
         pan = panCompute pt
         if time >= 1
-            pb.startTime = null
+            m.startTime = null
             @send -1, 0, 0, 0
         else
             @send doppler, distNorm, azimuth, pan
-        pb.prevDistance = distance
-        pb.prevTime = time
+        m.prevDistance = distance
+        m.prevTime = time
         return
     return this
 
