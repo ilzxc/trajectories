@@ -13,19 +13,6 @@ window.onload = () ->
         totalTime: 5000
         startTime: null
         path: null
-        positionIndicator: new Path.Circle {
-            center: [-100, -100]
-            radius: 10
-            strokeColor: 'blue'
-            strokeWidth: 2
-        }
-        splitIndicator: new Path.Circle {
-            center: [-100, -100]
-            radius: 5
-            strokeColor: 'blue'
-            strokeWidth: 1
-            fillColor: 'orange'
-        }
         minDistance: 0.8
         distanceRadius: 25
         distance: null
@@ -42,7 +29,6 @@ window.onload = () ->
     exportButton = new ui.exporter ipc
     distanceNum = new ui.distNum model
     timeNum = new ui.timeNum model
-    head = new ui.head 10
 
     # animation
     view.onFrame = () ->

@@ -108,7 +108,7 @@ oscudp = () ->
         time = ((new Date()).getTime() - m.startTime) / m.totalTime
         if time > 1 then time = 1
         pt = m.path.getPointAt time * m.path.length
-        m.positionIndicator.position = pt
+        m.pathData.positionIndicator.position = pt
 
         vectorDistance = m.headPosition.getDistance pt
         distance = scale vectorDistance, m.distanceCircle, m.minDistance

@@ -32,7 +32,7 @@ distanceCircle = (model) ->
         return
     return this
 
-pathEditNode = (segment, model) ->
+pathEditNode = (segment, pathData) ->
     result = new Path.Circle {
         point: [0, 0]
         radius: 5
@@ -42,14 +42,15 @@ pathEditNode = (segment, model) ->
     }
     result.position = segment.point
     result.segment = segment
+    result.pd = pathData
     result.onMouseDown = (event) ->
         @offset = event.point.subtract @position
         return
     result.onMouseDrag = (event) ->
         @segment.point = event.point.subtract @offset
         @position = event.point.subtract @offset
-        @pathEnd.position = @path.lastSegment.point
-        @pathStart.position = @path.firstSegment.point
+        @pd.pathEnd.position = @pd.path.lastSegment.point
+        @pd.pathStart.position = @pd.path.firstSegment.point
         return
     return result
 
@@ -60,7 +61,37 @@ pathData = (model) ->
     @path.fullySelected = true
     @paths = [@path]
     @index = 0
-    editNodes = []
+    @editNodes = []
+    @variants = []
+
+    @positionIndicator = new Path.Circle {
+        center: [-100, -100]
+        radius: 10
+        strokeColor: 'blue'
+        strokeWidth: 2
+    }
+
+    @splitIndicator = new Path.Circle {
+        center: [-100, -100]
+        radius: 5
+        strokeColor: 'blue'
+        strokeWidth: 1
+        fillColor: 'orange'
+    }
+    @splitIndicator.path = @path
+    @splitIndicator.variants = @variants
+    @splitIndicator.onMouseMove = (event) ->
+        loc = @path.getNearestLocation event.point
+        if loc is null then return
+        @position = loc
+        return
+    @splitIndicator.onMouseDown = (event) ->
+        if event.event.button is 2 # right mouse button
+            loc = @path.getNearestLocation @position
+            @variants.push loc.offset
+            @variants.sort (a, b) -> a - b
+            console.log @variants
+            return
 
     @pathStart = new Path.Circle {
         center: [0, 0]
@@ -80,14 +111,14 @@ pathData = (model) ->
 
     @add = (event) ->
         @path.add event.point
-        editNodes.push pathEditNode @path.segments[@path.segments.length - 1], @path.model
+        @editNodes.push pathEditNode(@path.segments[@path.segments.length - 1], this)
         @pathEnd.position = event.point
         @pathStart.position = @path.firstSegment.point
         return
 
-    @split = (position) ->
-        paths.push @path.split @path.getNearestLocation position
-        return
+    # @split = (position) ->
+    #     paths.push @path.split @path.getNearestLocation position
+    #     return
     return this
 
 canvas = (model) ->
@@ -97,7 +128,8 @@ canvas = (model) ->
         fillColor: 'white'
     }
     @grid = new grid()
-    @canvasGroup = new Group @rect, @grid.group
+    @head = new head 10
+    @canvasGroup = new Group @rect, @grid.group, @head.head
     @canvasGroup.sendToBack()
 
     @canvasGroup.m = model
@@ -106,25 +138,10 @@ canvas = (model) ->
     @canvasGroup.m.distance = new distanceCircle model
     @canvasGroup.osc =  new osc.oscudp()
 
-    @canvasGroup.m.splitIndicator.m = model
-    @canvasGroup.m.splitIndicator.onMouseMove = (event) ->
-        @position = @m.path.getNearestLocation event.point
-        return
-
-    @canvasGroup.m.splitIndicator.onMouseDown = (event) ->
-        if event.event.button is 0 # left mouse button
-            return
-        else if event.event.button is 2 # right mouse button
-            console.log "position of the thing", @position
-            loc = @m.path.getNearestLocation @position
-            newPath = @m.path.splitAt loc
-            newPath.strokeColor = 'red'
-            console.log newPath
-
     @canvasGroup.onMouseMove = (event) ->
         loc = @m.path.getNearestLocation event.point
         if loc is null then return
-        @m.splitIndicator.position = @m.path.getPointAt loc.offset
+        @m.pathData.splitIndicator.position = @m.path.getPointAt loc.offset
         return
 
     @canvasGroup.onMouseDown = (event) ->
@@ -257,4 +274,4 @@ grid = (canvas) ->
     @group = new Group @grid
     return this
 
-module.exports = { canvas, play, smooth, exporter, distNum, timeNum, head }
+module.exports = { canvas, play, smooth, exporter, distNum, timeNum }
