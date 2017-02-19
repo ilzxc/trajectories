@@ -136,7 +136,7 @@ canvas = (model) ->
     @canvasGroup.m.pathData = new pathData model
     @canvasGroup.m.path = @canvasGroup.m.pathData.path
     @canvasGroup.m.distance = new distanceCircle model
-    @canvasGroup.osc =  new osc.oscudp()
+    @osc =  new osc.oscudp()
 
     @canvasGroup.onMouseMove = (event) ->
         loc = @m.path.getNearestLocation event.point
@@ -159,7 +159,7 @@ canvas = (model) ->
 
     @update = () ->
         if @canvasGroup.m.startTime is null then return
-        @canvasGroup.osc.generate @canvasGroup.m
+        @osc.generate @canvasGroup.m
         return
 
     return this

@@ -111,7 +111,7 @@ oscudp = () ->
         m.pathData.positionIndicator.position = pt
 
         vectorDistance = m.headPosition.getDistance pt
-        distance = scale vectorDistance, m.distanceCircle, m.minDistance
+        distance = scale vectorDistance, m.distanceRadius, m.minDistance
         vel = (distance - m.prevDistance) / ((time - m.prevTime) * m.totalTime / 1000)
         doppler = doppCompute vel
         distNorm = distCompute m.minDistance, distance
