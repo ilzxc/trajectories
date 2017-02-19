@@ -15,8 +15,6 @@ Trajectories exports a single multichannel `wav` file containing:
 * `azimuth` -- angle from listener, normalized to be 0 to 1 for 360 degrees
 * `panning` -- normalized L-R panning for exaggeration (0..1)
 
-*TODO: finish this as things solidify*
-
 ### dependencies
 
 #### javascript

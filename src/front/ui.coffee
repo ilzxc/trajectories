@@ -32,11 +32,35 @@ distanceCircle = (model) ->
         return
     return this
 
+pathEditNode = (segment, model) ->
+    result = new Path.Circle {
+        point: [0, 0]
+        radius: 5
+        strokeColor: 'yellow'
+        fillColor: 'yellow'
+        opacity: .5
+    }
+    result.position = segment.point
+    result.segment = segment
+    result.onMouseDown = (event) ->
+        @offset = event.point.subtract @position
+        return
+    result.onMouseDrag = (event) ->
+        @segment.point = event.point.subtract @offset
+        @position = event.point.subtract @offset
+        @pathEnd.position = @path.lastSegment.point
+        @pathStart.position = @path.firstSegment.point
+        return
+    return result
+
 pathData = (model) ->
     @path = new Path()
     @path.strokeColor = 'black'
     @path.strokeWidth = 2
     @path.fullySelected = true
+    @paths = [@path]
+    @index = 0
+    editNodes = []
 
     @pathStart = new Path.Circle {
         center: [0, 0]
@@ -56,9 +80,13 @@ pathData = (model) ->
 
     @add = (event) ->
         @path.add event.point
+        editNodes.push pathEditNode @path.segments[@path.segments.length - 1], @path.model
         @pathEnd.position = event.point
         @pathStart.position = @path.firstSegment.point
-        console.log @pathStart.position, @pathEnd.position
+        return
+
+    @split = (position) ->
+        paths.push @path.split @path.getNearestLocation position
         return
     return this
 
@@ -78,18 +106,25 @@ canvas = (model) ->
     @canvasGroup.m.distance = new distanceCircle model
     @canvasGroup.osc =  new osc.oscudp()
 
-    @canvasGroup.test = new Path.Circle {
-        center: [-100, -100]
-        radius: 5
-        strokeColor: 'blue'
-        strokeWidth: 1
-        fillColor: 'orange'
-    }
+    @canvasGroup.m.splitIndicator.m = model
+    @canvasGroup.m.splitIndicator.onMouseMove = (event) ->
+        @position = @m.path.getNearestLocation event.point
+        return
+
+    @canvasGroup.m.splitIndicator.onMouseDown = (event) ->
+        if event.event.button is 0 # left mouse button
+            return
+        else if event.event.button is 2 # right mouse button
+            console.log "position of the thing", @position
+            loc = @m.path.getNearestLocation @position
+            newPath = @m.path.splitAt loc
+            newPath.strokeColor = 'red'
+            console.log newPath
 
     @canvasGroup.onMouseMove = (event) ->
         loc = @m.path.getNearestLocation event.point
         if loc is null then return
-        @test.position = @m.path.getPointAt loc.offset
+        @m.splitIndicator.position = @m.path.getPointAt loc.offset
         return
 
     @canvasGroup.onMouseDown = (event) ->
@@ -162,7 +197,6 @@ distNum = (model) ->
     @numbox.m = model
     @numbox.content = '' + @numbox.m.minDistance.toFixed(2) + ' m'
     @numbox.onMouseDrag = (event) ->
-        event.stopPropagation()
         @m.minDistance += event.delta.x * 0.01
         if @m.minDistance < 0.01 then @m.minDistance = 0.01
         @content = '' + @m.minDistance.toFixed(2) + ' m'

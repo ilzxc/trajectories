@@ -19,6 +19,13 @@ window.onload = () ->
             strokeColor: 'blue'
             strokeWidth: 2
         }
+        splitIndicator: new Path.Circle {
+            center: [-100, -100]
+            radius: 5
+            strokeColor: 'blue'
+            strokeWidth: 1
+            fillColor: 'orange'
+        }
         minDistance: 0.8
         distanceRadius: 25
         distance: null
