@@ -13,13 +13,16 @@ distCompute = (minDistance, currentDistance) ->
     r = minDistance / currentDistance
     r * r
 
+# azimuth computation (normalized to 0..1 for 360 degrees)
 angCompute = (pt) -> 
     result = (pt.subtract view.center).angle + 90
     (if result < 0 then 360 + result else result) / 360
 
+# pan computation (left-right) for exaggerated movement
 panCompute = (pt) ->
     Math.abs (pt.subtract view.center).angle / 180
 
+# helper scale function, curried version is used below
 scale = (x, x1, y1) -> y1 * (x / x1)
 
 # generate accepts:
@@ -36,7 +39,7 @@ generate = (path, time, minDistance, distanceRadius, headPosition, filename) ->
     distances = new Float32Array steps
     angles = new Float32Array steps
     pans = new Float32Array steps
-    dopplers[0] = 1 # first value is 0
+    dopplers[0] = 0 # first value
 
     # distanceFromHead = headPosition.getDistance path.getPointAt (path.getNearestLocation headPosition).offset
     scaler = (x) -> scale x, distanceRadius, minDistance
@@ -102,9 +105,21 @@ oscudp = () ->
         @sock.send osc.toBuffer(@proto), 56765, 'localhost'
         return
 
-    @generate = (m) ->
-        # m.path, m.startTime, m.totalTime, m.minDistance, m.distanceCircle, m.headPosition,
-        # m.prevDistance, m.prevTime
+    @generate = (m, n) ->
+        ###
+            model = {
+                totalTime: 5000
+                startTime: null
+                path: null
+                minDistance: 0.8
+                distanceRadius: 25
+                distance: null
+                headPosition: view.center
+                headDistance: null
+                prevDistance: null
+                prevTime: null
+            }
+        ###
         time = ((new Date()).getTime() - m.startTime) / m.totalTime
         if time > 1 then time = 1
         pt = m.path.getPointAt time * m.path.length

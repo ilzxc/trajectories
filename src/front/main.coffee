@@ -3,6 +3,7 @@
 ipc = require('electron').ipcRenderer
 ui = require './js/front/ui'
 compute = require './js/front/compute'
+pathNodes = require './js/front/pathNodes'
 
 paper.install window
 window.onload = () ->
@@ -24,6 +25,8 @@ window.onload = () ->
 
     # setup
     canvas = new ui.canvas model
+
+    # test = new pathNodes.node model.path, 0.5
     playButton = new ui.play model
     smoothButton = new ui.smooth model
     exportButton = new ui.exporter ipc

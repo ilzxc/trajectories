@@ -1,6 +1,7 @@
 "use strict"
 
 osc = require './compute'
+pn = require './pathNodes'
 
 ###
     two things on the todo:
@@ -51,6 +52,7 @@ pathEditNode = (segment, pathData) ->
         @position = event.point.subtract @offset
         @pd.pathEnd.position = @pd.path.lastSegment.point
         @pd.pathStart.position = @pd.path.firstSegment.point
+        @pd.update()
         return
     return result
 
@@ -58,7 +60,7 @@ pathData = (model) ->
     @path = new Path()
     @path.strokeColor = 'black'
     @path.strokeWidth = 2
-    @path.fullySelected = true
+    # @path.fullySelected = true
     @paths = [@path]
     @index = 0
     @editNodes = []
@@ -88,8 +90,8 @@ pathData = (model) ->
     @splitIndicator.onMouseDown = (event) ->
         if event.event.button is 2 # right mouse button
             loc = @path.getNearestLocation @position
-            @variants.push loc.offset
-            @variants.sort (a, b) -> a - b
+            @variants.push new pn.node @path, loc.offset
+            @variants.sort (a, b) -> a.offset - b.offset
             console.log @variants
             return
 
@@ -115,6 +117,10 @@ pathData = (model) ->
         @pathEnd.position = event.point
         @pathStart.position = @path.firstSegment.point
         return
+
+    @update = () ->
+        for v in @variants
+            v.update()
 
     # @split = (position) ->
     #     paths.push @path.split @path.getNearestLocation position
@@ -189,6 +195,7 @@ smooth = (model) ->
     @updatePath = (model) -> @button.m = model
     @button.onMouseDown = (event) ->
         @m.path.smooth()
+        @m.pathData.update()
         return
     return this
 
