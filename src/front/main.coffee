@@ -22,7 +22,7 @@ window.onload = () ->
         # playback data:
         velocity: 0 # default velocity
         offset: 0 # the offset
-        time: 0 # zero-to-one tracking
+        timeEstimate: 0 # zero-to-one tracking
         prevDistance: null
         prevTime: null
     }

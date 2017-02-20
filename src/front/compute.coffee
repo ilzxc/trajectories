@@ -154,6 +154,7 @@ oscudp = () ->
         azimuth = angCompute pt
         pan = panCompute pt
         if m.offset >= 1
+            m.timeEstimate = time
             console.log time
             m.startTime = null
             @send -1, 0, 0, 0
