@@ -120,19 +120,41 @@ oscudp = () ->
                 prevTime: null
             }
         ###
-        time = ((new Date()).getTime() - m.startTime) / m.totalTime
-        if time > 1 then time = 1
-        pt = m.path.getPointAt time * m.path.length
-        m.pathData.positionIndicator.position = pt
+        time = ((new Date()).getTime() - m.startTime) / 1000
+        dt = time - m.prevTime
+        actualOffset = m.offset * m.path.length
+        velocity = m.velocity
 
+        for v in n
+            if v.nodeModel.start < actualOffset < v.nodeModel.end
+                dp = 1 - (v.nodeModel.velocity / 100)
+                if actualOffset <= v.nodeModel.offset
+                    fadeIn = (actualOffset - v.nodeModel.start) / (v.nodeModel.offset - v.nodeModel.start)
+                    percent = 1 - (fadeIn * dp)
+                    velocity *= percent
+                    console.log 'check work: ', fadeIn, percent
+                else 
+                    fadeOut = 1 - (actualOffset - v.nodeModel.offset) / (v.nodeModel.end - v.nodeModel.offset)
+                    percent = 1 - (fadeOut * dp)
+                    velocity *= percent
+                    console.log 'check work: ', fadeOut, percent
+                break
+
+        m.offset += velocity * dt
+        if m.offset > 1 then m.offset = 1
+        pt = m.path.getPointAt m.offset * m.path.length
+        m.pathData.positionIndicator.position = pt
         vectorDistance = m.headPosition.getDistance pt
         distance = scale vectorDistance, m.distanceRadius, m.minDistance
-        vel = (distance - m.prevDistance) / ((time - m.prevTime) * m.totalTime / 1000)
+        # vel = (distance - m.prevDistance) / ((time - m.prevTime) * m.totalTime / 1000)
+        vel = (distance - m.prevDistance) / dt
+
         doppler = doppCompute vel
         distNorm = distCompute m.minDistance, distance
         azimuth = angCompute pt
         pan = panCompute pt
-        if time >= 1
+        if m.offset >= 1
+            console.log time
             m.startTime = null
             @send -1, 0, 0, 0
         else

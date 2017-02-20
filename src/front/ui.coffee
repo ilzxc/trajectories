@@ -60,7 +60,6 @@ pathData = (model) ->
     @path = new Path()
     @path.strokeColor = 'black'
     @path.strokeWidth = 2
-    # @path.fullySelected = true
     @paths = [@path]
     @index = 0
     @editNodes = []
@@ -102,7 +101,6 @@ pathData = (model) ->
         strokeWidth: 1
         fillColor: 'black'
     }
-
     @pathEnd = new Path.Circle {
         center: [0, 0]
         radius: 5
@@ -110,21 +108,16 @@ pathData = (model) ->
         strokeWidth: 1
         fillColor: 'white'
     }
-
     @add = (event) ->
         @path.add event.point
         @editNodes.push pathEditNode(@path.segments[@path.segments.length - 1], this)
         @pathEnd.position = event.point
         @pathStart.position = @path.firstSegment.point
         return
-
     @update = () ->
         for v in @variants
             v.update()
-
-    # @split = (position) ->
-    #     paths.push @path.split @path.getNearestLocation position
-    #     return
+        return
     return this
 
 canvas = (model) ->
@@ -165,7 +158,7 @@ canvas = (model) ->
 
     @update = () ->
         if @canvasGroup.m.startTime is null then return
-        @osc.generate @canvasGroup.m
+        @osc.generate @canvasGroup.m, @canvasGroup.m.pathData.variants
         return
 
     return this
@@ -179,9 +172,15 @@ play = (model) ->
     }
     @button.m = model
     @button.onMouseDown = (event) ->
-        @m.startTime = (new Date()).getTime()
-        @m.positionIndicator.position = @m.path.getPointAt 0
+        @m.pathData.positionIndicator.position = @m.path.getPointAt 0
         @m.headDistance = @m.headPosition.getDistance @m.path.getPointAt (@m.path.getNearestLocation @m.headPosition).offset
+        @m.velocity = 1000 / @m.totalTime
+        console.log @m.totalTime, @m.velocity
+        @m.offset = 0
+        @m.prevDistance = 0
+        @m.startTime = (new Date()).getTime()
+        @m.prevTime = 0
+        console.log @m
         return
     return this
 
