@@ -44,7 +44,9 @@ window.onload = () ->
     # system:
     ipc.on 'exported-file', (event, filename) ->
         if filename is null then return
-        compute.generate model.path, model.totalTime / 1000, model.minDistance, model.distanceRadius, view.center, filename
+        # compute.newgenerate model
+        # compute.generate model.path, model.totalTime / 1000, model.minDistance, model.distanceRadius, view.center, filename
+        compute.generate model, filename
 
 window.onresize = () ->
     trajRef = document.getElementById('traj').style

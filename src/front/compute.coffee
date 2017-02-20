@@ -20,49 +20,88 @@ angCompute = (pt) ->
 
 # pan computation (left-right) for exaggerated movement
 panCompute = (pt) ->
-    Math.abs (pt.subtract view.center).angle / 180
+    (Math.abs (pt.subtract view.center).angle / 180) * 2 - 1
 
 # helper scale function, curried version is used below
 scale = (x, x1, y1) -> y1 * (x / x1)
 
-# generate accepts:
-#   * the motion path we are interested in
-#   * the time it takes to traverse the path
-#   * the distance @ which the closest point to the head is from the head (this defines the overall distance for the path
-#   * headPosition (which is currently hardwired to be at the center of the view)
-generate = (path, time, minDistance, distanceRadius, headPosition, filename) ->
-    # each of the computation results is an audio channel to be stored in a 44100:32 wav file:
-    steps = Math.round time * 44100 # number of samples we will take
-    dt = path.length / steps        # increment of distance to ensure uniform motion
 
-    dopplers = new Float32Array steps
-    distances = new Float32Array steps
-    angles = new Float32Array steps
-    pans = new Float32Array steps
-    dopplers[0] = 0 # first value
+generate = (m, filename) ->
+    dt = 1 / 44100
+    offset = 0
+    baseVelocity = 1000 / m.totalTime
+    n = m.pathData.variants
+    numsamples = 0
+    len = m.path.length
+    maxVelocity = minVelocity = baseVelocity
 
-    # distanceFromHead = headPosition.getDistance path.getPointAt (path.getNearestLocation headPosition).offset
-    scaler = (x) -> scale x, distanceRadius, minDistance
+    # determine the length of the file
+    # TODO: compute maximum velocity    
+    while offset <= 1
+        velocity = baseVelocity
+        actualOffset = len * offset
+        for v in n
+            if v.nodeModel.start < actualOffset < v.nodeModel.end
+                dp = 1 - (v.nodeModel.velocity / 100)
+                if actualOffset <= v.nodeModel.offset
+                    fadeIn = (actualOffset - v.nodeModel.start) / (v.nodeModel.offset - v.nodeModel.start)
+                    percent = 1 - (fadeIn * dp)
+                    velocity *= percent
+                else 
+                    fadeOut = 1 - (actualOffset - v.nodeModel.offset) / (v.nodeModel.end - v.nodeModel.offset)
+                    percent = 1 - (fadeOut * dp)
+                    velocity *= percent
+                break
+        offset += velocity * dt
+        if velocity > maxVelocity then maxVelocity = velocity 
+        if velocity < minVelocity then minVelocity = velocity
+        ++numsamples
 
-    prevDistance = scaler (path.getPointAt 0).getDistance headPosition
+    dopplers = new Float32Array numsamples
+    distances = new Float32Array numsamples
+    angles = new Float32Array numsamples
+    pans = new Float32Array numsamples
+    velocities = new Float32Array numsamples
+    
+    scaler = (x) -> scale x, m.distanceRadius, m.minDistance
+    velInv = 1 / (maxVelocity - minVelocity)
+
+    prevDistance = scaler (m.path.getPointAt 0).getDistance m.headPosition
+    dopplers[0] = 0
     distances[0] = prevDistance
-    angles[0] = angCompute path.getPointAt 0
-    pans[0] = panCompute path.getPointAt 0
+    angles[0] = angCompute m.path.getPointAt 0
+    pans[0] = panCompute m.path.getPointAt 0
+    velocities[0] = (baseVelocity - minVelocity) * velInv
 
-    # doppler & distance
-    for i in [1...steps] # sampled @ the sampling rate
-        t = dt * i
-        pt = path.getPointAt t
-        distance = scaler pt.getDistance headPosition 
-        vel = (distance - prevDistance) * 44100
+    # reset offset & proceed with the computation:
+    offset = 0
+    for i in [0...numsamples]
+        velocity = baseVelocity
+        actualOffset = len * offset
+        for v in n
+            if v.nodeModel.start < actualOffset < v.nodeModel.end
+                dp = 1 - (v.nodeModel.velocity / 100)
+                if actualOffset <= v.nodeModel.offset
+                    fadeIn = (actualOffset - v.nodeModel.start) / (v.nodeModel.offset - v.nodeModel.start)
+                    percent = 1 - (fadeIn * dp)
+                    velocity *= percent
+                else 
+                    fadeOut = 1 - (actualOffset - v.nodeModel.offset) / (v.nodeModel.end - v.nodeModel.offset)
+                    percent = 1 - (fadeOut * dp)
+                    velocity *= percent
+                break
+        offset += velocity * dt # using scaled velocity
+        pt = m.path.getPointAt actualOffset
+        distance = scaler pt.getDistance m.headPosition
+        vel = (distance - prevDistance) * 44100 # multiply by the sampling rate
         dopplers[i] = doppCompute vel
-        distances[i] = distCompute minDistance, distance
+        distances[i] = distCompute m.minDistance, distance
         angles[i] = angCompute pt
         pans[i] = panCompute pt
+        velocities[i] = (velocity - minVelocity) * velInv
         prevDistance = distance
 
-    buf = wav.encode [dopplers, distances, angles, pans], {sampleRate: 44100, float: true, bitDepth: 32}
-
+    buf = wav.encode [dopplers, distances, angles, pans, velocities], {sampleRate: 44100, float: true, bitDepth: 32}
     fs.writeFileSync filename, buf
     return
 
@@ -132,12 +171,10 @@ oscudp = () ->
                     fadeIn = (actualOffset - v.nodeModel.start) / (v.nodeModel.offset - v.nodeModel.start)
                     percent = 1 - (fadeIn * dp)
                     velocity *= percent
-                    console.log 'check work: ', fadeIn, percent
                 else 
                     fadeOut = 1 - (actualOffset - v.nodeModel.offset) / (v.nodeModel.end - v.nodeModel.offset)
                     percent = 1 - (fadeOut * dp)
                     velocity *= percent
-                    console.log 'check work: ', fadeOut, percent
                 break
 
         m.offset += velocity * dt
@@ -146,7 +183,6 @@ oscudp = () ->
         m.pathData.positionIndicator.position = pt
         vectorDistance = m.headPosition.getDistance pt
         distance = scale vectorDistance, m.distanceRadius, m.minDistance
-        # vel = (distance - m.prevDistance) / ((time - m.prevTime) * m.totalTime / 1000)
         vel = (distance - m.prevDistance) / dt
 
         doppler = doppCompute vel
