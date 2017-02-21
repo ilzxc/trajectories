@@ -2,12 +2,12 @@
   "name": "Trajectories",
   "version": "1.0.0",
   "description": "curve editor for spinning sounds",
-  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "pack": "build --dir",
     "dist": "build"
   },
+  "main": "./index.js",
   "author": "Ilya Rostovtsev",
   "license": "BSD-2-Clause",
   "dependencies": {
@@ -26,10 +26,11 @@
   },
   "build": {
     "appId": "com.ilzxc.trajectories",
+    "asar": false,
     "mac": {
       "category": "public.app-category.music"
     },
-    "files": ["!max${/*}", "!src${/*}", "*.sh"]
+    "files": ["!max${/*}", "!src${/*}", "!*.sh", "!*.bat", "!*.md"]
   },
   "homepage": "https://github.com/ilzxc/trajectories#readme"
 }
