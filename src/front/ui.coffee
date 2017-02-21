@@ -33,7 +33,17 @@ pathEditNode = (segment, pathData) ->
     result.segment = segment
     result.pd = pathData
     result.onMouseDown = (event) ->
-        @offset = event.point.subtract @position
+        if event.event.button is 0
+            @offset = event.point.subtract @position
+        else
+            counter = 0
+            for seg in @pd.path.segments
+                if seg is segment then break
+                ++counter
+            @pd.path.removeSegment counter
+            @remove()
+            @pd.editNodes.splice counter
+            @pd.update()
         return
     result.onMouseDrag = (event) ->
         @segment.point = event.point.subtract @offset
@@ -52,6 +62,7 @@ pathData = (model) ->
     @index = 0
     @editNodes = []
     @variants = []
+    @hack = this
 
     @positionIndicator = new Path.Circle {
         center: [-100, -100]
@@ -59,7 +70,6 @@ pathData = (model) ->
         strokeColor: 'blue'
         strokeWidth: 2
     }
-
     @splitIndicator = new Path.Circle {
         center: [-100, -100]
         radius: 5
@@ -80,6 +90,12 @@ pathData = (model) ->
             @variants.push new pn.node @path, loc.offset
             @variants.sort (a, b) -> a.offset - b.offset
             return
+    @path.onMouseDown = (event) ->
+        if event.event.button is 2
+            loc = @getNearestLocation event.point
+            if loc is null then return
+            @hack.splitIndicator.position = loc
+        return
 
     @pathStart = new Path.Circle {
         center: [0, 0]
@@ -159,38 +175,13 @@ play = (model) ->
     @button.m = model
     @button.onMouseDown = (event) ->
         @m.pathData.positionIndicator.position = @m.path.getPointAt 0
-        @m.headDistance = @m.headPosition.getDistance @m.path.getPointAt (@m.path.getNearestLocation @m.headPosition).offset
+        # @m.headDistance = @m.headPosition.getDistance @m.path.getPointAt (@m.path.getNearestLocation @m.headPosition).offset
         @m.velocity = 1000 / @m.totalTime
         @m.offset = 0
         @m.prevDistance = 0
         @m.startTime = (new Date()).getTime()
         @m.prevTime = 0
         return
-    # @button.testSave = (model) ->
-    #     saveModel = {
-    #         totalTime: model.totalTime
-    #         minDistance: model.minDistance
-    #         distanceRadius: model.distanceRadius
-    #         variants: []
-    #         pathSegments: []
-    #     }
-    #     for v in model.pathData.variants
-    #         saveModel.variants.push {
-    #             offset: v.nodeModel.offset
-    #             start: v.nodeModel.start
-    #             end: v.nodeModel.end
-    #             velocity: v.nodeModel.velocity
-    #             pause: v.nodeModel.pause
-    #             easeIn: v.nodeModel.easeIn
-    #             easeOut: v.nodeModel.easeOut
-    #             behavior: v.nodeModel.behavior
-    #         }
-    #     for s in model.path.segments
-    #         saveModel.pathSegments.push {
-    #             point: [s.point.x, s.point.y]
-    #             handles: [[s.handleIn.x, s.handleIn.y], [s.handleOut.x, s.handleOut.y]]
-    #         }
-    #     return
     return this
 
 smooth = (model) ->

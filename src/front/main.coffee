@@ -12,15 +12,16 @@ window.onload = () ->
     paper.setup 'traj'
 
     model = {
+        # numeric data
         totalTime: 5000
-        startTime: null
-        path: null
         minDistance: 0.8
         distanceRadius: 25
-        distance: null
+        # graphic objects data
+        path: null        
         headPosition: view.center
-        headDistance: null
+        distance: null
         # playback data:
+        startTime: null
         velocity: 0 # default velocity
         offset: 0 # the offset
         timeEstimate: 0 # zero-to-one tracking
@@ -73,11 +74,9 @@ window.onload = () ->
                 point: [s.point.x, s.point.y]
                 handles: [[s.handleIn.x, s.handleIn.y], [s.handleOut.x, s.handleOut.y]]
             }
-        ipc.send 'test-save', [filename, JSON.stringify saveModel]
         fs.writeFileSync filename, JSON.stringify saveModel
         return
     return
-
 
 window.onresize = () ->
     trajRef = document.getElementById('traj').style

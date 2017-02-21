@@ -27,6 +27,8 @@ panCompute = (pt) ->
 # helper scale function, curried version is used below
 scale = (x, x1, y1) -> y1 * (x / x1)
 
+# stand-alone function that runs the simulation at 44.1k Hz
+# and records the computed output into a multichannel wav file
 generate = (m, filename) ->
     dt = 1 / 44100
     offset = 0
@@ -35,8 +37,7 @@ generate = (m, filename) ->
     len = m.path.length
     maxVelocity = minVelocity = baseVelocity
 
-    # determine the length of the file
-    # TODO: compute maximum velocity 
+    # determine the length of the file & maximum velocity
     n = m.pathData.variants   
     while offset <= 1
         velocity = baseVelocity
@@ -58,15 +59,18 @@ generate = (m, filename) ->
         if velocity < minVelocity then minVelocity = velocity
         ++numsamples
 
+    # create arrays for wav tracks:
     dopplers = new Float32Array numsamples
     distances = new Float32Array numsamples
     angles = new Float32Array numsamples
     pans = new Float32Array numsamples
     velocities = new Float32Array numsamples
     
+    # curry the scaler according to the distance radius
     scaler = (x) -> scale x, m.distanceRadius, m.minDistance
     velInv = 1 / (maxVelocity - minVelocity)
 
+    # initialize first values (for prevDistance & everything)
     prevDistance = scaler (m.path.getPointAt 0).getDistance m.headPosition
     dopplers[0] = 0
     distances[0] = prevDistance
@@ -102,6 +106,7 @@ generate = (m, filename) ->
         velocities[i] = (velocity - minVelocity) * velInv
         prevDistance = distance
 
+    # encode the wav file with five data tracks:
     buf = wav.encode [dopplers, distances, angles, pans, velocities], {sampleRate: 44100, float: true, bitDepth: 32}
     fs.writeFileSync filename, buf
     return
@@ -143,20 +148,6 @@ oscudp = () ->
         return
 
     @generate = (m, n) ->
-        ###
-            model = {
-                totalTime: 5000
-                startTime: null
-                path: null
-                minDistance: 0.8
-                distanceRadius: 25
-                distance: null
-                headPosition: view.center
-                headDistance: null
-                prevDistance: null
-                prevTime: null
-            }
-        ###
         time = ((new Date()).getTime() - m.startTime) / 1000
         dt = time - m.prevTime
         actualOffset = m.offset * m.path.length

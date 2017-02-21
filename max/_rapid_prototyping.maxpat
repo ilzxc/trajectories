@@ -9,7 +9,7 @@
 			"modernui" : 1
 		}
 ,
-		"rect" : [ 59.0, 79.0, 1347.0, 787.0 ],
+		"rect" : [ 210.0, 214.0, 636.0, 568.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -93,7 +93,6 @@
 						"tags" : "",
 						"style" : "",
 						"subpatcher_template" : "",
-						"visible" : 1,
 						"boxes" : [ 							{
 								"box" : 								{
 									"id" : "obj-117",
@@ -3057,7 +3056,7 @@
 					"numinlets" : 5,
 					"numoutlets" : 6,
 					"outlettype" : [ "float", "float", "float", "float", "list", "" ],
-					"patching_rect" : [ 171.220001, 82.0, 395.633331, 57.0 ],
+					"patching_rect" : [ 171.220001, 103.0, 395.633331, 57.0 ],
 					"setmode" : 1,
 					"style" : ""
 				}
@@ -3088,11 +3087,11 @@
 						"basictuning" : 440,
 						"followglobaltempo" : 0,
 						"formantcorrection" : 0,
-						"loopend" : [ 4407.416504, "ms" ],
-						"loopstart" : [ 2540.104248, "ms" ],
+						"loopend" : [ 1574.75, "ms" ],
+						"loopstart" : [ 0.0, "ms" ],
 						"mode" : "basic",
-						"originallength" : [ 0.0, "ticks" ],
-						"originaltempo" : 119.999969,
+						"originallength" : [ 7679.998047, "ticks" ],
+						"originaltempo" : 119.848915,
 						"phase" : [ 0.0, "ticks" ],
 						"pitchcorrection" : 0,
 						"quality" : "basic",
