@@ -2,6 +2,8 @@
 
 wav = require 'node-wav'
 fs = require 'fs'
+udp = require 'dgram'
+osc = require 'osc-min'
 
 # note that vs > 0 iff source is moving away from the receiver
 # and vs < 0 iff souce is moving towards the receiver
@@ -25,18 +27,17 @@ panCompute = (pt) ->
 # helper scale function, curried version is used below
 scale = (x, x1, y1) -> y1 * (x / x1)
 
-
 generate = (m, filename) ->
     dt = 1 / 44100
     offset = 0
     baseVelocity = 1000 / m.totalTime
-    n = m.pathData.variants
     numsamples = 0
     len = m.path.length
     maxVelocity = minVelocity = baseVelocity
 
     # determine the length of the file
-    # TODO: compute maximum velocity    
+    # TODO: compute maximum velocity 
+    n = m.pathData.variants   
     while offset <= 1
         velocity = baseVelocity
         actualOffset = len * offset
@@ -104,9 +105,6 @@ generate = (m, filename) ->
     buf = wav.encode [dopplers, distances, angles, pans, velocities], {sampleRate: 44100, float: true, bitDepth: 32}
     fs.writeFileSync filename, buf
     return
-
-udp = require 'dgram'
-osc = require 'osc-min'
 
 oscudp = () ->
     @sock = udp.createSocket 'udp4'
@@ -191,7 +189,6 @@ oscudp = () ->
         pan = panCompute pt
         if m.offset >= 1
             m.timeEstimate = time
-            console.log time
             m.startTime = null
             @send -1, 0, 0, 0
         else

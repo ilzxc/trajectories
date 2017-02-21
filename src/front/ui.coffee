@@ -3,18 +3,6 @@
 osc = require './compute'
 pn = require './pathNodes'
 
-###
-    two things on the todo:
-    1. make the model a part of the path, since we're already passing the path
-       everywhere, so that the buttons need to store just one reference
-    2. organize the types of path-nodes into subclasses through prototypes,
-       which should make it easy to extend additional behaviors
-
-    the harder part is trying to figure out how the tools ought to behave,
-    given the requirement to constantly cut up a path into a number of varied
-    segments.
-###
-
 distanceCircle = (model) ->
     @path = new Path.Circle {
         center: view.center
@@ -91,7 +79,6 @@ pathData = (model) ->
             loc = @path.getNearestLocation @position
             @variants.push new pn.node @path, loc.offset
             @variants.sort (a, b) -> a.offset - b.offset
-            console.log @variants
             return
 
     @pathStart = new Path.Circle {
@@ -160,7 +147,6 @@ canvas = (model) ->
         if @canvasGroup.m.startTime is null then return
         @osc.generate @canvasGroup.m, @canvasGroup.m.pathData.variants
         return
-
     return this
 
 
@@ -175,13 +161,36 @@ play = (model) ->
         @m.pathData.positionIndicator.position = @m.path.getPointAt 0
         @m.headDistance = @m.headPosition.getDistance @m.path.getPointAt (@m.path.getNearestLocation @m.headPosition).offset
         @m.velocity = 1000 / @m.totalTime
-        console.log @m.totalTime, @m.velocity
         @m.offset = 0
         @m.prevDistance = 0
         @m.startTime = (new Date()).getTime()
         @m.prevTime = 0
-        console.log @m
         return
+    # @button.testSave = (model) ->
+    #     saveModel = {
+    #         totalTime: model.totalTime
+    #         minDistance: model.minDistance
+    #         distanceRadius: model.distanceRadius
+    #         variants: []
+    #         pathSegments: []
+    #     }
+    #     for v in model.pathData.variants
+    #         saveModel.variants.push {
+    #             offset: v.nodeModel.offset
+    #             start: v.nodeModel.start
+    #             end: v.nodeModel.end
+    #             velocity: v.nodeModel.velocity
+    #             pause: v.nodeModel.pause
+    #             easeIn: v.nodeModel.easeIn
+    #             easeOut: v.nodeModel.easeOut
+    #             behavior: v.nodeModel.behavior
+    #         }
+    #     for s in model.path.segments
+    #         saveModel.pathSegments.push {
+    #             point: [s.point.x, s.point.y]
+    #             handles: [[s.handleIn.x, s.handleIn.y], [s.handleOut.x, s.handleOut.y]]
+    #         }
+    #     return
     return this
 
 smooth = (model) ->

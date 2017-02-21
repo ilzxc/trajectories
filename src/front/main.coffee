@@ -4,6 +4,7 @@ ipc = require('electron').ipcRenderer
 ui = require './js/front/ui'
 compute = require './js/front/compute'
 pathNodes = require './js/front/pathNodes'
+fs = require 'fs'
 
 paper.install window
 window.onload = () ->
@@ -44,9 +45,39 @@ window.onload = () ->
     # system:
     ipc.on 'exported-file', (event, filename) ->
         if filename is null then return
-        # compute.newgenerate model
-        # compute.generate model.path, model.totalTime / 1000, model.minDistance, model.distanceRadius, view.center, filename
         compute.generate model, filename
+        return
+
+    ipc.on 'saved-file', (event, filename) ->
+        if filename is null then return
+        saveModel = {
+            totalTime: model.totalTime
+            minDistance: model.minDistance
+            distanceRadius: model.distanceRadius
+            variants: []
+            pathSegments: []
+        }
+        for v in model.pathData.variants
+            saveModel.variants.push {
+                offset: v.nodeModel.offset
+                start: v.nodeModel.start
+                end: v.nodeModel.end
+                velocity: v.nodeModel.velocity
+                pause: v.nodeModel.pause
+                easeIn: v.nodeModel.easeIn
+                easeOut: v.nodeModel.easeOut
+                behavior: v.nodeModel.behavior
+            }
+        for s in model.path.segments
+            saveModel.pathSegments.push {
+                point: [s.point.x, s.point.y]
+                handles: [[s.handleIn.x, s.handleIn.y], [s.handleOut.x, s.handleOut.y]]
+            }
+        ipc.send 'test-save', [filename, JSON.stringify saveModel]
+        fs.writeFileSync filename, JSON.stringify saveModel
+        return
+    return
+
 
 window.onresize = () ->
     trajRef = document.getElementById('traj').style
