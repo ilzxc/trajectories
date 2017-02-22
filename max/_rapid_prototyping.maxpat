@@ -9,7 +9,7 @@
 			"modernui" : 1
 		}
 ,
-		"rect" : [ 210.0, 214.0, 636.0, 568.0 ],
+		"rect" : [ 716.0, 184.0, 636.0, 568.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -110,7 +110,7 @@
 											"modernui" : 1
 										}
 ,
-										"rect" : [ 742.0, 174.0, 640.0, 480.0 ],
+										"rect" : [ 811.0, 260.0, 640.0, 480.0 ],
 										"bglocked" : 0,
 										"openinpresentation" : 0,
 										"default_fontsize" : 12.0,
@@ -3091,7 +3091,7 @@
 						"loopstart" : [ 0.0, "ms" ],
 						"mode" : "basic",
 						"originallength" : [ 7679.998047, "ticks" ],
-						"originaltempo" : 119.848915,
+						"originaltempo" : 34.665165,
 						"phase" : [ 0.0, "ticks" ],
 						"pitchcorrection" : 0,
 						"quality" : "basic",
