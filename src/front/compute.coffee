@@ -8,7 +8,7 @@ osc = require 'osc-min'
 # note that vs > 0 iff source is moving away from the receiver
 # and vs < 0 iff souce is moving towards the receiver
 doppCompute = (vs) ->
-    1 - (-340.29 / (340.29 + vs))
+    (340.29 / (340.29 + vs)) - 1
 
 # sound levels attenuation function for distance from the listener
 distCompute = (minDistance, currentDistance) -> 
