@@ -26,7 +26,6 @@
   },
   "build": {
     "appId": "com.ilzxc.trajectories",
-    "asar": false,
     "mac": {
       "category": "public.app-category.music"
     },

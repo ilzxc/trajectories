@@ -44,6 +44,9 @@ window.onload = () ->
         canvas.update()
 
     # system:
+    ipc.on 'clear-canvas', (event) ->
+        location.reload()
+        return
     ipc.on 'exported-file', (event, filename) ->
         if filename is null then return
         compute.generate model, filename

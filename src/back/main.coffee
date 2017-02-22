@@ -27,7 +27,7 @@ template = [
     {
         label: 'File'
         submenu: [
-            { label: 'New...', accelerator: 'CmdOrCtrl+N', click: () -> return }
+            { label: 'New...', accelerator: 'CmdOrCtrl+N', click: () -> mainWindow.webContents.send 'clear-canvas' }
             { type: 'separator' }
             { label: 'Open...', accelerator: 'CmdOrCtrl+O', click: () -> return  }
             { label: 'Save', accelerator: 'CmdOrCtrl+S', click: () -> saver()  }

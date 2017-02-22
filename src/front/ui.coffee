@@ -120,6 +120,8 @@ pathData = (model) ->
     @update = () ->
         for v in @variants
             v.update()
+        @pathEnd.position = event.point
+        @pathStart.position = @path.firstSegment.point
         return
     return this
 
