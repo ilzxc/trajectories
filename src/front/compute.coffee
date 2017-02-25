@@ -27,7 +27,21 @@ panCompute = (pt) ->
 # helper scale function, curried version is used below
 scale = (x, x1, y1) -> y1 * (x / x1)
 
-# stand-alone function that runs the simulation at 44.1k Hz
+# figure out % multiplier for the velocity of the sound
+velPercent = (variants, actualOffset) ->
+    for v in variants
+        if v.nodeModel.start < actualOffset < v.nodeModel.end
+                dp = 1 - (v.nodeModel.velocity / 100)
+                if actualOffset <= v.nodeModel.offset
+                    fadeIn = (actualOffset - v.nodeModel.start) / (v.nodeModel.offset - v.nodeModel.start)
+                    return 1 - (fadeIn * dp)
+                else 
+                    fadeOut = 1 - (actualOffset - v.nodeModel.offset) / (v.nodeModel.end - v.nodeModel.offset)
+                    return 1 - (fadeOut * dp)
+                break
+    return 1
+
+# stand-alone function that runs the simulation at 44.1 kHz
 # and records the computed output into a multichannel wav file
 generate = (m, filename) ->
     dt = 1 / 44100
@@ -42,18 +56,7 @@ generate = (m, filename) ->
     while offset <= 1
         velocity = baseVelocity
         actualOffset = len * offset
-        for v in n
-            if v.nodeModel.start < actualOffset < v.nodeModel.end
-                dp = 1 - (v.nodeModel.velocity / 100)
-                if actualOffset <= v.nodeModel.offset
-                    fadeIn = (actualOffset - v.nodeModel.start) / (v.nodeModel.offset - v.nodeModel.start)
-                    percent = 1 - (fadeIn * dp)
-                    velocity *= percent
-                else 
-                    fadeOut = 1 - (actualOffset - v.nodeModel.offset) / (v.nodeModel.end - v.nodeModel.offset)
-                    percent = 1 - (fadeOut * dp)
-                    velocity *= percent
-                break
+        velocity *= velPercent n, actualOffset
         offset += velocity * dt
         if velocity > maxVelocity then maxVelocity = velocity 
         if velocity < minVelocity then minVelocity = velocity
@@ -68,33 +71,23 @@ generate = (m, filename) ->
     
     # curry the scaler according to the distance radius
     scaler = (x) -> scale x, m.distanceRadius, m.minDistance
-    velInv = 1 / (maxVelocity - minVelocity)
+    maxVelInv = 1 / (maxVelocity - baseVelocity)
+    minVelInv = 1 / (baseVelocity - minVelocity)
 
     # initialize first values (for prevDistance & everything)
     prevDistance = scaler (m.path.getPointAt 0).getDistance m.headPosition
-    dopplers[0] = 0
+    # dopplers[0] = 0
     distances[0] = prevDistance
     angles[0] = angCompute m.path.getPointAt 0
     pans[0] = panCompute m.path.getPointAt 0
-    velocities[0] = (baseVelocity - minVelocity) * velInv
+    # velocities[0] = (baseVelocity - minVelocity) * velInv
 
     # reset offset & proceed with the computation:
     offset = 0
-    for i in [0...numsamples]
+    for i in [1...numsamples]
         velocity = baseVelocity
         actualOffset = len * offset
-        for v in n
-            if v.nodeModel.start < actualOffset < v.nodeModel.end
-                dp = 1 - (v.nodeModel.velocity / 100)
-                if actualOffset <= v.nodeModel.offset
-                    fadeIn = (actualOffset - v.nodeModel.start) / (v.nodeModel.offset - v.nodeModel.start)
-                    percent = 1 - (fadeIn * dp)
-                    velocity *= percent
-                else 
-                    fadeOut = 1 - (actualOffset - v.nodeModel.offset) / (v.nodeModel.end - v.nodeModel.offset)
-                    percent = 1 - (fadeOut * dp)
-                    velocity *= percent
-                break
+        velocity *= velPercent n, actualOffset
         offset += velocity * dt # using scaled velocity
         pt = m.path.getPointAt actualOffset
         distance = scaler pt.getDistance m.headPosition
@@ -103,8 +96,11 @@ generate = (m, filename) ->
         distances[i] = distCompute m.minDistance, distance
         angles[i] = angCompute pt
         pans[i] = panCompute pt
-        velocities[i] = (velocity - minVelocity) * velInv
+        velocities[i] = if (velocity > baseVelocity) then (velocity - maxVelocity) * maxVelInv + 1 else if velocity < baseVelocity then (velocity - minVelocity) * minVelInv - 1 else 0
         prevDistance = distance
+
+    dopplers[0] = dopplers[1]
+    velocities[0] = velocities[1]
 
     # encode the wav file with five data tracks:
     buf = wav.encode [dopplers, distances, angles, pans, velocities], {sampleRate: 44100, float: true, bitDepth: 32}
@@ -151,20 +147,7 @@ oscudp = () ->
         time = ((new Date()).getTime() - m.startTime) / 1000
         dt = time - m.prevTime
         actualOffset = m.offset * m.path.length
-        velocity = m.velocity
-
-        for v in n
-            if v.nodeModel.start < actualOffset < v.nodeModel.end
-                dp = 1 - (v.nodeModel.velocity / 100)
-                if actualOffset <= v.nodeModel.offset
-                    fadeIn = (actualOffset - v.nodeModel.start) / (v.nodeModel.offset - v.nodeModel.start)
-                    percent = 1 - (fadeIn * dp)
-                    velocity *= percent
-                else 
-                    fadeOut = 1 - (actualOffset - v.nodeModel.offset) / (v.nodeModel.end - v.nodeModel.offset)
-                    percent = 1 - (fadeOut * dp)
-                    velocity *= percent
-                break
+        velocity = m.velocity * velPercent n, actualOffset
 
         m.offset += velocity * dt
         if m.offset > 1 then m.offset = 1
