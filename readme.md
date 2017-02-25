@@ -14,6 +14,7 @@ Trajectories exports a single multichannel `wav` file containing:
 * `distance` -- square law for distance-based attenuation
 * `azimuth` -- angle from listener, normalized to be 0 to 1 for 360 degrees
 * `panning` -- normalized L-R panning for exaggeration (0..1)
+* `velocity` -- average is set to 0, accelerations & decelerations are mapped to [0..1] and [0..-1], respectively
 
 ### dependencies
 
@@ -36,7 +37,7 @@ npm install -g coffee-script electron bower
 for everything else:
 
 ```
-npm install
+npm install --production
 bower install
 ```
 
