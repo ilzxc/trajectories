@@ -37,7 +37,7 @@ npm install -g coffee-script electron bower
 for everything else:
 
 ```
-npm install --production
+npm install --only=prod
 bower install
 ```
 
