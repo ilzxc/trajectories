@@ -38,6 +38,70 @@
 		"subpatcher_template" : "",
 		"boxes" : [ 			{
 				"box" : 				{
+					"id" : "obj-31",
+					"maxclass" : "newobj",
+					"numinlets" : 2,
+					"numoutlets" : 1,
+					"outlettype" : [ "signal" ],
+					"patching_rect" : [ 492.419983, 403.0, 42.0, 22.0 ],
+					"style" : "",
+					"text" : "*~ 0.2"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-29",
+					"maxclass" : "newobj",
+					"numinlets" : 2,
+					"numoutlets" : 1,
+					"outlettype" : [ "signal" ],
+					"patching_rect" : [ 492.419983, 364.0, 29.5, 22.0 ],
+					"style" : "",
+					"text" : "*~"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-27",
+					"maxclass" : "newobj",
+					"numinlets" : 2,
+					"numoutlets" : 1,
+					"outlettype" : [ "signal" ],
+					"patching_rect" : [ 502.919983, 327.0, 29.5, 22.0 ],
+					"style" : "",
+					"text" : "*~"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-21",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "signal" ],
+					"patching_rect" : [ 812.0, 343.0, 50.0, 22.0 ],
+					"style" : "",
+					"text" : "sig~ 20"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-5",
+					"maxclass" : "spectroscope~",
+					"numinlets" : 2,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 671.0, 427.0, 300.0, 100.0 ],
+					"style" : ""
+				}
+
+			}
+, 			{
+				"box" : 				{
 					"id" : "obj-25",
 					"maxclass" : "scope~",
 					"numinlets" : 2,
@@ -54,22 +118,9 @@
 					"numinlets" : 3,
 					"numoutlets" : 1,
 					"outlettype" : [ "signal" ],
-					"patching_rect" : [ 790.0, 140.0, 78.0, 22.0 ],
+					"patching_rect" : [ 898.0, 139.0, 78.0, 22.0 ],
 					"style" : "",
-					"text" : "velocity~ 0 2"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"id" : "obj-21",
-					"maxclass" : "newobj",
-					"numinlets" : 1,
-					"numoutlets" : 1,
-					"outlettype" : [ "signal" ],
-					"patching_rect" : [ 846.0, 324.0, 53.0, 22.0 ],
-					"style" : "",
-					"text" : "sig~ 50."
+					"text" : "velocity~ 0 1"
 				}
 
 			}
@@ -80,7 +131,7 @@
 					"numinlets" : 6,
 					"numoutlets" : 1,
 					"outlettype" : [ "signal" ],
-					"patching_rect" : [ 709.5, 314.0, 92.0, 22.0 ],
+					"patching_rect" : [ 741.5, 313.0, 92.0, 22.0 ],
 					"style" : "",
 					"text" : "scale~ 0 1 3 12"
 				}
@@ -93,7 +144,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "signal" ],
-					"patching_rect" : [ 709.5, 283.0, 77.0, 22.0 ],
+					"patching_rect" : [ 741.5, 283.0, 77.0, 22.0 ],
 					"style" : "",
 					"text" : "threshold~ 0"
 				}
@@ -106,7 +157,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "signal" ],
-					"patching_rect" : [ 635.0, 307.0, 46.0, 22.0 ],
+					"patching_rect" : [ 671.0, 303.0, 46.0, 22.0 ],
 					"style" : "",
 					"text" : "noise~"
 				}
@@ -119,9 +170,9 @@
 					"numinlets" : 3,
 					"numoutlets" : 1,
 					"outlettype" : [ "signal" ],
-					"patching_rect" : [ 635.0, 351.0, 168.0, 22.0 ],
+					"patching_rect" : [ 671.0, 374.0, 160.0, 22.0 ],
 					"style" : "",
-					"text" : "filterlfo~ 50 200 bandpass 7.7"
+					"text" : "filterlfo~ 7.7 90 190 lowpass"
 				}
 
 			}
@@ -1865,8 +1916,8 @@
 						"basictuning" : 440,
 						"followglobaltempo" : 0,
 						"formantcorrection" : 0,
-						"loopend" : [ 0.0, "ms" ],
-						"loopstart" : [ 0.0, "ms" ],
+						"loopend" : [ 21607.604167, "ms" ],
+						"loopstart" : [ 5502.375, "ms" ],
 						"mode" : "basic",
 						"originallength" : [ 0.0, "ticks" ],
 						"originaltempo" : 120.0,
@@ -1975,9 +2026,20 @@
  ],
 		"lines" : [ 			{
 				"patchline" : 				{
-					"destination" : [ "obj-30", 1 ],
+					"destination" : [ "obj-27", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
+					"order" : 1,
+					"source" : [ "obj-1", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-5", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"order" : 0,
 					"source" : [ "obj-1", 0 ]
 				}
 
@@ -2068,6 +2130,17 @@
 					"destination" : [ "obj-25", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
+					"order" : 0,
+					"source" : [ "obj-23", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-27", 1 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"order" : 1,
 					"source" : [ "obj-23", 0 ]
 				}
 
@@ -2087,6 +2160,15 @@
 					"disabled" : 0,
 					"hidden" : 0,
 					"source" : [ "obj-24", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-29", 1 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-27", 0 ]
 				}
 
 			}
@@ -2114,6 +2196,15 @@
 			}
 , 			{
 				"patchline" : 				{
+					"destination" : [ "obj-31", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-29", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
 					"destination" : [ "obj-85", 2 ],
 					"disabled" : 0,
 					"hidden" : 0,
@@ -2127,6 +2218,15 @@
 					"disabled" : 0,
 					"hidden" : 0,
 					"source" : [ "obj-30", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-30", 1 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-31", 0 ]
 				}
 
 			}
@@ -2308,10 +2408,20 @@
 			}
 , 			{
 				"patchline" : 				{
-					"destination" : [ "obj-30", 0 ],
+					"destination" : [ "obj-29", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
 					"order" : 1,
+					"source" : [ "obj-9", 1 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-30", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"order" : 2,
 					"source" : [ "obj-9", 1 ]
 				}
 
@@ -2360,67 +2470,67 @@
 ,
 		"dependency_cache" : [ 			{
 				"name" : "panner.maxpat",
-				"bootpath" : "~/Documents/code/trajectories/max",
+				"bootpath" : "~/Documents/code/trajectories/max/core",
 				"type" : "JSON",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "azi2speakers.maxpat",
-				"bootpath" : "~/Documents/code/trajectories/max",
+				"bootpath" : "~/Documents/code/trajectories/max/core",
 				"type" : "JSON",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "azi.gendsp",
-				"bootpath" : "~/Documents/code/trajectories/max",
+				"bootpath" : "~/Documents/code/trajectories/max/core",
 				"type" : "gDSP",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "pnr.maxpat",
-				"bootpath" : "~/Documents/code/trajectories/max",
+				"bootpath" : "~/Documents/code/trajectories/max/core",
 				"type" : "JSON",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "buffers.maxpat",
-				"bootpath" : "~/Documents/code/trajectories/max",
+				"bootpath" : "~/Documents/code/trajectories/max/core",
 				"type" : "JSON",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "createBuffer.js",
-				"bootpath" : "~/Documents/code/trajectories/max",
+				"bootpath" : "~/Documents/code/trajectories/max/core",
 				"type" : "TEXT",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "slider~.maxpat",
-				"bootpath" : "~/Documents/code/trajectories/max",
+				"bootpath" : "~/Documents/code/trajectories/max/lib",
 				"type" : "JSON",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "filterlfo~.maxpat",
-				"bootpath" : "~/Documents/code/trajectories/max",
+				"bootpath" : "~/Documents/code/trajectories/max/instruments",
 				"type" : "JSON",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "lfo~.maxpat",
-				"bootpath" : "~/Documents/code/trajectories/max",
+				"bootpath" : "~/Documents/code/trajectories/max/lib",
 				"type" : "JSON",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "threshold~.maxpat",
-				"bootpath" : "~/Documents/code/trajectories/max",
+				"bootpath" : "~/Documents/code/trajectories/max/lib",
 				"type" : "JSON",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "velocity~.maxpat",
-				"bootpath" : "~/Documents/code/trajectories/max",
+				"bootpath" : "~/Documents/code/trajectories/max/lib",
 				"type" : "JSON",
 				"implicit" : 1
 			}

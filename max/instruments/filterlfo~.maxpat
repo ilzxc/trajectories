@@ -70,7 +70,7 @@
 					"maxclass" : "inlet",
 					"numinlets" : 0,
 					"numoutlets" : 1,
-					"outlettype" : [ "signal" ],
+					"outlettype" : [ "" ],
 					"patching_rect" : [ 160.0, 61.0, 30.0, 30.0 ],
 					"style" : ""
 				}
@@ -83,9 +83,9 @@
 					"numinlets" : 3,
 					"numoutlets" : 5,
 					"outlettype" : [ "signal", "signal", "signal", "signal", "signal" ],
-					"patching_rect" : [ 60.0, 142.0, 119.0, 22.0 ],
+					"patching_rect" : [ 60.0, 142.0, 121.0, 22.0 ],
 					"style" : "",
-					"text" : "filtercoeff~ #3"
+					"text" : "filtercoeff~ #4"
 				}
 
 			}
