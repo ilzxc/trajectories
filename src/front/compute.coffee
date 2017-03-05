@@ -172,4 +172,4 @@ oscudp = () ->
         return
     return this
 
-module.exports = { generate, oscudp }
+module.exports = { generate, oscudp, doppCompute, distCompute, angCompute, panCompute }
