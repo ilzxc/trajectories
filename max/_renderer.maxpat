@@ -38,6 +38,32 @@
 		"subpatcher_template" : "",
 		"boxes" : [ 			{
 				"box" : 				{
+					"id" : "obj-88",
+					"maxclass" : "newobj",
+					"numinlets" : 2,
+					"numoutlets" : 2,
+					"outlettype" : [ "bang", "" ],
+					"patching_rect" : [ 27.0, 648.75, 51.0, 22.0 ],
+					"style" : "",
+					"text" : "sel 1"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-87",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 2,
+					"outlettype" : [ "bang", "int" ],
+					"patching_rect" : [ 27.0, 678.0, 51.0, 22.0 ],
+					"style" : "",
+					"text" : "t b 1"
+				}
+
+			}
+, 			{
+				"box" : 				{
 					"id" : "obj-86",
 					"maxclass" : "newobj",
 					"numinlets" : 1,
@@ -206,7 +232,7 @@
 					}
 ,
 					"style" : "",
-					"text" : "groove~ noise2 2 @loop 1"
+					"text" : "groove~ noise2 2 @loop 0"
 				}
 
 			}
@@ -270,7 +296,7 @@
 					}
 ,
 					"style" : "",
-					"text" : "groove~ noise1 2 @loop 1"
+					"text" : "groove~ noise1 2 @loop 0"
 				}
 
 			}
@@ -334,7 +360,7 @@
 					}
 ,
 					"style" : "",
-					"text" : "groove~ ring2 2 @loop 1"
+					"text" : "groove~ ring2 2 @loop 0"
 				}
 
 			}
@@ -741,7 +767,7 @@
 					"numinlets" : 0,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 27.220001, 678.0, 51.0, 22.0 ],
+					"patching_rect" : [ 27.0, 593.0, 51.0, 22.0 ],
 					"style" : "",
 					"text" : "r _sfrec"
 				}
@@ -2080,7 +2106,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "int" ],
 					"parameter_enable" : 0,
-					"patching_rect" : [ 27.220001, 704.0, 25.5, 25.5 ],
+					"patching_rect" : [ 27.0, 619.0, 25.5, 25.5 ],
 					"style" : ""
 				}
 
@@ -2265,7 +2291,7 @@
 					"numinlets" : 3,
 					"numoutlets" : 3,
 					"outlettype" : [ "signal", "signal", "signal" ],
-					"patching_rect" : [ 382.400024, 270.0, 178.0, 22.0 ],
+					"patching_rect" : [ 382.400024, 270.0, 142.0, 22.0 ],
 					"saved_object_attributes" : 					{
 						"basictuning" : 440,
 						"followglobaltempo" : 0,
@@ -2282,7 +2308,7 @@
 					}
 ,
 					"style" : "",
-					"text" : "groove~ ring1 2 @loop 1"
+					"text" : "groove~ ring1 2 @loop 0"
 				}
 
 			}
@@ -2357,7 +2383,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 59.0, 704.0, 36.5, 22.0 ],
+					"patching_rect" : [ 76.0, 704.0, 36.5, 22.0 ],
 					"style" : "",
 					"text" : "open"
 				}
@@ -2415,6 +2441,15 @@
 					"disabled" : 0,
 					"hidden" : 0,
 					"source" : [ "obj-17", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-88", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-19", 0 ]
 				}
 
 			}
@@ -2852,6 +2887,42 @@
 					"hidden" : 0,
 					"order" : 0,
 					"source" : [ "obj-86", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-14", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-87", 1 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-28", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-87", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-14", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-88", 1 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-87", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-88", 0 ]
 				}
 
 			}
