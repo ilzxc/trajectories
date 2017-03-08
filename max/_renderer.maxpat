@@ -9,7 +9,7 @@
 			"modernui" : 1
 		}
 ,
-		"rect" : [ 59.0, 79.0, 1347.0, 787.0 ],
+		"rect" : [ 58.0, 79.0, 1347.0, 787.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -38,6 +38,20 @@
 		"subpatcher_template" : "",
 		"boxes" : [ 			{
 				"box" : 				{
+					"id" : "obj-121",
+					"maxclass" : "message",
+					"numinlets" : 2,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 497.0, 366.0, 29.5, 22.0 ],
+					"presentation_rect" : [ 498.0, 367.0, 0.0, 0.0 ],
+					"style" : "",
+					"text" : "5"
+				}
+
+			}
+, 			{
+				"box" : 				{
 					"id" : "obj-118",
 					"maxclass" : "newobj",
 					"numinlets" : 1,
@@ -45,7 +59,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 83.000008, 366.0, 84.0, 22.0 ],
 					"style" : "",
-					"text" : "autonamer v3"
+					"text" : "autonamer v5"
 				}
 
 			}
@@ -86,7 +100,7 @@
 					"patching_rect" : [ 1048.786621, 544.0, 112.0, 22.0 ],
 					"presentation_rect" : [ 651.900024, 105.0, 0.0, 0.0 ],
 					"style" : "",
-					"text" : "16__lapse.wav"
+					"text" : "loop_21__txtur.wav"
 				}
 
 			}
@@ -303,7 +317,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 819.786621, 544.0, 112.0, 22.0 ],
 					"style" : "",
-					"text" : "09__einstein.wav"
+					"text" : "loop_80__lfp.wav"
 				}
 
 			}
@@ -510,7 +524,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 193.775024, 751.0, 156.0, 22.0 ],
 					"style" : "",
-					"text" : "open v1_20_n00.wav wave"
+					"text" : "open v5_20_n00.wav wave"
 				}
 
 			}
@@ -831,7 +845,7 @@
 					}
 ,
 					"style" : "",
-					"text" : "groove~ noise1 1 @loop 0"
+					"text" : "groove~ noise1 1 @loop 1"
 				}
 
 			}
@@ -2835,7 +2849,7 @@
 					}
 ,
 					"style" : "",
-					"text" : "groove~ ring1 1 @loop 0"
+					"text" : "groove~ ring1 1 @loop 1"
 				}
 
 			}
@@ -3083,6 +3097,15 @@
 					"disabled" : 0,
 					"hidden" : 0,
 					"source" : [ "obj-12", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-36", 1 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-121", 0 ]
 				}
 
 			}
@@ -4014,7 +4037,7 @@
 			}
 , 			{
 				"name" : "autonamer.maxpat",
-				"bootpath" : "~/Documents/music/_Scènes/ontologies/control_DanceOf5/linearToSpiral",
+				"bootpath" : "~/Documents/code/trajectories/max/lib",
 				"type" : "JSON",
 				"implicit" : 1
 			}
