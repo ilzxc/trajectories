@@ -45,7 +45,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 83.000008, 366.0, 84.0, 22.0 ],
 					"style" : "",
-					"text" : "autonamer v1"
+					"text" : "autonamer v3"
 				}
 
 			}

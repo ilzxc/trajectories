@@ -29,9 +29,15 @@ Trajectories exports a single multichannel `wav` file containing:
 
 for global dependencies on OSX:
 
+if you don't have node:
 ```
 brew install node
-npm install -g coffee-script electron bower
+```
+
+after getting node:
+
+```
+sudo npm install -g coffee-script electron bower
 ```
 
 for everything else:
