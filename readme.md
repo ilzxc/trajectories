@@ -64,5 +64,5 @@ electron .
 * [odot](https://github.com/CNMAT/CNMAT-odot/releases)
 * ~~[vbap](http://legacy.spa.aalto.fi/software/vbap/MAX_MSP/VBAP_v_1.03_OSXunivers_windows/)~~ -- replaced by own audio-rate implementation
 * [HISSTools](http://www.thehiss.org) -- [paper and externals link](http://eprints.hud.ac.uk/14897/)
-* [HRTF impulse responses](http://sound.media.mit.edu/resources/KEMAR.html)
+* [HRTF impulse responses](http://sound.media.mit.edu/resources/KEMAR.html) -- already included in the repo.
 
