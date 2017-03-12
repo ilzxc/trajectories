@@ -18,6 +18,7 @@ distCompute = (minDistance, currentDistance) ->
 # azimuth computation (normalized to 0..1 for 360 degrees)
 angCompute = (pt) -> 
     result = (pt.subtract view.center).angle + 90
+    result = (if result == 360 then 359.9 else result)
     (if result < 0 then 360 + result else result) / 360
 
 # pan computation (left-right) for exaggerated movement

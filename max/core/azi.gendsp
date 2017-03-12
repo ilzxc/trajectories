@@ -9,7 +9,7 @@
 			"modernui" : 1
 		}
 ,
-		"rect" : [ 512.0, 361.0, 334.0, 227.0 ],
+		"rect" : [ 635.0, 234.0, 334.0, 227.0 ],
 		"editing_bgcolor" : [ 0.9, 0.9, 0.9, 1.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
@@ -51,7 +51,7 @@
 			}
 , 			{
 				"box" : 				{
-					"code" : "offset = in1 * 72;\r\nout1 = int(offset) % 72;\r\nout2 = offset % 1.0;\r\n",
+					"code" : "offset = in1 * 72;\r\nout1 = int(offset) % 72;\r\nout2 = offset % 0.999;\r\n",
 					"fontface" : 0,
 					"fontname" : "Arial",
 					"fontsize" : 12.0,

@@ -9,7 +9,7 @@
 			"modernui" : 1
 		}
 ,
-		"rect" : [ 84.0, 165.0, 1322.0, 385.0 ],
+		"rect" : [ 80.0, 349.0, 1322.0, 385.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -1940,11 +1940,11 @@
 					"id" : "obj-11",
 					"maxclass" : "newobj",
 					"numinlets" : 2,
-					"numoutlets" : 73,
-					"outlettype" : [ "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal" ],
-					"patching_rect" : [ 111.0, 114.0, 1163.394165, 22.0 ],
+					"numoutlets" : 72,
+					"outlettype" : [ "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal" ],
+					"patching_rect" : [ 111.0, 114.0, 1147.500122, 22.0 ],
 					"style" : "",
-					"text" : "gate~ 73 0"
+					"text" : "gate~ 72 0"
 				}
 
 			}
@@ -1969,7 +1969,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "signal", "signal" ],
-					"patching_rect" : [ 16.5, 171.0, 62.5, 22.0 ],
+					"patching_rect" : [ 16.5, 67.0, 62.5, 22.0 ],
 					"style" : "",
 					"text" : "gen~ azi"
 				}
@@ -1981,7 +1981,7 @@
 					"destination" : [ "obj-13", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
-					"midpoints" : [ 26.0, 204.0, 96.0, 204.0, 96.0, 69.0, 120.5, 69.0 ],
+					"midpoints" : [ 26.0, 103.0, 96.0, 103.0, 96.0, 69.0, 120.5, 69.0 ],
 					"source" : [ "obj-1", 0 ]
 				}
 
