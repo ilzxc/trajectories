@@ -224,28 +224,15 @@
 			}
 , 			{
 				"box" : 				{
-					"id" : "obj-57",
-					"maxclass" : "newobj",
-					"numinlets" : 2,
-					"numoutlets" : 2,
-					"outlettype" : [ "bang", "" ],
-					"patching_rect" : [ 312.0, 397.0, 36.0, 22.0 ],
-					"style" : "",
-					"text" : "sel 3"
-				}
-
-			}
-, 			{
-				"box" : 				{
 					"id" : "obj-40",
 					"linecount" : 3,
 					"maxclass" : "message",
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 362.5, 721.25, 311.0, 49.0 ],
+					"patching_rect" : [ 193.775024, 16.0, 311.0, 49.0 ],
 					"style" : "",
-					"text" : "replace \"Macintosh HD:/Users/ilyarostovtsev/Documents/music/_Scenes/ontologies/arrives/arrive05.wav\""
+					"text" : "replace \"Macintosh HD:/Users/ilyarostovtsev/Documents/music/_Scenes/ontologies/control_DanceOf5/linearToSpiral/20.wav\""
 				}
 
 			}
@@ -1101,9 +1088,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 83.000008, 366.0, 102.0, 22.0 ],
+					"patching_rect" : [ 83.000008, 366.0, 99.0, 22.0 ],
 					"style" : "",
-					"text" : "autonamer TEST"
+					"text" : "autonamer d5V5"
 				}
 
 			}
@@ -1141,7 +1128,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 1048.786621, 544.0, 112.0, 22.0 ],
 					"style" : "",
-					"text" : "00__utterance.wav"
+					"text" : "22__utterance.wav"
 				}
 
 			}
@@ -1343,14 +1330,13 @@
 , 			{
 				"box" : 				{
 					"id" : "obj-133",
-					"linecount" : 2,
 					"maxclass" : "message",
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 819.786621, 544.0, 112.0, 35.0 ],
+					"patching_rect" : [ 819.786621, 544.0, 112.0, 22.0 ],
 					"style" : "",
-					"text" : "13__harmonics.wav"
+					"text" : "00__lfp.wav"
 				}
 
 			}
@@ -1516,7 +1502,7 @@
 					"maxclass" : "newobj",
 					"numinlets" : 4,
 					"numoutlets" : 5,
-					"outlettype" : [ "int", "", "int", "int", "int" ],
+					"outlettype" : [ "int", "", "int", "int", "" ],
 					"patching_rect" : [ 27.000006, 397.0, 75.0, 22.0 ],
 					"style" : "",
 					"text" : "autorecord2"
@@ -1551,14 +1537,14 @@
 , 			{
 				"box" : 				{
 					"id" : "obj-94",
-					"linecount" : 3,
+					"linecount" : 2,
 					"maxclass" : "message",
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 193.775024, 726.5, 156.0, 49.0 ],
+					"patching_rect" : [ 193.775024, 726.5, 156.0, 35.0 ],
 					"style" : "",
-					"text" : "open TEST_arrive05_n00.wav wave"
+					"text" : "open d5V5_20_n00.wav wave"
 				}
 
 			}
@@ -3689,6 +3675,16 @@
 			}
 , 			{
 				"patchline" : 				{
+					"destination" : [ "obj-1", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"midpoints" : [ 92.500006, 435.0, 57.166672, 435.0, 57.166672, 220.0, 73.833336, 220.0 ],
+					"source" : [ "obj-113", 4 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
 					"destination" : [ "obj-14", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
@@ -3703,15 +3699,6 @@
 					"disabled" : 0,
 					"hidden" : 0,
 					"source" : [ "obj-113", 0 ]
-				}
-
-			}
-, 			{
-				"patchline" : 				{
-					"destination" : [ "obj-57", 0 ],
-					"disabled" : 0,
-					"hidden" : 0,
-					"source" : [ "obj-113", 4 ]
 				}
 
 			}
@@ -4318,15 +4305,6 @@
 			}
 , 			{
 				"patchline" : 				{
-					"destination" : [ "obj-1", 0 ],
-					"disabled" : 0,
-					"hidden" : 0,
-					"source" : [ "obj-57", 0 ]
-				}
-
-			}
-, 			{
-				"patchline" : 				{
 					"destination" : [ "obj-114", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
@@ -4451,6 +4429,7 @@
 					"destination" : [ "obj-11", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
+					"midpoints" : [ 98.833336, 318.0, 9.0, 318.0, 9.0, 12.0, 21.700027, 12.0 ],
 					"order" : 1,
 					"source" : [ "obj-71", 1 ]
 				}
@@ -4461,6 +4440,7 @@
 					"destination" : [ "obj-40", 1 ],
 					"disabled" : 0,
 					"hidden" : 0,
+					"midpoints" : [ 98.833336, 325.25, 2.05418, 325.25, 2.05418, 5.0, 495.275024, 5.0 ],
 					"order" : 0,
 					"source" : [ "obj-71", 1 ]
 				}
