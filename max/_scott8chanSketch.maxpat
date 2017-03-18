@@ -94,7 +94,7 @@
 					"maxclass" : "newobj",
 					"numinlets" : 8,
 					"numoutlets" : 0,
-					"patching_rect" : [ 379.0, 562.0, 117.0, 22.0 ],
+					"patching_rect" : [ 379.0, 573.0, 117.0, 22.0 ],
 					"style" : "",
 					"text" : "dac~ 1 2 3 4 5 6 7 8"
 				}
@@ -120,7 +120,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "signal" ],
-					"patching_rect" : [ 477.0, 463.0, 195.5, 22.0 ],
+					"patching_rect" : [ 477.0, 474.0, 195.5, 22.0 ],
 					"style" : "",
 					"text" : "*~"
 				}
@@ -154,7 +154,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 8,
 					"outlettype" : [ "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal" ],
-					"patching_rect" : [ 379.0, 501.0, 117.0, 22.0 ],
+					"patching_rect" : [ 379.0, 512.0, 117.0, 22.0 ],
 					"style" : "",
 					"text" : "eightchannel"
 				}
