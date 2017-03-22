@@ -1,6 +1,6 @@
 {
   "name": "Trajectories",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "curve editor for spinning sounds",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -25,11 +25,12 @@
     "url": "https://github.com/ilzxc/trajectories/issues"
   },
   "build": {
+    "asar": false,
     "appId": "com.ilzxc.trajectories",
     "mac": {
       "category": "public.app-category.music"
     },
-    "files": ["!max${/*}", "!design${/*}", "!simula${/*}", "!src${/*}", "!*.sh", "!*.bat", "!*.md"]
+    "files": ["!max${/*}", "!design${/*}", "!simula${/*}", "!src${/*}", "!trajectories{/*}", "!*.tgz", "!*.zip", "!*.sh", "!*.bat", "!*.md"]
   },
   "homepage": "https://github.com/ilzxc/trajectories#readme"
 }
