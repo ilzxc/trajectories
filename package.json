@@ -1,6 +1,6 @@
 {
   "name": "Trajectories",
-  "version": "1.0.0",
+  "version": "0.5.0",
   "description": "curve editor for spinning sounds",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -29,7 +29,7 @@
     "mac": {
       "category": "public.app-category.music"
     },
-    "files": ["!max${/*}", "!src${/*}", "!*.sh", "!*.bat", "!*.md"]
+    "files": ["!max${/*}", "!design${/*}", "!simula${/*}", "!src${/*}", "!*.sh", "!*.bat", "!*.md"]
   },
   "homepage": "https://github.com/ilzxc/trajectories#readme"
 }
