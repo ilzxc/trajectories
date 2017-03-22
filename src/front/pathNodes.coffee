@@ -44,7 +44,7 @@ draggableText = (model, keyword, units, size, factor, min, max, justify='center'
     return numbox
 
 fromMarker = (model, node) ->
-    result = new Path.Arc (new Point 0, -10), (new Point -10, 0), (new Point 0, 10)
+    result = new Path.Arc (new Point 0, -7), (new Point -7, 0), (new Point 0, 7)
     result.closed = true
     result.fillColor = 'grey'
     result.strokeColor = 'black'
@@ -59,7 +59,7 @@ fromMarker = (model, node) ->
     return result
 
 toMarker = (model, node) ->
-    result = new Path.Arc (new Point 0, -10), (new Point 10, 0), (new Point 0, 10)
+    result = new Path.Arc (new Point 0, -7), (new Point 7, 0), (new Point 0, 7)
     result.closed = true
     result.fillColor = 'white'
     result.strokeColor = 'black'
@@ -89,7 +89,7 @@ node = (path, offset) ->
     }
     base = new Path.Circle {
         center: [0, 0]
-        radius: 25
+        radius: 20
         fillColor: 'black'
         m: @nodeModel
         onMouseDrag: (event) ->
@@ -99,7 +99,7 @@ node = (path, offset) ->
             @parent.hack.update()
             return
     }
-    num = draggableText @nodeModel, 'velocity', '%', 12, 1, 0, 400, 'center', 'white', 0 
+    num = draggableText @nodeModel, 'velocity', '%', 10, 1, 0.01, 600, 'center', 'white', 0 
     @from = fromMarker @nodeModel, this
     @to = toMarker @nodeModel, this
     @handle.addChildren([base, num])
