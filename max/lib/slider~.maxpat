@@ -4,8 +4,8 @@
 		"appversion" : 		{
 			"major" : 7,
 			"minor" : 3,
-			"revision" : 2,
-			"architecture" : "x86",
+			"revision" : 3,
+			"architecture" : "x64",
 			"modernui" : 1
 		}
 ,
@@ -37,6 +37,21 @@
 		"style" : "",
 		"subpatcher_template" : "",
 		"boxes" : [ 			{
+				"box" : 				{
+					"comment" : "",
+					"hidden" : 1,
+					"id" : "obj-8",
+					"index" : 0,
+					"maxclass" : "inlet",
+					"numinlets" : 0,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 250.5, 159.0, 30.0, 30.0 ],
+					"style" : ""
+				}
+
+			}
+, 			{
 				"box" : 				{
 					"hidden" : 1,
 					"id" : "obj-7",
@@ -114,7 +129,7 @@
 					"numoutlets" : 0,
 					"patching_rect" : [ 111.419983, 2.0, 51.0, 20.0 ],
 					"style" : "",
-					"text" : "0.00",
+					"text" : "#1",
 					"textcolor" : [ 0.086275, 0.309804, 0.52549, 1.0 ],
 					"textjustification" : 2
 				}
@@ -200,7 +215,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 262.0, 75.0, 99.0, 22.0 ],
+					"patching_rect" : [ 264.0, 75.0, 99.0, 22.0 ],
 					"style" : "",
 					"text" : "setminmax 0. $1"
 				}
@@ -305,6 +320,15 @@
 					"disabled" : 0,
 					"hidden" : 1,
 					"source" : [ "obj-7", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-26", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-8", 0 ]
 				}
 
 			}
