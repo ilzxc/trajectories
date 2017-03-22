@@ -25,7 +25,6 @@
     "url": "https://github.com/ilzxc/trajectories/issues"
   },
   "build": {
-    "asar": false,
     "appId": "com.ilzxc.trajectories",
     "mac": {
       "category": "public.app-category.music"
