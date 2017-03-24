@@ -12,7 +12,8 @@
   "license": "BSD-2-Clause",
   "dependencies": {
     "osc-min": "^1.1.1",
-    "node-wav": "^0.0.2"
+    "node-wav": "^0.0.2",
+    "drag-drop": "^2.13.2"
   },
   "devDependencies": {
     "electron": "^1.3.4"
