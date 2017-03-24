@@ -70,8 +70,11 @@ app.on 'ready', () ->
     mainWindow = new BrowserWindow { width: 700, height: 700 }
     mainWindow.loadURL 'file:///' + __dirname + '/index.html'
     menu = Menu.buildFromTemplate template
-    Menu.setApplicationMenu menu
+    # Menu.setApplicationMenu menu
     return 
 
 ipcMain.on 'export-dialog', (event) -> exporter()
 ipcMain.on 'debug-print', (event, data) -> console.log data
+ipcMain.on 'drag-open', (event, path) -> 
+    data = JSON.parse fs.readFileSync path, 'utf8'
+    mainWindow.webContents.send 'load-file', data

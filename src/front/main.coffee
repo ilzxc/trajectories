@@ -8,6 +8,13 @@ fs = require 'fs'
 
 paper.install window
 window.onload = () ->
+    dragDrop = require 'drag-drop'
+    dragDrop '#traj', (files, pos) ->
+        if files.length > 1 then return
+        if files[0].name.slice(-13) == '.trajectories'
+            ipc.send 'drag-open', files[0].path
+        return
+
     window.onresize()
     paper.setup 'traj'
 
