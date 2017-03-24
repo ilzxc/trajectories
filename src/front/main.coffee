@@ -1,10 +1,10 @@
 "use strict"
 
+fs = require 'fs'
 ipc = require('electron').ipcRenderer
 ui = require './js/front/ui'
 compute = require './js/front/compute'
 pathNodes = require './js/front/pathNodes'
-fs = require 'fs'
 
 paper.install window
 window.onload = () ->
@@ -39,7 +39,6 @@ window.onload = () ->
     # setup
     canvas = new ui.canvas model
 
-    # test = new pathNodes.node model.path, 0.5
     playButton = new ui.play model
     smoothButton = new ui.smooth model
     exportButton = new ui.exporter ipc
@@ -57,11 +56,13 @@ window.onload = () ->
 
     ipc.on 'load-file', (event, data) ->
         canvas.clear()
+        # load path
         segments = []
         for p in data.pathSegments
             model.pathData.add { point: p.point }
             model.pathData.path.segments[model.pathData.path.segments.length - 1].handleIn = new Point p.handles[0]
             model.pathData.path.segments[model.pathData.path.segments.length - 1].handleOut = new Point p.handles[1]
+        # load path velocity-altering dots:
         for v in data.variants
             model.pathData.addVariant v
         # take care of global settings scalar values
@@ -70,6 +71,7 @@ window.onload = () ->
         model.distance.setScale data.distanceRadius
         timeNum.refresh()
         distanceNum.refresh()
+        # hide the path position indicator so it doesn't hang out in an empty space:
         model.pathData.positionIndicator.position = [-10, -10]
         return
 
