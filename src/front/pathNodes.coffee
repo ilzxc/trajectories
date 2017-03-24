@@ -14,6 +14,14 @@ draggableText = (model, keyword, units, size, factor, min, max, justify='center'
         units: units
         helper: helper
         decimals: decimals
+        set: (value) ->
+            @m[@keyword] = value
+            if @min != null
+                if @m[@keyword] < @min then @m[@keyword] = @min
+            if @max != null
+                if @m[@keyword] > @max then @m[@keyword] = @max
+            @content = @helper(@m[@keyword]).toFixed(@decimals) + ' ' + @units
+            return
         onMouseDown: (event) ->
             if event.event.button is 2 # right mouse button
                 if @keyword == 'velocity'
@@ -99,10 +107,10 @@ node = (path, offset) ->
             @parent.hack.update()
             return
     }
-    num = draggableText @nodeModel, 'velocity', '%', 10, 1, 0.01, 600, 'center', 'white', 0 
+    @num = draggableText @nodeModel, 'velocity', '%', 10, 1, 0.01, 600, 'center', 'white', 0 
     @from = fromMarker @nodeModel, this
     @to = toMarker @nodeModel, this
-    @handle.addChildren([base, num])
+    @handle.addChildren([base, @num])
     
     @update = () ->
         # fix any potential errors

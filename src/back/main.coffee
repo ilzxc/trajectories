@@ -1,4 +1,5 @@
 { app, Menu, BrowserWindow, ipcMain, dialog } = require 'electron'
+fs = require 'fs'
 
 mainWindow = null;
 
@@ -22,6 +23,16 @@ saver = () ->
     dialog.showSaveDialog options, (filename) ->
         mainWindow.webContents.send 'saved-file', filename
 
+loader = () ->
+    options = {
+        title: 'Open a trajectories file'
+        filters: [
+            { name: 'Trajectories', extensions: ['trajectories'] }
+        ]
+    }
+    dialog.showOpenDialog options, (filename) ->
+        data = JSON.parse fs.readFileSync filename[0], 'utf8'
+        mainWindow.webContents.send 'load-file', data
 
 template = [
     {
@@ -29,7 +40,7 @@ template = [
         submenu: [
             { label: 'New...', accelerator: 'CmdOrCtrl+N', click: () -> mainWindow.webContents.send 'clear-canvas' }
             { type: 'separator' }
-            { label: 'Open...', accelerator: 'CmdOrCtrl+O', click: () -> return  }
+            { label: 'Open...', accelerator: 'CmdOrCtrl+O', click: () -> loader()  }
             { label: 'Save', accelerator: 'CmdOrCtrl+S', click: () -> saver()  }
             { label: 'Save As...', accelerator: 'Shift+CmdOrCtrl+S', click: () -> saver() }
             { type: 'separator' }
@@ -63,3 +74,4 @@ app.on 'ready', () ->
     return 
 
 ipcMain.on 'export-dialog', (event) -> exporter()
+ipcMain.on 'debug-print', (event, data) -> console.log data

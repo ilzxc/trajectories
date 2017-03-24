@@ -45,8 +45,27 @@ window.onload = () ->
 
     # system:
     ipc.on 'clear-canvas', (event) ->
-        location.reload()
+        canvas.clear()
         return
+
+    ipc.on 'load-file', (event, data) ->
+        canvas.clear()
+        segments = []
+        for p in data.pathSegments
+            model.pathData.add { point: p.point }
+            model.pathData.path.segments[model.pathData.path.segments.length - 1].handleIn = new Point p.handles[0]
+            model.pathData.path.segments[model.pathData.path.segments.length - 1].handleOut = new Point p.handles[1]
+        for v in data.variants
+            model.pathData.addVariant v
+        # take care of global settings scalar values
+        model.totalTime = data.totalTime
+        model.minDistance = data.minDistance
+        model.distance.setScale data.distanceRadius
+        timeNum.refresh()
+        distanceNum.refresh()
+        model.pathData.positionIndicator.position = [-10, -10]
+        return
+
     ipc.on 'exported-file', (event, filename) ->
         if filename is null then return
         compute.generate model, filename

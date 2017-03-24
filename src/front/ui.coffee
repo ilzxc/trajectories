@@ -132,7 +132,7 @@ pathData = (model) ->
             @variants.push new pn.node @path, loc.offset
             @variants.sort (a, b) -> a.offset - b.offset
             return
-    @path.onMouseDown = (event) ->
+    @path.onMouseMove = (event) ->
         if event.event.button is 2
             loc = @getNearestLocation event.point
             if loc is null then return
@@ -140,14 +140,14 @@ pathData = (model) ->
         return
 
     @pathStart = new Path.Circle {
-        center: [0, 0]
+        center: [-10, -10]
         radius: 5
         strokeColor: 'black'
         strokeWidth: 1
         fillColor: 'black'
     }
     @pathEnd = new Path.Circle {
-        center: [0, 0]
+        center: [-10, -10]
         radius: 5
         strokeColor: 'black'
         strokeWidth: 1
@@ -155,9 +155,18 @@ pathData = (model) ->
     }
     @add = (event) ->
         @path.add event.point
-        @editNodes.push pathEditNode(@path.segments[@path.segments.length - 1], this)
+        @editNodes.push pathEditNode @path.segments[@path.segments.length - 1], this
         @pathEnd.position = event.point
         @pathStart.position = @path.firstSegment.point
+        return
+    @addVariant = (obj) ->
+        variant = new pn.node @path, obj.offset
+        variant.nodeModel.start = obj.start
+        variant.nodeModel.end = obj.end
+        variant.nodeModel.velocity = obj.velocity
+        variant.num.set obj.velocity
+        variant.update()
+        @variants.push variant
         return
     @update = () ->
         for v in @variants
@@ -165,6 +174,21 @@ pathData = (model) ->
         @pathEnd.position = event.point
         @pathStart.position = @path.firstSegment.point
         return
+    @clear = () ->
+        for en in @editNodes
+            en.remove()
+        @editNodes.length = 0
+        @pathStart.position = { center: [-10, -10] }
+        @pathEnd.position = { center: [-10, -10] }
+        for variant in @variants
+            variant.from.remove()
+            variant.to.remove()
+            variant.handle.remove()
+        @variants.length = 0
+        @splitIndicator.position = { center: [-10, -10]}
+        @path.removeSegments()
+        return
+
     return this
 
 canvas = (model) ->
@@ -182,7 +206,7 @@ canvas = (model) ->
     @canvasGroup.m.pathData = new pathData model
     @canvasGroup.m.path = @canvasGroup.m.pathData.path
     @canvasGroup.m.distance = new distanceCircle model
-    @osc =  new osc.oscudp()
+    @osc = new osc.oscudp()
 
     @canvasGroup.onMouseMove = (event) ->
         loc = @m.path.getNearestLocation event.point
@@ -203,6 +227,12 @@ canvas = (model) ->
             return
         return
 
+    @clear = () ->
+        @canvasGroup.m.distance.setScale 25
+        @canvasGroup.m.pathData.clear()
+        @canvasGroup.m.minDistance = 0.8
+        return
+
     @update = () ->
         if @canvasGroup.m.startTime is null then return
         @osc.generate @canvasGroup.m, @canvasGroup.m.pathData.variants
@@ -213,15 +243,9 @@ canvas = (model) ->
 play = (model) ->
     @button = project.importSVG icons.play
     @button.position = new Point 25, 25
-    # @button = new Path.Circle {
-    #     center: [25, 25]
-    #     radius: 20
-    #     fillColor: 'blue'
-    # }
     @button.m = model
     @button.onMouseDown = (event) ->
         @m.pathData.positionIndicator.position = @m.path.getPointAt 0
-        # @m.headDistance = @m.headPosition.getDistance @m.path.getPointAt (@m.path.getNearestLocation @m.headPosition).offset
         @m.velocity = 1000 / @m.totalTime
         @m.offset = 0
         @m.prevDistance = 0
@@ -233,11 +257,6 @@ play = (model) ->
 smooth = (model) ->
     @button = project.importSVG icons.smooth
     @button.position = new Point 65, 25
-    # @button = new Path.Circle {
-    #     center: [65, 25]
-    #     radius: 20
-    #     fillColor: 'green'
-    # }
     @button.m = model
     @updatePath = (model) -> @button.m = model
     @button.onMouseDown = (event) ->
@@ -249,11 +268,6 @@ smooth = (model) ->
 exporter = (ipc) ->
     @button = project.importSVG icons.export
     @button.position = new Point 105, 25
-    # @button = new Path.Circle {
-    #     center: [105, 25]
-    #     radius: 20
-    #     fillColor: 'red'
-    # }
     @button.ipc = ipc
     @button.onMouseDown = (event) ->
         @ipc.send 'export-dialog'
@@ -281,6 +295,7 @@ distNum = (model) ->
         if @m.minDistance < 0.01 then @m.minDistance = 0.01
         @content = '' + @m.minDistance.toFixed(2) #+ ' m'
         return
+    @refresh = (value) -> @numbox.content = '' + @numbox.m.minDistance.toFixed(2) #+ ' m'
     return this
 
 timeNum = (model) ->
@@ -304,6 +319,7 @@ timeNum = (model) ->
         if @m.totalTime < 100 then @m.totalTime = 100
         @content = '' + (@m.totalTime / 1000).toFixed(2) #+ ' s'
         return
+    @refresh = () -> @numbox.content = '' + (@numbox.m.totalTime / 1000).toFixed(2) #+ ' s'
     return this
 
 head = (radius) ->
