@@ -67,8 +67,8 @@ pathEditNode = (segment, pathData) ->
     result = new Path.Circle {
         point: [0, 0]
         radius: 5
-        strokeColor: 'yellow'
-        fillColor: 'yellow'
+        strokeColor: '#989898'
+        fillColor: '#989898'
         opacity: .5
     }
     result.position = segment.point
