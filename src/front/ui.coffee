@@ -121,6 +121,7 @@ pathData = (model) ->
     }
     @splitIndicator.path = @path
     @splitIndicator.variants = @variants
+    @splitIndicator.hack = @hack
     @splitIndicator.onMouseMove = (event) ->
         loc = @path.getNearestLocation event.point
         if loc is null then return
@@ -129,7 +130,7 @@ pathData = (model) ->
     @splitIndicator.onMouseDown = (event) ->
         if event.event.button is 2 # right mouse button
             loc = @path.getNearestLocation @position
-            @variants.push new pn.node @path, loc.offset
+            @variants.push new pn.node @path, loc.offset, @hack
             @variants.sort (a, b) -> a.offset - b.offset
             return
     @path.onMouseMove = (event) ->
@@ -160,13 +161,25 @@ pathData = (model) ->
         @pathStart.position = @path.firstSegment.point
         return
     @addVariant = (obj) ->
-        variant = new pn.node @path, obj.offset
+        variant = new pn.node @path, obj.offset, this
+        @variants.push variant
         variant.nodeModel.start = obj.start
         variant.nodeModel.end = obj.end
         variant.nodeModel.velocity = obj.velocity
         variant.num.set obj.velocity
         variant.update()
         @variants.push variant
+        return
+    @removeVariant = (variant) ->
+        for v, i in @variants
+            if v is variant
+                eliminated = (@variants.splice i, 1)[0]
+                console.log "eliminated", eliminated
+                eliminated.to.remove()
+                eliminated.from.remove()
+                eliminated.handle.remove()
+                eliminated = null
+                return
         return
     @update = () ->
         for v in @variants
@@ -188,7 +201,6 @@ pathData = (model) ->
         @splitIndicator.position = { center: [-10, -10]}
         @path.removeSegments()
         return
-
     return this
 
 canvas = (model) ->

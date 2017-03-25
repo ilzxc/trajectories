@@ -81,9 +81,10 @@ toMarker = (model, node) ->
         return
     return result
 
-node = (path, offset) ->
+node = (path, offset, pathDataRef) ->
     @handle = new Group()
     @handle.hack = this
+    @pathDataRef = pathDataRef
     @nodeModel = {
         path: path
         offset: offset
@@ -100,9 +101,10 @@ node = (path, offset) ->
         radius: 20
         fillColor: 'black'
         m: @nodeModel
+        hack: this
         onMouseDown: (event) ->
             if event.event.button is 2 # right mouse button
-                # todo: delete the damn thing
+                @hack.pathDataRef.removeVariant @hack
                 return
             return
         onMouseDrag: (event) ->
