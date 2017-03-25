@@ -100,6 +100,11 @@ node = (path, offset) ->
         radius: 20
         fillColor: 'black'
         m: @nodeModel
+        onMouseDown: (event) ->
+            if event.event.button is 2 # right mouse button
+                # todo: delete the damn thing
+                return
+            return
         onMouseDrag: (event) ->
             @m.offset = (@m.path.getNearestLocation event.point).offset
             if @m.offset > @m.path.length then @m.offset = @m.path.length
