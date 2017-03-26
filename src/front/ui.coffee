@@ -122,7 +122,6 @@ pathData = (model) ->
         return
     @addVariant = (obj) ->
         variant = new pn.node @path, obj.offset, this
-        @variants.push variant
         variant.nodeModel.start = obj.start
         variant.nodeModel.end = obj.end
         variant.nodeModel.velocity = obj.velocity

@@ -60,7 +60,7 @@ window.onload = () ->
 
     # scroll wheel
     window.addEventListener 'mousewheel', (event) -> 
-        # model.pathData.scalePath event.deltaY
+        # for now, nothing, but event.deltaY is useful
         return false
     , false
 
@@ -80,6 +80,7 @@ window.onload = () ->
         # load path velocity-altering dots:
         for v in data.variants
             model.pathData.addVariant v
+        model.pathData.updateAll()
         # take care of global settings scalar values
         model.totalTime = data.totalTime
         model.minDistance = data.minDistance
