@@ -1,49 +1,8 @@
 "use strict"
 
-icons = {
-    play: """
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 21.0.2, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg version="1.1" baseProfile="tiny" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-x="0px" y="0px" viewBox="0 0 40 40" overflow="scroll" xml:space="preserve">
-<g>
-<circle fill="#51C5F2" cx="20" cy="20" r="19.4"/>
-<polygon fill="#2D2D2D" points="16.2,11.8 16.2,28.2 30.3,20     "/>
-</g>
-</svg>"""
-    smooth: """
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 21.0.2, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg version="1.1" baseProfile="tiny" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-x="0px" y="0px" viewBox="0 0 40 40" overflow="scroll" xml:space="preserve">
-<g>
-<circle fill="#54C0A2" cx="20" cy="20" r="19.4"/>
-<path fill="#2D2D2D" d="M28.6,16L28,16.7c-1.4-1.2-3.1-1.9-5-1.9c-1.2,0-2.4,0.3-3.5,0.9l2.7-2.7c0.2,0.1,0.5,0.2,0.7,0.2
-        c0.4,0,0.7-0.1,1-0.4c0.6-0.6,0.6-1.4,0-2c-0.3-0.3-0.6-0.4-1-0.4c-0.4,0-0.7,0.1-1,0.4c-0.5,0.5-0.5,1.2-0.2,1.7l-3.4,3.4
-        l-0.6-0.6L15.9,17l0.6,0.6l-3.4,3.4c-0.2-0.1-0.5-0.2-0.7-0.2c-0.4,0-0.7,0.1-1,0.4c-0.6,0.6-0.6,1.4,0,2c0.3,0.3,0.6,0.4,1,0.4
-        c0.4,0,0.7-0.1,1-0.4c0.5-0.5,0.5-1.2,0.2-1.7l2.7-2.7c-1.4,2.7-1.1,6.1,1,8.5L16.6,28l1.7,1.7l1.7-1.7l-1.7-1.7l-0.6,0.6
-        c-2-2.4-2.2-5.8-0.4-8.4l0.3,0.3l1.7-1.7l-0.3-0.3c1.1-0.8,2.5-1.2,3.9-1.2c1.7,0,3.2,0.6,4.5,1.6l-0.6,0.6l1.7,1.7l1.7-1.7
-        L28.6,16z"/>
-</g>
-</svg>"""
-    export: """
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 21.0.2, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg version="1.1" baseProfile="tiny" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-x="0px" y="0px" viewBox="0 0 40 40" xml:space="preserve">
-<g>
-<circle fill="#F5949B" cx="20" cy="20" r="19.4"/>
-<g>
-<path fill="#2D2D2D" d="M25.4,11.9h-0.7v6.7h-8.1v-5.4v-1.3h0h-4v16.1h16.1V15.3L25.4,11.9z M24,25.4h-6.7v-0.7H24V25.4z M24,23.4
-h-6.7v-0.7H24V23.4z"/>
-<path fill="#2D2D2D" d="M24.1,11.9h-6.7v1.3V18h6.7V11.9z M22.7,16H22v-2h0.7V16z"/>
-</g>
-</g>
-</svg>"""
-}
-
 osc = require './compute'
 pn = require './pathNodes'
+{ icons } = require './icons'
 
 distanceCircle = (model) ->
     @path = new Path.Circle {
@@ -94,6 +53,7 @@ pathEditNode = (segment, pathData) ->
         @pd.pathStart.position = @pd.path.firstSegment.point
         @pd.update()
         return
+    result.update = () -> result.position = result.segment.point
     return result
 
 pathData = (model) ->
@@ -180,11 +140,31 @@ pathData = (model) ->
                 eliminated = null
                 return
         return
+    @movePath = (deltaVector) ->
+        @path.translate deltaVector
+        @updateAll()
+        return
+    @rotatePath = (delta) ->
+        factor = delta / 10
+        @path.rotate factor, view.center
+        @updateAll()
+        return
+    @scalePath = (delta) ->
+        factor = 1 + (delta / 20)
+        @path.scale factor, view.center
+        for v in @variants
+            v.scale factor
+        @updateAll()
     @update = () ->
         for v in @variants
             v.update()
-        @pathEnd.position = event.point
+        @pathEnd.position = @path.lastSegment.point
         @pathStart.position = @path.firstSegment.point
+        return
+    @updateAll = () ->
+        @update()
+        for en in @editNodes
+            en.update()
         return
     @clear = () ->
         for en in @editNodes
@@ -243,6 +223,7 @@ canvas = (model) ->
         if event.event.button is 2 # right mouse button
             @m.distance.setScale (view.center).getDistance event.point
             return
+        else console.log event
         return
 
     @clear = () ->
@@ -289,6 +270,33 @@ exporter = (ipc) ->
     @button.ipc = ipc
     @button.onMouseDown = (event) ->
         @ipc.send 'export-dialog'
+        return
+    return this
+
+move = (model) ->
+    @button = project.importSVG icons.move
+    @button.position = new Point 185, 25
+    @button.model = model
+    @button.onMouseDrag = (event) ->
+        @model.pathData.movePath event.delta
+        return
+    return this
+
+rotate = (model) ->
+    @button = project.importSVG icons.rotate
+    @button.position = new Point 185 + 40, 25
+    @button.model = model
+    @button.onMouseDrag = (event) ->
+        @model.pathData.rotatePath event.delta.x
+        return
+    return this
+
+scale = (model) ->
+    @button = project.importSVG icons.scale
+    @button.position = new Point 185 + 80, 25
+    @button.model = model
+    @button.onMouseDrag = (event) ->
+        @model.pathData.scalePath event.delta.y
         return
     return this
 
@@ -378,4 +386,4 @@ grid = (canvas) ->
     @group = new Group @grid
     return this
 
-module.exports = { canvas, play, smooth, exporter, distNum, timeNum }
+module.exports = { canvas, play, smooth, exporter, move, rotate, scale, distNum, timeNum }

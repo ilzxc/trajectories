@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 21.0.2, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" baseProfile="tiny" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+	 x="0px" y="0px" viewBox="0 0 40 40" xml:space="preserve">
+<g>
+	<circle fill="#515252" cx="20" cy="20" r="19.4"/>
+	<g>
+		<g>
+			<g>
+				<polyline fill="none" stroke="#EDECED" stroke-width="0.663" stroke-miterlimit="10" points="27,23.3 30.3,20 27,16.7 				"/>
+				<polyline fill="none" stroke="#EDECED" stroke-width="0.663" stroke-miterlimit="10" points="16.7,27 20,30.3 23.3,27 				"/>
+			</g>
+			<g>
+				<polyline fill="none" stroke="#EDECED" stroke-width="0.663" stroke-miterlimit="10" points="23.3,13 20,9.7 16.7,13 				"/>
+				<polyline fill="none" stroke="#EDECED" stroke-width="0.663" stroke-miterlimit="10" points="13,16.7 9.7,20 13,23.3 				"/>
+			</g>
+		</g>
+		<line fill="none" stroke="#EDECED" stroke-width="0.663" stroke-miterlimit="10" x1="20" y1="9.7" x2="20" y2="30.3"/>
+		<line fill="none" stroke="#EDECED" stroke-width="0.663" stroke-miterlimit="10" x1="9.7" y1="20" x2="30.3" y2="20"/>
+	</g>
+</g>
+</svg>

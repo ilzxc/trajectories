@@ -34,9 +34,9 @@ window.onload = () ->
         distance: null
         # playback data:
         startTime: null
-        velocity: 0 # default velocity
-        offset: 0 # the offset
-        timeEstimate: 0 # zero-to-one tracking
+        velocity: 0 # default
+        offset: 0   
+        timeEstimate: 0 
         prevDistance: null
         prevTime: null
     }
@@ -47,6 +47,9 @@ window.onload = () ->
     playButton = new ui.play model
     smoothButton = new ui.smooth model
     exportButton = new ui.exporter ipc
+    moveButton = new ui.move model
+    rotateButton = new ui.rotate model
+    scaleButton = new ui.scale model
     distanceNum = new ui.distNum model
     timeNum = new ui.timeNum model
 
@@ -54,6 +57,12 @@ window.onload = () ->
     view.onFrame = () ->
         canvas.update()
         return
+
+    # scroll wheel
+    window.addEventListener 'mousewheel', (event) -> 
+        # model.pathData.scalePath event.deltaY
+        return false
+    , false
 
     # system:
     ipc.on 'clear-canvas', (event) ->
@@ -118,3 +127,4 @@ window.onresize = () ->
     trajRef.width = window.innerWidth + 'px'
     trajRef.height = window.innerHeight + 'px'
     return
+

@@ -131,10 +131,16 @@ node = (path, offset, pathDataRef) ->
     @from = fromMarker @nodeModel, this
     @to = toMarker @nodeModel, this
     @handle.addChildren([base, @num])
+
+    @scale = (factor) ->
+        @nodeModel.start *= factor
+        @nodeModel.end *= factor
+        @nodeModel.offset *= factor
+        return
     
     @update = () ->
         # fix any potential errors
-        if @nodeModel.offset > @nodeModel.path.length then @nodeModel.offset = nodeModel.path.length
+        if @nodeModel.offset > @nodeModel.path.length then @nodeModel.offset = @nodeModel.path.length
         if @nodeModel.offset < 0 then @nodeModel.offset = 0
         if @nodeModel.start < 0 then @nodeModel.start = 0
         if @nodeModel.start > @nodeModel.offset then @nodeModel.start = @nodeModel.offset
