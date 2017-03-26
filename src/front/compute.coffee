@@ -171,6 +171,6 @@ oscudp = () ->
         m.prevDistance = distance
         m.prevTime = time
         return
-    return this
+    this
 
 module.exports = { generate, oscudp, doppCompute, distCompute, angCompute, panCompute }

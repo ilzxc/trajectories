@@ -1,20 +1,25 @@
 "use strict"
 
+### paper objects contructors : do not use with new -- contructors return a well-formed Paper.js object ###
 draggableText = (model, keyword, units, size, factor, min, max, justify='center', color='black', decimals=2, helper=(a)->a) ->
     numbox = new PointText {
-        point: [0, 4.5]
-        justification: justify
-        fontSize: size
-        fillColor: color
-        m: model
-        keyword: keyword
-        factor: factor
-        min: min
-        max: max
-        units: units
-        helper: helper
-        decimals: decimals
+        point: [0, 4.5]         # where the text appears (relative to point on the parent)
+        justification: justify  # justification
+        fontSize: size          # text size (in points) 
+        fillColor: color        # the color of the text
+        m: model                # reference to the main model object
+        keyword: keyword        # the field of the model object controlled by the text
+        factor: factor          # factor used in computing the speed of the dragging update
+        min: min                # minimum value
+        max: max                # maximum value
+        units: units            # units displayed after the value
+        helper: helper          # function for changing displayed value (e.g. scaling underlying 0..1 values to something better)
+        decimals: decimals      # number of decimal points that will be visible
         set: (value) ->
+            ###
+                set accepts the value of the model to be set to.
+                Enforces min / max as set in the constructor, and applies the helper function to the displayed value.
+            ###
             @m[@keyword] = value
             if @min != null
                 if @m[@keyword] < @min then @m[@keyword] = @min
@@ -23,23 +28,30 @@ draggableText = (model, keyword, units, size, factor, min, max, justify='center'
             @content = @helper(@m[@keyword]).toFixed(@decimals) + ' ' + @units
             return
         onMouseDown: (event) ->
-            if event.event.button is 2 # right mouse button
-                if @keyword == 'velocity'
-                    @m.velocity = 0
-                    @units = 's'
-                    @keyword = 'pause'
-                    @factor = 0.02
-                    @decimals = 2
-                else if @keyword == 'pause'
-                    @m.pause = 0
-                    @m.velocity = 100
-                    @units = '%'
-                    @keyword = 'velocity'
-                    @factor = 1
-                    @decimals = 0
-                @content = @helper(@m[@keyword]).toFixed(@decimals) + ' ' + @units
-                return
+            ###
+                Currently hard-wired to support draggable text inside velocity-varying circles only.
+            ###
+            if event.event.button != 2 then return # we're only interested in the right mouse button
+            if @keyword == 'velocity'
+                @m.velocity = 0
+                @units = 's'
+                @keyword = 'pause'
+                @factor = 0.02
+                @decimals = 2
+            else if @keyword == 'pause'
+                @m.pause = 0
+                @m.velocity = 0
+                @units = '%'
+                @keyword = 'velocity'
+                @factor = 1
+                @decimals = 0
+            @content = @helper(@m[@keyword]).toFixed(@decimals) + ' ' + @units
+            return
         onMouseDrag: (event) ->
+            ###
+                onMouseDrag updates the model first (enforcing min/max) and then applies the helper function
+                to display the value in the numbox
+            ###
             @m[@keyword] += event.delta.x * @factor
             if @min != null
                 if @m[@keyword] < @min then @m[@keyword] = @min 
@@ -64,7 +76,7 @@ fromMarker = (model, node) ->
         if loc != null then @m.start = loc.offset
         @node.update()
         return
-    return result
+    result
 
 toMarker = (model, node) ->
     result = new Path.Arc (new Point 0, -7), (new Point 7, 0), (new Point 0, 7)
@@ -79,8 +91,9 @@ toMarker = (model, node) ->
         if loc != null then @m.end = loc.offset
         @node.update()
         return
-    return result
+    result
 
+### the velocity-varying object ###
 node = (path, offset, pathDataRef) ->
     @handle = new Group()
     @handle.hack = this

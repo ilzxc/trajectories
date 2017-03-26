@@ -13,6 +13,11 @@ window.onload = () ->
         if files.length > 1 then return
         if files[0].name.slice(-13) == '.trajectories'
             ipc.send 'drag-open', files[0].path
+        else if files[0].name.slice(-4) == '.svg'
+            item = project.importSVG fs.readFileSync files[0].path, 'utf8'
+            model.pathData.loadFromSVG item.children[1].segments
+            item.remove()
+            item = null
         return
 
     window.onresize()
@@ -48,6 +53,7 @@ window.onload = () ->
     # animation
     view.onFrame = () ->
         canvas.update()
+        return
 
     # system:
     ipc.on 'clear-canvas', (event) ->
@@ -71,8 +77,6 @@ window.onload = () ->
         model.distance.setScale data.distanceRadius
         timeNum.refresh()
         distanceNum.refresh()
-        # hide the path position indicator so it doesn't hang out in an empty space:
-        model.pathData.positionIndicator.position = [-10, -10]
         return
 
     ipc.on 'exported-file', (event, filename) ->

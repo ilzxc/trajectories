@@ -136,7 +136,7 @@ pathData = (model) ->
     @path.onMouseMove = (event) ->
         if event.event.button is 2
             loc = @getNearestLocation event.point
-            if loc is null then return
+            if loc is null then return @hack.splitIndicator.position = [-10, -10]
             @hack.splitIndicator.position = loc
         return
 
@@ -174,7 +174,6 @@ pathData = (model) ->
         for v, i in @variants
             if v is variant
                 eliminated = (@variants.splice i, 1)[0]
-                console.log "eliminated", eliminated
                 eliminated.to.remove()
                 eliminated.from.remove()
                 eliminated.handle.remove()
@@ -191,15 +190,22 @@ pathData = (model) ->
         for en in @editNodes
             en.remove()
         @editNodes.length = 0
-        @pathStart.position = { center: [-10, -10] }
-        @pathEnd.position = { center: [-10, -10] }
+        @pathStart.position = [-10, -10] 
+        @pathEnd.position = [-10, -10]
         for variant in @variants
             variant.from.remove()
             variant.to.remove()
             variant.handle.remove()
         @variants.length = 0
-        @splitIndicator.position = { center: [-10, -10]}
+        @splitIndicator.position = [-10, -10]
+        @positionIndicator.position = [-10, -10]
         @path.removeSegments()
+        return
+    @loadFromSVG = (segments) ->
+        @clear()
+        @path.set { segments: segments }
+        for seg in @path.segments
+            @editNodes.push pathEditNode seg, this
         return
     return this
 
@@ -251,12 +257,12 @@ canvas = (model) ->
         return
     return this
 
-
 play = (model) ->
     @button = project.importSVG icons.play
     @button.position = new Point 25, 25
     @button.m = model
     @button.onMouseDown = (event) ->
+        console.log "play triggered", @m
         @m.pathData.positionIndicator.position = @m.path.getPointAt 0
         @m.velocity = 1000 / @m.totalTime
         @m.offset = 0
