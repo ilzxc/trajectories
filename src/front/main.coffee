@@ -5,21 +5,10 @@ ipc = require('electron').ipcRenderer
 ui = require './js/front/ui'
 compute = require './js/front/compute'
 pathNodes = require './js/front/pathNodes'
+dragDrop = require 'drag-drop'
 
 paper.install window
 window.onload = () ->
-    dragDrop = require 'drag-drop'
-    dragDrop '#traj', (files, pos) ->
-        if files.length > 1 then return
-        if files[0].name.slice(-13) == '.trajectories'
-            ipc.send 'drag-open', files[0].path
-        else if files[0].name.slice(-4) == '.svg'
-            item = project.importSVG fs.readFileSync files[0].path, 'utf8'
-            model.pathData.loadFromSVG item.children[1].segments
-            item.remove()
-            item = null
-        return
-
     window.onresize()
     paper.setup 'traj'
 
@@ -57,12 +46,6 @@ window.onload = () ->
     view.onFrame = () ->
         canvas.update()
         return
-
-    # scroll wheel
-    window.addEventListener 'mousewheel', (event) -> 
-        # for now, nothing, but event.deltaY is useful
-        return false
-    , false
 
     # system:
     ipc.on 'clear-canvas', (event) ->
@@ -121,6 +104,24 @@ window.onload = () ->
             }
         fs.writeFileSync filename, JSON.stringify saveModel
         return
+
+    dragDrop '#traj', (files, pos) ->
+        if files.length > 1 then return
+        if files[0].name.slice(-13) == '.trajectories'
+            ipc.send 'drag-open', files[0].path
+        else if files[0].name.slice(-4) == '.svg'
+            item = project.importSVG fs.readFileSync files[0].path, 'utf8'
+            model.pathData.loadFromSVG item.children[1].segments
+            item.remove()
+            item = null
+        return
+
+    # scroll wheel
+    window.addEventListener 'mousewheel', (event) -> 
+        # for now, nothing, but event.deltaY is useful
+        return false
+    , false
+
     return
 
 window.onresize = () ->
