@@ -58,6 +58,7 @@ pathEditNode = (segment, pathData) ->
 
 pathData = (model) ->
     @path = new Path()
+    @flatten = 10
     @path.strokeColor = 'black'
     @path.strokeWidth = 2
     @paths = [@path]
@@ -99,7 +100,6 @@ pathData = (model) ->
             if loc is null then return @hack.splitIndicator.position = [-10, -10]
             @hack.splitIndicator.position = loc
         return
-
     @pathStart = new Path.Circle {
         center: [-10, -10]
         radius: 5
@@ -160,6 +160,13 @@ pathData = (model) ->
         @pathEnd.position = @path.lastSegment.point
         @pathStart.position = @path.firstSegment.point
         return
+    @recomputeEditNodes = () ->
+        for en in @editNodes
+            en.remove()
+        @editNodes.length = 0
+        for seg in @path.segments
+            @editNodes.push new pathEditNode seg, this
+        return
     @updateAll = () ->
         @update()
         for en in @editNodes
@@ -185,6 +192,27 @@ pathData = (model) ->
         @path.set { segments: segments }
         for seg in @path.segments
             @editNodes.push pathEditNode seg, this
+        return
+    @commandHandler = (index) ->
+        if index is 0
+            @path.smooth()
+        else if index is 1
+            for en in @editNodes
+                en.remove()
+            @editNodes.length = 1
+            @path.simplify()
+            for seg in @path.segments
+                @editNodes.push new pathEditNode seg, this
+        else if index is 2
+            @path.reverse()
+        else if index is 3
+            for en in @editNodes
+                en.remove()
+            @editNodes.length = 1
+            @path.flatten @flatten
+            for seg in @path.segments
+                @editNodes.push new pathEditNode seg, this
+        @updateAll()
         return
     return this
 

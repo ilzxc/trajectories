@@ -47,6 +47,22 @@ template = [
             { label: 'Export', accelerator: 'CmdOrCtrl+E', click: () -> exporter() }
             { label: 'Quit', accelerator: 'CmdOrCtrl+Q', role: 'quit'  }
         ]
+    } 
+    {
+        label: "Path"
+        submenu: [
+            { label: "Smooth", accelerator: "CmdOrCtrl+W", click: () -> mainWindow.webContents.send 'path', 0 }
+            { label: "Simplify", accelerator: "CmdOrCtrl+E", click: () -> mainWindow.webContents.send 'path', 1 }
+            { label: "Reverse", accelerator: "CmdOrCtrl+R", click: () -> mainWindow.webContents.send 'path', 2 }
+            { label: "Flatten", accelerator: "CmdOrCtrl+F", click: () -> mainWindow.webContents.send 'path', 3 }
+        ]
+
+    }
+    {
+        label: 'Tools'
+        submenu: [
+            { label: 'Debug', accelerator: 'CmdOrCtrl+D', click: () -> mainWindow.webContents.openDevTools() }
+        ]
     }
 ]
 

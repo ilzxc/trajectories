@@ -105,6 +105,9 @@ window.onload = () ->
         fs.writeFileSync filename, JSON.stringify saveModel
         return
 
+    ipc.on 'path', (event, index) ->
+        model.pathData.commandHandler index
+
     dragDrop '#traj', (files, pos) ->
         if files.length > 1 then return
         if files[0].name.slice(-13) == '.trajectories'
@@ -119,6 +122,11 @@ window.onload = () ->
     # scroll wheel
     window.addEventListener 'mousewheel', (event) -> 
         # for now, nothing, but event.deltaY is useful
+        console.log event
+        if event.altKey 
+            project.view.scale 1 + (event.deltaY / 100)
+        else 
+            project.view.translate [-event.deltaX * .25, -event.deltaY * .25]
         return false
     , false
 
