@@ -25,7 +25,7 @@ distanceCircle = (model) ->
 pathEditNode = (segment, pathData) ->
     result = new Path.Circle {
         point: [0, 0]
-        radius: 5
+        radius: 5 * pathData.model.canvasScale
         strokeColor: '#989898'
         fillColor: '#989898'
         opacity: .5
@@ -66,16 +66,17 @@ pathData = (model) ->
     @editNodes = []
     @variants = []
     @hack = this
+    @model = model
 
     @positionIndicator = new Path.Circle {
         center: [-100, -100]
-        radius: 10
+        radius: 10 * model.canvasScale
         strokeColor: 'blue'
         strokeWidth: 2
     }
     @splitIndicator = new Path.Circle {
         center: [-100, -100]
-        radius: 5
+        radius: 5 * model.canvasScale
         strokeColor: 'blue'
         strokeWidth: 1
         fillColor: 'orange'
@@ -102,14 +103,14 @@ pathData = (model) ->
         return
     @pathStart = new Path.Circle {
         center: [-10, -10]
-        radius: 5
+        radius: 5 * model.canvasScale
         strokeColor: 'black'
         strokeWidth: 1
         fillColor: 'black'
     }
     @pathEnd = new Path.Circle {
         center: [-10, -10]
-        radius: 5
+        radius: 5 * model.canvasScale
         strokeColor: 'black'
         strokeWidth: 1
         fillColor: 'white'
@@ -145,12 +146,14 @@ pathData = (model) ->
         return
     @rotatePath = (delta) ->
         factor = delta / 10
-        @path.rotate factor, view.center
+        @path.rotate factor, @model.canvasGroup.head.head.position
         @updateAll()
         return
     @scalePath = (delta) ->
         factor = 1 + (delta / 20)
-        @path.scale factor, view.center
+        @path.scale factor, @model.canvasGroup.head.head.position
+        @scaleVariants factor
+    @scaleVariants = (factor) ->
         for v in @variants
             v.scale factor
         @updateAll()
@@ -231,6 +234,7 @@ canvas = (model) ->
     @canvasGroup.m.pathData = new pathData model
     @canvasGroup.m.path = @canvasGroup.m.pathData.path
     @canvasGroup.m.distance = new distanceCircle model
+    model.canvasGroup = this
     @osc = new osc.oscudp()
 
     @canvasGroup.onMouseMove = (event) ->

@@ -21,6 +21,7 @@ window.onload = () ->
         path: null        
         headPosition: view.center
         distance: null
+        canvasScale: 1
         # playback data:
         startTime: null
         velocity: 0 # default
@@ -31,8 +32,11 @@ window.onload = () ->
     }
 
     # setup
+    canvasLayer = project.activeLayer
     canvas = new ui.canvas model
 
+    uiLayer = new Layer()
+    uiLayer.activate()
     playButton = new ui.play model
     smoothButton = new ui.smooth model
     exportButton = new ui.exporter ipc
@@ -41,6 +45,8 @@ window.onload = () ->
     scaleButton = new ui.scale model
     distanceNum = new ui.distNum model
     timeNum = new ui.timeNum model
+
+    canvasLayer.activate()
 
     # animation
     view.onFrame = () ->
@@ -121,12 +127,13 @@ window.onload = () ->
 
     # scroll wheel
     window.addEventListener 'mousewheel', (event) -> 
-        # for now, nothing, but event.deltaY is useful
-        console.log event
-        if event.altKey 
-            project.view.scale 1 + (event.deltaY / 100)
+        if event.altKey
+            factor = 1 + (event.deltaY / 100)
+            model.canvasScale *= factor
+            project.activeLayer.scale factor
+            model.pathData.scaleVariants factor
         else 
-            project.view.translate [-event.deltaX * .25, -event.deltaY * .25]
+            project.activeLayer.translate [-event.deltaX * .25, -event.deltaY * .25]
         return false
     , false
 
