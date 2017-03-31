@@ -32,6 +32,7 @@ window.onload = () ->
     }
 
     # setup
+    tool = new Tool()
     canvasLayer = project.activeLayer
     canvas = new ui.canvas model
 
@@ -51,6 +52,35 @@ window.onload = () ->
     # animation
     view.onFrame = () ->
         canvas.update()
+        return
+
+    # non-menu keyboard shortcuts
+    toggleKeys = [true, true, true] # move / rotate / scale
+    tool.onKeyDown = (event) ->
+        if event.key == 'q'
+            if toggleKeys[0]
+                canvas.onKey 0x100
+                toggleKeys[0] = false
+        else if event.key == 'w' 
+            if toggleKeys[1]
+                canvas.onKey 0x010
+                toggleKeys[1] = false
+        else if event.key == 'e'
+            if toggleKeys[2] 
+                canvas.onKey 0x001
+                toggleKeys[2] = false
+        return
+
+    tool.onKeyUp = (event) ->
+        if event.key == 'q' 
+            canvas.offKey 0x100
+            toggleKeys[0] = true
+        else if event.key == 'w' 
+            canvas.offKey 0x010
+            toggleKeys[1] = true
+        else if event.key == 'e' 
+            canvas.offKey 0x001
+            toggleKeys[2] = true
         return
 
     # system:

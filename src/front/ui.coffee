@@ -227,6 +227,7 @@ canvas = (model) ->
     }
     @grid = new grid()
     @head = new head 10
+    @penPencilMode = true # pen / false = pencil
     @canvasGroup = new Group @rect, @grid.group, @head.head
     @canvasGroup.sendToBack()
 
@@ -234,8 +235,15 @@ canvas = (model) ->
     @canvasGroup.m.pathData = new pathData model
     @canvasGroup.m.path = @canvasGroup.m.pathData.path
     @canvasGroup.m.distance = new distanceCircle model
+    @canvasGroup.mrsMode = 0x000 # none / 100 == move / 010 == rotate / 001 == scale
     model.canvasGroup = this
     @osc = new osc.oscudp()
+
+    @onKey = (command) ->
+        @canvasGroup.mrsMode += command
+
+    @offKey = (command) ->
+        @canvasGroup.mrsMode -= command
 
     @canvasGroup.onMouseMove = (event) ->
         loc = @m.path.getNearestLocation event.point
@@ -245,7 +253,8 @@ canvas = (model) ->
 
     @canvasGroup.onMouseDown = (event) ->
         if event.event.button is 0 # left mouse button
-            @m.pathData.add event
+            console.log "mode", @mrsMode
+            if @mrsMode == 0x000 then @m.pathData.add event
         else
             @m.distance.setScale (view.center).getDistance event.point
         return
@@ -254,7 +263,13 @@ canvas = (model) ->
         if event.event.button is 2 # right mouse button
             @m.distance.setScale (view.center).getDistance event.point
             return
-        else console.log event
+        else if event.event.button is 0 # left mouse button
+            if @mrsMode & 0x001 # scale
+                @m.pathData.scalePath event.delta.y
+            if @mrsMode & 0x010 
+                @m.pathData.rotatePath event.delta.x
+            if @mrsMode & 0x100 
+                @m.pathData.movePath event.delta
         return
 
     @clear = () ->

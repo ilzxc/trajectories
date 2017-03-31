@@ -45,16 +45,16 @@ velPercent = (variants, actualOffset) ->
 # stand-alone function that runs the simulation at 44.1 kHz
 # and records the computed output into a multichannel wav file
 generate = (m, filename) ->
-    dt = 1 / 44100
-    offset = 0
-    baseVelocity = 1000 / m.totalTime
-    numsamples = 0
-    len = m.path.length
-    maxVelocity = minVelocity = baseVelocity
+    dt = 1 / 44100 # delta time
+    offset = 0 # normalized path offset
+    baseVelocity = 1000 / m.totalTime # average velocity
+    numsamples = 0 # due to velocity variance, we need to compute total num samples
+    len = m.path.length # convenience function
+    maxVelocity = minVelocity = baseVelocity # prepare min/max for scaling
 
     # console.log "layer scaling", m.canvasScale
-    console.log "head position", m.canvasGroup.head.head.position
-    console.log "distance", m.distanceRadius * m.canvasScale
+    # console.log "head position", m.canvasGroup.head.head.position
+    # console.log "distance", m.distanceRadius * m.canvasScale
 
     # determine the length of the file & maximum velocity
     n = m.pathData.variants   
@@ -67,7 +67,7 @@ generate = (m, filename) ->
         if velocity < minVelocity then minVelocity = velocity
         ++numsamples
 
-    # create arrays for wav tracks:
+    # create arrays for mono tracks in our wave file:
     dopplers = new Float32Array numsamples
     distances = new Float32Array numsamples
     angles = new Float32Array numsamples
@@ -76,16 +76,15 @@ generate = (m, filename) ->
     
     # curry the scaler according to the distance radius
     scaler = (x) -> scale x, m.distanceRadius * m.canvasScale, m.minDistance
+    # precompute our divisors so we can multiply instead of divide (high sampling rate)
     maxVelInv = 1 / (maxVelocity - baseVelocity)
     minVelInv = 1 / (baseVelocity - minVelocity)
 
-    # initialize first values (for prevDistance & everything)
+    # initialize initial known values (for prevDistance & everything)
     prevDistance = scaler (m.path.getPointAt 0).getDistance m.canvasGroup.head.head.position
-    # dopplers[0] = 0
     distances[0] = prevDistance
     angles[0] = angCompute m.path.getPointAt 0
     pans[0] = panCompute m.path.getPointAt 0
-    # velocities[0] = (baseVelocity - minVelocity) * velInv
 
     # reset offset & proceed with the computation:
     offset = 0
@@ -104,6 +103,7 @@ generate = (m, filename) ->
         velocities[i] = if (velocity > baseVelocity) then (velocity - maxVelocity) * maxVelInv + 1 else if velocity < baseVelocity then (velocity - minVelocity) * minVelInv - 1 else 0
         prevDistance = distance
 
+    # set the first point == second point for doppler and velocities to avoid clicks
     dopplers[0] = dopplers[1]
     velocities[0] = velocities[1]
 
@@ -113,7 +113,9 @@ generate = (m, filename) ->
     return
 
 oscudp = () ->
+    # create socket
     @sock = udp.createSocket 'udp4'
+    # osc prototype bundle that will remain constant
     @proto = {
         oscType: 'bundle'
         timetag: 0
@@ -140,40 +142,60 @@ oscudp = () ->
             }
         ]
     }
+
     @send = (pitch, distance, azimuth, pan) ->
+        # set the JSON osc values using our prototype
         @proto['elements'][0]['args'] = pitch
         @proto['elements'][1]['args'] = distance
         @proto['elements'][2]['args'] = azimuth
         @proto['elements'][3]['args'] = pan
+
+        # send the buffer
         @sock.send osc.toBuffer(@proto), 56765, 'localhost'
         return
 
     @generate = (m, n) ->
+        # OSC bridge needs to correctly scale values according to time
         time = ((new Date()).getTime() - m.startTime) / 1000
-        dt = time - m.prevTime
+        dt = time - m.prevTime # delta time
+        # de-normalize offset for path & compute the velocity of frame-based motion
         actualOffset = m.offset * m.path.length
         velocity = m.velocity * velPercent n, actualOffset
 
+        # increment normalized offset & correct for overflow
         m.offset += velocity * dt
         if m.offset > 1 then m.offset = 1
+
+        # get the correct point & move the indicator position
         pt = m.path.getPointAt m.offset * m.path.length
         m.pathData.positionIndicator.position = pt
+        
+        # compute the vector distance & convert to physical distance (in meters)
         vectorDistance = m.canvasGroup.head.head.position.getDistance pt
         distance = scale vectorDistance, m.distanceRadius * m.canvasScale, m.minDistance
+
+        # compute the physical velocity
         vel = (distance - m.prevDistance) / dt
 
+        # compute doppler, attenuation, azimuth, and pan
+        # note that attenuation (distNorm) is normalization of physical distance
+        # according to user-defined distance radius
         doppler = doppCompute vel
         distNorm = distCompute m.minDistance, distance
         azimuth = angCompute pt, m.canvasGroup.head.head.position
         pan = panCompute pt, m.canvasGroup.head.head.position
-        if m.offset >= 1
+
+        # most common use-case first: send the values & update previous state
+        if m.offset != 1
+            @send doppler, distNorm, azimuth, pan
+            m.prevDistance = distance
+            m.prevTime = time
+        else
+            # store the time estimate (todo: remove)
+            # reset the startTime to null to turn off update
             m.timeEstimate = time
             m.startTime = null
-            @send -1, 0, 0, 0
-        else
-            @send doppler, distNorm, azimuth, pan
-        m.prevDistance = distance
-        m.prevTime = time
+            @send -1, 0, 0, 0 # send "reset" bundle to stop audio
         return
     this
 
